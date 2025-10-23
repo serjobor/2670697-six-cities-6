@@ -1,5 +1,6 @@
+import { displayOptionForOfferCard } from '../../constants/offers';
 import { IBaseOffer } from '../../mocks/offers';
-import CityPlaceCard from '../CityPlaceCard';
+import OfferCard from '../OfferCard';
 
 interface OffersFavoritesCardProps {
   cityName: string;
@@ -27,10 +28,10 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
       <div className='favorites__places'>
         {
           sortOffersByIsFavorite.map((offer) => (
-            <CityPlaceCard
+            <OfferCard
               key={offer.id}
               offer={offer}
-              pageName={'FavoritesPage'}
+              variant={displayOptionForOfferCard.horizontal}
             />
           ))
         }

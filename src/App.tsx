@@ -7,6 +7,7 @@ import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
+import { PATHS } from './constants/paths';
 
 function App() {
 
@@ -14,14 +15,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path='/favorites' element={<FavoritesPage />} />
+          <Route path={PATHS.FAVORITES_PAGE} element={<FavoritesPage />} />
         </Route>
 
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/' element={<MainPage />} />
-        <Route path='/offer/:id' element={<OfferPage />} />
+        <Route path={PATHS.LOGIN_PAGE} element={<LoginPage />} />
+        <Route path={PATHS.MAIN_PAGE} element={<MainPage />} />
+        <Route path={PATHS.OFFER_PAGE} element={<OfferPage />} />
 
-        <Route path='*' element={<NotFoundPage />} />
+        <Route path={PATHS.OFFER_PAGE} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,6 @@
+import { displayOptionForOfferCard } from '../../constants/offers';
 import { IBaseOffer } from '../../mocks/offers';
-import CityPlaceCard from '../CityPlaceCard';
+import OfferCard from '../OfferCard';
 
 interface OffersListProps {
   offers: IBaseOffer[];
@@ -9,10 +10,10 @@ const OffersList = ({ offers }: OffersListProps) => (
   <>
     {
       offers.map((offer) => (
-        <CityPlaceCard
+        <OfferCard
           key={offer.id}
           offer={offer}
-          pageName={'MainPage'}
+          variant={displayOptionForOfferCard.vertical}
         />
       ))
     }

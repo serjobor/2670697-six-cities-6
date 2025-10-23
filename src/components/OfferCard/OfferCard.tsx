@@ -2,13 +2,14 @@
 // import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IBaseOffer } from '../../mocks/offers';
+import { IDisplayOption } from '../../constants/offers';
 
-interface CityPlaceCardProps {
+interface OfferCardProps {
   offer: IBaseOffer;
-  pageName: string;
+  variant: IDisplayOption;
 }
 
-const CityPlaceCard = ({ offer, pageName }: CityPlaceCardProps) => {
+const OfferCard = ({ offer, variant }: OfferCardProps) => {
 
   // const [isHover, setHover] = useState<boolean>(false);
 
@@ -22,18 +23,12 @@ const CityPlaceCard = ({ offer, pageName }: CityPlaceCardProps) => {
   // setHover(false);
   // };
 
-  const styleForMainPage = (pageName === 'MainPage') ? 'cities' : '';
-  const styleForFavoritesPage = (pageName === 'FavoritesPage') ? 'favorites' : '';
-
-  const widthForImg = (pageName === 'MainPage') ? '260' : '150';
-  const heightForImg = (pageName === 'MainPage') ? '200' : '110';
-
-  const chooseStyleName = styleForMainPage || styleForFavoritesPage;
+  const ratingStarsValue: string =  `${offer.rating * 100 / 5}%`;
 
   return (
     <Link to={`/offer/${offer.id}`}>
       <article
-        className={`${chooseStyleName}__card place-card`}
+        className={`${variant.cardName}__card place-card`}
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
       >
@@ -45,18 +40,18 @@ const CityPlaceCard = ({ offer, pageName }: CityPlaceCardProps) => {
           )
         }
 
-        <div className={`${chooseStyleName}__image-wrapper place-card__image-wrapper`}>
+        <div className={`${variant.cardName}__image-wrapper place-card__image-wrapper`}>
           <a href='#'>
             <img
               className='place-card__image'
               src={offer.previewImage}
-              width={widthForImg}
-              height={heightForImg}
+              width={variant.widthForImg}
+              height={variant.heightForImg}
               alt='Place image'
             />
           </a>
         </div>
-        <div className={`${(styleForFavoritesPage) ? 'favorites__card-info' : ''} place-card__info`}>
+        <div className={`${(variant.cardName === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
           <div className='place-card__price-wrapper'>
             <div className='place-card__price'>
               <b className='place-card__price-value'>&euro;{offer.price}</b>
@@ -77,7 +72,7 @@ const CityPlaceCard = ({ offer, pageName }: CityPlaceCardProps) => {
           </div>
           <div className='place-card__rating rating'>
             <div className='place-card__stars rating__stars'>
-              <span style={{ width: `${offer.rating * 100 / 5}%` }}></span>
+              <span style={{ width: ratingStarsValue }}></span>
               <span className='visually-hidden'>{offer.rating}</span>
             </div>
           </div>
@@ -91,4 +86,4 @@ const CityPlaceCard = ({ offer, pageName }: CityPlaceCardProps) => {
   );
 };
 
-export default CityPlaceCard;
+export default OfferCard;
