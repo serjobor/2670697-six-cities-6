@@ -1,4 +1,3 @@
-// import { type FC } from 'react';
 // import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IBaseOffer } from '../../mocks/offers';
@@ -23,7 +22,7 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
   // setHover(false);
   // };
 
-  const ratingStarsValue: string =  `${offer.rating * 100 / 5}%`;
+  const ratingStarsValue: string = `${offer.rating * 100 / 5}%`;
 
   return (
     <Link to={`/offer/${offer.id}`}>
@@ -44,7 +43,8 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
           <a href='#'>
             <img
               className='place-card__image'
-              src={offer.previewImage}
+              // src={offer.previewImage}
+              src={'../../../public/img/apartment-01.jpg'} // пока не работает сервер
               width={variant.widthForImg}
               height={variant.heightForImg}
               alt='Place image'

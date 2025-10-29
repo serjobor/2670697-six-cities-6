@@ -1,12 +1,12 @@
 export interface IVariant {
-  horizontal: IDisplayOption,
-  vertical: IDisplayOption
+  horizontal: IDisplayOption;
+  vertical: IDisplayOption;
 }
 
 export interface IDisplayOption {
-  cardName: string,
-  widthForImg: string,
-  heightForImg: string,
+  cardName: string;
+  widthForImg: string;
+  heightForImg: string;
 }
 
 export const displayOptionForOfferCard: IVariant = {

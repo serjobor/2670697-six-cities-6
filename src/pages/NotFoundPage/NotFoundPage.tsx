@@ -1,5 +1,3 @@
-// import { type FC } from 'react';
-
 const NotFoundPage = () => (
   <div>
     <h1>404</h1>

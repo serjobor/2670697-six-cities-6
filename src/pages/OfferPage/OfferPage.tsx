@@ -1,4 +1,3 @@
-// import React from 'react';
 import CommentSubmitForm from '../../components/CommentSubmitForm';
 
 function OfferPage() {
