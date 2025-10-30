@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
+import { useContext } from 'react';
+import { AuthContext } from '../../App';
 
 function Header() {
 
-  const isAuth: boolean = false;
+  const isAuth: boolean = useContext(AuthContext);
 
   const authUserData = (isAuth) ? (
     <>

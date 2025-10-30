@@ -7,23 +7,29 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 import { PATHS } from './constants/paths';
+import { createContext } from 'react';
+
+const isAuth: boolean = true;
+export const AuthContext = createContext<boolean>(isAuth);
 
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<PrivateRoute />}>
-          <Route path={PATHS.FAVORITES_PAGE} element={<FavoritesPage />} />
-        </Route>
+    <AuthContext.Provider value={isAuth}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<PrivateRoute />}>
+            <Route path={PATHS.FAVORITES_PAGE} element={<FavoritesPage />} />
+          </Route>
 
-        <Route path={PATHS.LOGIN_PAGE} element={<LoginPage />} />
-        <Route path={PATHS.MAIN_PAGE} element={<MainPage />} />
-        <Route path={PATHS.OFFER_PAGE} element={<OfferPage />} />
+          <Route path={PATHS.LOGIN_PAGE} element={<LoginPage />} />
+          <Route path={PATHS.MAIN_PAGE} element={<MainPage />} />
+          <Route path={PATHS.OFFER_PAGE} element={<OfferPage />} />
 
-        <Route path={PATHS.NOTFOUND_PAGE} element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path={PATHS.NOTFOUND_PAGE} element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
 }
 
