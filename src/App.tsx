@@ -21,7 +21,7 @@ function App() {
         <Route path={PATHS.MAIN_PAGE} element={<MainPage />} />
         <Route path={PATHS.OFFER_PAGE} element={<OfferPage />} />
 
-        <Route path={PATHS.OFFER_PAGE} element={<NotFoundPage />} />
+        <Route path={PATHS.NOTFOUND_PAGE} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -7,7 +7,7 @@ interface CityListProps {
 
 const CityList = ({ changeChooseCity }: CityListProps) => {
 
-  const [isChooseCity, setChooseCity] = useState<CityOffer>(CityOffer.AMSTERDAM);
+  const [isChooseCity, setChooseCity] = useState<CityOffer>(CityOffer.PARIS);
 
   const handelChooseCity = (city: CityOffer) => {
     setChooseCity(city);
