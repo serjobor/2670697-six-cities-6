@@ -11,7 +11,6 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
 
   const sortOffersByIsFavorite: IBaseOffer[] = sortOffersByCityName.filter((offers) => offers.isFavorite === true);
 
-
   if(sortOffersByIsFavorite.length === 0) {
     return;
   }

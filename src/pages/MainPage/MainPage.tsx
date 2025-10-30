@@ -1,24 +1,45 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer, mockOffers } from '../../mocks/offers';
+import { IBaseOffer } from '../../mocks/offers';
 import Header from '../../components/Header';
+import { MyContext } from '../../App';
+
+const sortParams = {
+  'POPULAR': 'Popular',
+  'LOW_TO_HIGH': 'Price: low to high',
+  'HIGH_TO_LOW':'Price: high to low',
+  'TOP_RAITING': 'Top rated first',
+} as const;
 
 function MainPage() {
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
+  const [sortParam, setSortsortParam] = useState<string>(sortParams.POPULAR);
+
   const [isChooseCity, setChooseCity] = useState<string>('Paris');
+
+  const { mockOffers } = useContext(MyContext);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = mockOffers.filter((offers) => offers.city.name === isChooseCity);
   const offerCount: number = OFFERS_SORT_LIST.length;
 
+  const isOffersInChooseCity: boolean = offerCount > 0;
+
   const showSortList = () => {
-    if(isOpenSortList === '') {
+    if (isOpenSortList === '') {
       setOpenSortList('places__options--opened');
-    }else {
+    } else {
       setOpenSortList('');
     }
   };
+
+  const handleSortParamClick = (chooseSortParam: string) => {
+    setSortsortParam(chooseSortParam);
+    showSortList();
+  };
+
+  const sortParamCheck = (chooseSortParam: string) => sortParam === chooseSortParam ? 'places__option--active' : '';
 
   const changeChooseCity = (chooseCity: string) => {
     setChooseCity(chooseCity);
@@ -26,9 +47,13 @@ function MainPage() {
 
   return (
     <div className='page page--gray page--main'>
-      <Header/>
+      <Header />
 
-      <main className='page__main page__main--index'>
+      <main className={`
+        page__main 
+        page__main--index 
+        ${isOffersInChooseCity ? '' : 'page__main--index-empty'} 
+    `}>
         <h1 className='visually-hidden'>Cities</h1>
         <div className='tabs'>
           <section className='locations container'>
@@ -38,39 +63,79 @@ function MainPage() {
           </section>
         </div>
         <div className='cities'>
-          <div className='cities__places-container container'>
-            <section className='cities__places places'>
-              <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{offerCount} places to stay in {isChooseCity}</b>
-              <form className='places__sorting' action='#' method='get'>
-                <span className='places__sorting-caption'>Sort by</span>
-                <span
-                  className='places__sorting-type'
-                  tabIndex={0}
-                  onClick={showSortList}
-                > Popular
-                  <svg className='places__sorting-arrow' width='7' height='4'>
-                    <use href='#icon-arrow-select'></use>
-                  </svg>
-                </span>
-                <ul
-                  className={`places__options places__options--custom ${isOpenSortList}`}
-                >
-                  <li className='places__option places__option--active' tabIndex={0}>Popular</li>
-                  <li className='places__option' tabIndex={0}>Price: low to high</li>
-                  <li className='places__option' tabIndex={0}>Price: high to low</li>
-                  <li className='places__option' tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className='cities__places-list places__list tabs__content'>
-                <OffersList
-                  offers={OFFERS_SORT_LIST}
-                />
-              </div>
-
-            </section>
+          <div className={`
+            cities__places-container 
+            container
+            ${isOffersInChooseCity ? '' : 'cities__places-container--empty'} 
+        `}>
+            {
+              isOffersInChooseCity
+                ?
+                <section className='cities__places places'>
+                  <h2 className='visually-hidden'>Places</h2>
+                  <b className='places__found'>{offerCount} places to stay in {isChooseCity}</b>
+                  <form className='places__sorting' action='#' method='get'>
+                    <span className='places__sorting-caption'>Sort by</span>
+                    <span
+                      className='places__sorting-type'
+                      tabIndex={0}
+                      onClick={showSortList}
+                    >{sortParam}
+                      <svg className='places__sorting-arrow' width='7' height='4'>
+                        <use href='#icon-arrow-select'></use>
+                      </svg>
+                    </span>
+                    <ul
+                      className={`places__options places__options--custom ${isOpenSortList}`}
+                    >
+                      <li
+                        className={`places__option ${sortParamCheck(sortParams.POPULAR)}`}
+                        tabIndex={0}
+                        onClick={() => handleSortParamClick(sortParams.POPULAR)}
+                      >{sortParams.POPULAR}
+                      </li>
+                      <li
+                        className={`places__option ${sortParamCheck(sortParams.LOW_TO_HIGH)}`}
+                        tabIndex={0}
+                        onClick={() => handleSortParamClick(sortParams.LOW_TO_HIGH)}
+                      >{sortParams.LOW_TO_HIGH}
+                      </li>
+                      <li
+                        className={`places__option ${sortParamCheck(sortParams.HIGH_TO_LOW)}`}
+                        tabIndex={0}
+                        onClick={() => handleSortParamClick(sortParams.HIGH_TO_LOW)}
+                      >{sortParams.HIGH_TO_LOW}
+                      </li>
+                      <li
+                        className={`places__option ${sortParamCheck(sortParams.TOP_RAITING)}`}
+                        tabIndex={0}
+                        onClick={() => handleSortParamClick(sortParams.TOP_RAITING)}
+                      >{sortParams.TOP_RAITING}
+                      </li>
+                    </ul>
+                  </form>
+                  <div className='cities__places-list places__list tabs__content'>
+                    <OffersList
+                      offers={OFFERS_SORT_LIST}
+                    />
+                  </div>
+                </section>
+                :
+                <section className='cities__no-places'>
+                  <div className='cities__status-wrapper tabs__content'>
+                    <b className='cities__status'>No places to stay available</b>
+                    <p className='cities__status-description'>We could not find any property available at the moment in {isChooseCity}</p>
+                  </div>
+                </section>
+            }
             <div className='cities__right-section'>
-              <section className='cities__map map'></section>
+              {
+                isOffersInChooseCity
+                  ?
+                  <section className='cities__map map'></section>
+                  :
+                  ''
+              }
             </div>
           </div>
         </div>

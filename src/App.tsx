@@ -7,15 +7,28 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 import { PATHS } from './constants/paths';
+
+import { IBaseOffer, mockOffers, CITY_LIST } from './mocks/offers';
 import { createContext } from 'react';
 
+interface IStore {
+  isAuth: boolean;
+  mockOffers: IBaseOffer[];
+  CITY_LIST: readonly string[];
+}
+
 const isAuth: boolean = true;
-export const AuthContext = createContext<boolean>(isAuth);
+
+export const MyContext = createContext<IStore>({
+  isAuth,
+  mockOffers,
+  CITY_LIST,
+});
 
 function App() {
 
   return (
-    <AuthContext.Provider value={isAuth}>
+    <MyContext.Provider value={{ isAuth, mockOffers, CITY_LIST }}>
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoute />}>
@@ -29,7 +42,7 @@ function App() {
           <Route path={PATHS.NOTFOUND_PAGE} element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
-    </AuthContext.Provider>
+    </MyContext.Provider>
   );
 }
 

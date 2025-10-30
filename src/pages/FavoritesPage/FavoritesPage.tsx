@@ -1,9 +1,14 @@
+import { useContext } from 'react';
 import Header from '../../components/Header';
 import OffersFavoritesList from '../../components/OffersFavoritesList';
+import { MyContext } from '../../App';
 
 function FavoritesPage() {
+  const { mockOffers } = useContext(MyContext);
 
-  const isOffers: boolean = false;
+  const favoriteOffersCount = mockOffers.filter((offer) => offer.isFavorite === true).length;
+
+  const isOffers: boolean = favoriteOffersCount > 0;
 
   return (
     <div className={`page ${isOffers ? '' : 'page--favorites-empty'} `}>

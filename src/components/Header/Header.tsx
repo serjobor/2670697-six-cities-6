@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
 import { useContext } from 'react';
-import { AuthContext } from '../../App';
+import { MyContext } from '../../App';
 
 function Header() {
 
-  const isAuth: boolean = useContext(AuthContext);
+  const { isAuth, mockOffers } = useContext(MyContext);
+
+  const userEmail:string = 'Oliver.conner@gmail.com';
+  const favoriteOffersCount = mockOffers.filter((offer) => offer.isFavorite === true).length;
 
   const authUserData = (isAuth) ? (
     <>
-      <span className='header__user-name user__name'>Oliver.conner@gmail.com</span>
-      <span className='header__favorite-count'>3</span>
+      <span className='header__user-name user__name'>{userEmail}</span>
+      <span className='header__favorite-count'>{favoriteOffersCount}</span>
     </>
   )
     :

@@ -2846,11 +2846,9 @@ export const CITY_LIST = [
   'Dusseldorf'
 ] as const;
 
-export enum CityOffer {
-  PARIS = 'Paris',
-  COLOGNE = 'Cologne',
-  BRUSSELS = 'Brussels',
-  AMSTERDAM = 'Amsterdam',
-  HAMBURG = 'Hamburg',
-  DUSSELDORF = 'Dusseldorf',
-}
+export const OPTIONS_FOR_SORT_OFFERS_LIST = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first'
+] as const;

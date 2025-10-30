@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IBaseOffer } from '../../mocks/offers';
 import { IDisplayOption } from '../../constants/offers';
@@ -11,24 +11,33 @@ interface OfferCardProps {
 const OfferCard = ({ offer, variant }: OfferCardProps) => {
 
   // const [isHover, setHover] = useState<boolean>(false);
+  const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 
-  // const handleMouseEnter = () => {
-  // console.log(`Навел на ${offer.id}`);
-  // setHover(true);
-  // };
+  const handleBookmarkBtnClick = () => {
+    if(isClickOnBookmarkBtn === '') {
+      setIsClickOnBookmarkBtn('place-card__bookmark-button--active');
+    }else {
+      setIsClickOnBookmarkBtn('');
+    }
+  };
 
-  // const handleMouseLeave = () => {
-  // console.log(`Покинул ${offer.id}`);
-  // setHover(false);
-  // };
+  const handleMouseEnter = () => {
+    // console.log(`Навел на ${offer.id}`);
+    // setHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // console.log(`Покинул ${offer.id}`);
+    // setHover(false);
+  };
 
   const ratingStarsValue: string = `${offer.rating * 100 / 5}%`;
 
   return (
     <article
       className={`${variant.cardName}__card place-card`}
-    // onMouseEnter={handleMouseEnter}
-    // onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {
         offer.isPremium && (
@@ -42,8 +51,7 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
         <Link to={`/offer/${offer.id}`}>
           <img
             className='place-card__image'
-            // src={offer.previewImage}
-            src={'../../../public/img/apartment-01.jpg'} // пока не работает сервер
+            src={offer.previewImage}
             width={variant.widthForImg}
             height={variant.heightForImg}
             alt='Place image'
@@ -59,9 +67,10 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
           <button
             className={`
               place-card__bookmark-button 
-              ${(offer.isFavorite) ? 'place-card__bookmark-button--active' : ''}
+              ${isClickOnBookmarkBtn}
               button`}
             type='button'
+            onClick={handleBookmarkBtnClick}
           >
             <svg className='place-card__bookmark-icon' width='18' height='19'>
               <use href='#icon-bookmark'></use>

@@ -1,20 +1,27 @@
-import { CITY_LIST, mockOffers } from '../../mocks/offers';
+import { useContext } from 'react';
 import OffersFavoritesCard from '../OffersFavoritesCard';
+import { MyContext } from '../../App';
 
-const OffersFavoritesList = () => (
-  <ul className='favorites__list'>
-    {
-      CITY_LIST.map((cityName) => (
-        <OffersFavoritesCard
-          key={cityName}
-          cityName={cityName}
-          sortOffersByCityName={
-            mockOffers.filter((offers) => offers.city.name === cityName)
-          }
-        />
-      ))
-    }
-  </ul>
-);
+
+const OffersFavoritesList = () => {
+
+  const { mockOffers, CITY_LIST } = useContext(MyContext);
+
+  return (
+    <ul className='favorites__list'>
+      {
+        CITY_LIST.map((cityName) => (
+          <OffersFavoritesCard
+            key={cityName}
+            cityName={cityName}
+            sortOffersByCityName={
+              mockOffers.filter((offers) => offers.city.name === cityName)
+            }
+          />
+        ))
+      }
+    </ul>
+  );
+};
 
 export default OffersFavoritesList;
