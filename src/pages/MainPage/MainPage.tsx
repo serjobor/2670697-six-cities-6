@@ -1,23 +1,17 @@
 import { useContext, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer, OPTIONS_FOR_SORT_OFFERS_LIST } from '../../mocks/offers';
+import { IBaseOffer } from '../../mocks/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
-
-const sortParams = {
-  'POPULAR': 'Popular',
-  'LOW_TO_HIGH': 'Price: low to high',
-  'HIGH_TO_LOW': 'Price: high to low',
-  'TOP_RAITING': 'Top rated first',
-} as const;
+import { CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
 
 function MainPage() {
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
-  const [sortParam, setSortsortParam] = useState<string>(sortParams.POPULAR);
+  const [sortParam, setSortsortParam] = useState<string>(OFFER_SORT_TYPES.POPULAR);
 
-  const [isChooseCity, setChooseCity] = useState<string>('Paris');
+  const [isChooseCity, setChooseCity] = useState<string>(CITY_LIST_TYPES.PARIS);
 
   const { mockOffers } = useContext(MyContext);
 
@@ -43,6 +37,7 @@ function MainPage() {
 
   const changeChooseCity = (chooseCity: string) => {
     setChooseCity(chooseCity);
+    setSortsortParam(OFFER_SORT_TYPES.POPULAR);
   };
 
   return (
@@ -89,7 +84,7 @@ function MainPage() {
                       className={`places__options places__options--custom ${isOpenSortList}`}
                     >
                       {
-                        OPTIONS_FOR_SORT_OFFERS_LIST.map((optionParam) => (
+                        OFFER_SORT_OPTIONS.map((optionParam) => (
                           <li
                             key={optionParam}
                             className={`places__option ${sortParamCheck(optionParam)}`}
@@ -105,6 +100,7 @@ function MainPage() {
                   <div className='cities__places-list places__list tabs__content'>
                     <OffersList
                       offers={OFFERS_SORT_LIST}
+                      sortParam={sortParam}
                     />
                   </div>
                 </section>

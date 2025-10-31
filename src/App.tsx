@@ -7,14 +7,15 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 import { PATHS } from './constants/paths';
+import { CITY_LIST_OPTIONS } from './constants/offers';
 
-import { IBaseOffer, mockOffers, CITY_LIST } from './mocks/offers';
+import { IBaseOffer, mockOffers } from './mocks/offers';
 import { createContext } from 'react';
 
 interface IStore {
   isAuth: boolean;
   mockOffers: IBaseOffer[];
-  CITY_LIST: readonly string[];
+  CITY_LIST_OPTIONS: readonly string[];
 }
 
 const isAuth: boolean = true;
@@ -22,13 +23,13 @@ const isAuth: boolean = true;
 export const MyContext = createContext<IStore>({
   isAuth,
   mockOffers,
-  CITY_LIST,
+  CITY_LIST_OPTIONS,
 });
 
 function App() {
 
   return (
-    <MyContext.Provider value={{ isAuth, mockOffers, CITY_LIST }}>
+    <MyContext.Provider value={{ isAuth, mockOffers, CITY_LIST_OPTIONS }}>
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoute />}>

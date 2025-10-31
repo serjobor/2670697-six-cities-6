@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CITY_LIST } from '../../mocks/offers';
+import { CITY_LIST_OPTIONS } from '../../constants/offers';
 
 interface CityListProps {
   changeChooseCity: (chooseCity: string) => void;
@@ -28,7 +28,7 @@ const CityList = ({ changeChooseCity }: CityListProps) => {
   return (
     <>
       {
-        CITY_LIST.map((city) => (
+        CITY_LIST_OPTIONS.map((city) => (
           <li
             key={city}
             className='locations__item'

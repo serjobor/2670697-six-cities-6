@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { IBaseOffer } from '../../mocks/offers';
 import { IDisplayOption } from '../../constants/offers';
+import { MyContext } from '../../App';
+import { PATHS } from '../../constants/paths';
 
 interface OfferCardProps {
   offer: IBaseOffer;
@@ -10,10 +12,18 @@ interface OfferCardProps {
 
 const OfferCard = ({ offer, variant }: OfferCardProps) => {
 
+  const navigate = useNavigate();
+  const { isAuth } = useContext(MyContext);
+
   // const [isHover, setHover] = useState<boolean>(false);
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 
   const handleBookmarkBtnClick = () => {
+    if(!isAuth) {
+      navigate(PATHS.LOGIN_PAGE);
+      return;
+    }
+
     if(isClickOnBookmarkBtn === '') {
       setIsClickOnBookmarkBtn('place-card__bookmark-button--active');
     }else {
@@ -31,7 +41,7 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
     // setHover(false);
   };
 
-  const ratingStarsValue: string = `${offer.rating * 100 / 5}%`;
+  const ratingStarsValue: string = `${Math.round(offer.rating * 100 / 5)}%`;
 
   return (
     <article

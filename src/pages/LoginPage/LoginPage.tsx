@@ -1,7 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
+import { useContext, useEffect } from 'react';
+import { MyContext } from '../../App';
 
 function LoginPage() {
+
+  const navigate = useNavigate();
+  const { isAuth } = useContext(MyContext);
+
+  useEffect(() => {
+    if(isAuth) {
+      navigate(PATHS.MAIN_PAGE);
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div className='page page--gray page--login'>

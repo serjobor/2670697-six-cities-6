@@ -7,8 +7,8 @@ function Header() {
 
   const { isAuth, mockOffers } = useContext(MyContext);
 
-  const userEmail:string = 'Oliver.conner@gmail.com';
-  const favoriteOffersCount = mockOffers.filter((offer) => offer.isFavorite === true).length;
+  const userEmail: string = 'Oliver.conner@gmail.com';
+  const favoriteOffersCount: number = mockOffers.filter((offer) => offer.isFavorite === true).length;
 
   const authUserData = (isAuth) ? (
     <>
@@ -31,7 +31,7 @@ function Header() {
           <nav className='header__nav'>
             <ul className='header__nav-list'>
               <li className='header__nav-item user'>
-                <Link className='header__nav-link header__nav-link--profile' to={PATHS.LOGIN_PAGE}>
+                <Link className='header__nav-link header__nav-link--profile' to={PATHS.FAVORITES_PAGE}>
                   <div className='header__avatar-wrapper user__avatar-wrapper'>
                   </div>
                   {

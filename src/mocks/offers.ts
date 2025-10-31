@@ -2836,19 +2836,3 @@ export const mockOfferExample: IFullOffer = {
   ],
   'maxAdults': 4
 };
-
-export const CITY_LIST = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf'
-] as const;
-
-export const OPTIONS_FOR_SORT_OFFERS_LIST = [
-  'Popular',
-  'Price: low to high',
-  'Price: high to low',
-  'Top rated first'
-] as const;

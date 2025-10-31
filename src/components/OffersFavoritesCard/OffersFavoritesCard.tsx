@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 import { displayOptionForOfferCard } from '../../constants/offers';
 import { IBaseOffer } from '../../mocks/offers';
 import OfferCard from '../OfferCard';
+import { PATHS } from '../../constants/paths';
 
 interface OffersFavoritesCardProps {
   cityName: string;
@@ -19,9 +21,9 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
     <li className='favorites__locations-items'>
       <div className='favorites__locations locations locations--current'>
         <div className='locations__item'>
-          <a className='locations__item-link' href='#'>
+          <Link className='locations__item-link' to={PATHS.MAIN_PAGE}>
             <span>{cityName}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className='favorites__places'>
