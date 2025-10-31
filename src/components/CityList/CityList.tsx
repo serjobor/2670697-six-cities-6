@@ -1,22 +1,13 @@
 import { useState } from 'react';
-import { CITY_LIST_OPTIONS } from '../../constants/offers';
+import { CITY_LIST_OPTIONS, CITY_LIST_TYPES } from '../../constants/offers';
 
 interface CityListProps {
   changeChooseCity: (chooseCity: string) => void;
 }
 
-const CityOffer = {
-  'PARIS': 'Paris',
-  'COLOGNE': 'Cologne',
-  'BRUSSELS': 'Brussels',
-  'AMSTERDAM': 'Amsterdam',
-  'HAMBURG': 'Hamburg',
-  'DUSSELDORF': 'Dusseldorf',
-} as const;
-
 const CityList = ({ changeChooseCity }: CityListProps) => {
 
-  const [isChooseCity, setChooseCity] = useState<string>(CityOffer.PARIS);
+  const [isChooseCity, setChooseCity] = useState<string>(CITY_LIST_TYPES.PARIS);
 
   const handleChooseCity = (city: string) => {
     setChooseCity(city);
