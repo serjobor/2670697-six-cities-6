@@ -1,14 +1,14 @@
 import { useContext, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer } from '../../mocks/offers';
+import { IBaseOffer, OPTIONS_FOR_SORT_OFFERS_LIST } from '../../mocks/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
 
 const sortParams = {
   'POPULAR': 'Popular',
   'LOW_TO_HIGH': 'Price: low to high',
-  'HIGH_TO_LOW':'Price: high to low',
+  'HIGH_TO_LOW': 'Price: high to low',
   'TOP_RAITING': 'Top rated first',
 } as const;
 
@@ -88,30 +88,18 @@ function MainPage() {
                     <ul
                       className={`places__options places__options--custom ${isOpenSortList}`}
                     >
-                      <li
-                        className={`places__option ${sortParamCheck(sortParams.POPULAR)}`}
-                        tabIndex={0}
-                        onClick={() => handleSortParamClick(sortParams.POPULAR)}
-                      >{sortParams.POPULAR}
-                      </li>
-                      <li
-                        className={`places__option ${sortParamCheck(sortParams.LOW_TO_HIGH)}`}
-                        tabIndex={0}
-                        onClick={() => handleSortParamClick(sortParams.LOW_TO_HIGH)}
-                      >{sortParams.LOW_TO_HIGH}
-                      </li>
-                      <li
-                        className={`places__option ${sortParamCheck(sortParams.HIGH_TO_LOW)}`}
-                        tabIndex={0}
-                        onClick={() => handleSortParamClick(sortParams.HIGH_TO_LOW)}
-                      >{sortParams.HIGH_TO_LOW}
-                      </li>
-                      <li
-                        className={`places__option ${sortParamCheck(sortParams.TOP_RAITING)}`}
-                        tabIndex={0}
-                        onClick={() => handleSortParamClick(sortParams.TOP_RAITING)}
-                      >{sortParams.TOP_RAITING}
-                      </li>
+                      {
+                        OPTIONS_FOR_SORT_OFFERS_LIST.map((optionParam) => (
+                          <li
+                            key={optionParam}
+                            className={`places__option ${sortParamCheck(optionParam)}`}
+                            tabIndex={0}
+                            onClick={() => handleSortParamClick(optionParam)}
+                          >{optionParam}
+                          </li>
+                        )
+                        )
+                      }
                     </ul>
                   </form>
                   <div className='cities__places-list places__list tabs__content'>
