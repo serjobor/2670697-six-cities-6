@@ -42,7 +42,7 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
     // setHover(false);
   };
 
-  const ratingStarsValue: string = `${Math.round(offer.rating * 100 / 5)}%`;
+  const ratingStarsValue: string = Math.round(offer.rating) * 100 / 5 + '%';
 
   return (
     <article

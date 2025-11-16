@@ -2800,39 +2800,53 @@ export const mockOffers: IBaseOffer[] = [
   }
 ];
 
-export const mockOfferExample: IFullOffer = {
-  'id': '6af6f711-c28d-4121-82cd-e0b462a27f00',
-  'title': 'Beautiful & luxurious studio at great location',
-  'type': 'apartment',
-  'price': 120,
-  'city': {
-    'name': 'Amsterdam',
-    'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
-    },
-  },
-  'location': {
-    'latitude': 52.35514938496378,
-    'longitude': 4.673877537499948,
-    'zoom': 8
-  },
-  'isFavorite': false,
-  'isPremium': false,
-  'rating': 4,
-  'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-  'bedrooms': 3,
-  'goods': [
-    'Heating'
+export const mockOffersById: IFullOffer = {
+  "id": "e7871a77-dd59-4a70-8221-9af40769cf9f",
+  "title": "House in countryside",
+  "description": "Design interior in most sympathetic area! Complitely renovated, well-equipped, cosy studio in idyllic, over 100 years old wooden house. Calm street, fast connection to center and airport.",
+  "type": "hotel",
+  "price": 286,
+  "images": [
+    "https://14.design.htmlacademy.pro/static/hotel/13.jpg",
+    "https://14.design.htmlacademy.pro/static/hotel/11.jpg",
+    "https://14.design.htmlacademy.pro/static/hotel/6.jpg",
+    "https://14.design.htmlacademy.pro/static/hotel/20.jpg",
+    "https://14.design.htmlacademy.pro/static/hotel/7.jpg",
+    "https://14.design.htmlacademy.pro/static/hotel/14.jpg"
   ],
-  'host': {
-    'name': 'Oliver Conner',
-    'avatarUrl': 'https://url-to-image/image.png',
-    'isPro': false
+  "city": {
+    "name": "Paris",
+    "location": {
+      "latitude": 48.85661,
+      "longitude": 2.351499,
+      "zoom": 13
+    }
   },
-  'images': [
-    'https://url-to-image/image.png'
+  "location": {
+    "latitude": 48.868610000000004,
+    "longitude": 2.342499,
+    "zoom": 16
+  },
+  "goods": [
+    "Washer",
+    "Dishwasher",
+    "Heating",
+    "Air conditioning",
+    "Wi-Fi",
+    "Kitchen",
+    "Laptop friendly workspace",
+    "Fridge"
   ],
-  'maxAdults': 4
+  "host": {
+    "isPro": true,
+    "name": "Angelina",
+    "avatarUrl": "https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg"
+  },
+  "isPremium": true,
+  "isFavorite": false,
+  "rating": 3.7,
+  "bedrooms": 2,
+  "maxAdults": 7
 };
+
+//img/avatar-angelina.jpg
