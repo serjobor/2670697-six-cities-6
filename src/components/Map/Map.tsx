@@ -11,22 +11,22 @@ interface IMapProps {
   selectedPoint: IBaseOffer;
 }
 
+const defaultCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const currentCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 const Map = ({ city, points, selectedPoint }: IMapProps) => {
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
-
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_CURRENT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+  const map = useMap(mapRef, city.location);
 
   useEffect(() => {
     if (map) {
@@ -56,7 +56,7 @@ const Map = ({ city, points, selectedPoint }: IMapProps) => {
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint, city, currentCustomIcon, defaultCustomIcon]);
+  }, [map, points, selectedPoint, city]);
 
   return (
     <section

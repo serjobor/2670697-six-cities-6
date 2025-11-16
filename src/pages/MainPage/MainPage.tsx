@@ -14,6 +14,8 @@ function MainPage() {
 
   const [isChooseCity, setChooseCity] = useState<string>(CITY_LIST_TYPES.PARIS);
 
+  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
+
   const { mockOffers } = useContext(MyContext);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = mockOffers.filter((offers) => offers.city.name === isChooseCity);
@@ -42,8 +44,6 @@ function MainPage() {
     setSortsortParam(OFFER_SORT_TYPES.POPULAR);
     setSelectedPoint({} as IBaseOffer);
   };
-
-  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
 
   const handleIsItemHover = (itemName: string) => {
     const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>
