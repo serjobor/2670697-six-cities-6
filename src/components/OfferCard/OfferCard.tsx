@@ -33,9 +33,7 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
   };
 
   const handleMouseEnter = () => {
-    if(isItemHover) {
-      isItemHover(offer.id);
-    }
+    isItemHover?.(offer.id);
     // setHover(true);
   };
 
