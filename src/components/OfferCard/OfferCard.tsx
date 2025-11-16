@@ -8,7 +8,7 @@ import { PATHS } from '../../constants/paths';
 interface OfferCardProps {
   offer: IBaseOffer;
   variant: IDisplayOption;
-  isItemHover: (itemName: string) => void;
+  isItemHover?: (itemName: string) => void;
 }
 
 const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
@@ -33,7 +33,9 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
   };
 
   const handleMouseEnter = () => {
-    isItemHover(offer.id);
+    if(isItemHover) {
+      isItemHover(offer.id);
+    }
     // setHover(true);
   };
 
