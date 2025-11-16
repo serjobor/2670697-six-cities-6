@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer } from '../../mocks/offers';
+import { IBaseOffer, ICity } from '../../mocks/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
 import { CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
@@ -17,6 +17,7 @@ function MainPage() {
   const { mockOffers } = useContext(MyContext);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = mockOffers.filter((offers) => offers.city.name === isChooseCity);
+  const chooseCityData: ICity = OFFERS_SORT_LIST[0].city;
   const offerCount: number = OFFERS_SORT_LIST.length;
 
   const isOffersInChooseCity: boolean = offerCount > 0;
@@ -39,6 +40,7 @@ function MainPage() {
   const changeChooseCity = (chooseCity: string) => {
     setChooseCity(chooseCity);
     setSortsortParam(OFFER_SORT_TYPES.POPULAR);
+    setSelectedPoint({} as IBaseOffer);
   };
 
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
@@ -130,7 +132,7 @@ function MainPage() {
                 isOffersInChooseCity
                   ?
                   <Map
-                    city={OFFERS_SORT_LIST[0].city}
+                    city={chooseCityData}
                     points={OFFERS_SORT_LIST}
                     selectedPoint={selectedPoint}
                   />

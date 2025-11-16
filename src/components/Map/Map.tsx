@@ -30,20 +30,33 @@ const Map = ({ city, points, selectedPoint }: IMapProps) => {
 
   useEffect(() => {
     if (map) {
+      // Очистить все существующие маркеры
+      map.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
+      // Обновить центр и зум карты при смене города
+      map.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+
       points.forEach((point) => {
         leaflet
           .marker({
             lat: point.location.latitude,
             lng: point.location.longitude,
           }, {
-            icon: (point.id === selectedPoint.id)
+            icon: (selectedPoint?.id && point.id === selectedPoint.id)
               ? currentCustomIcon
               : defaultCustomIcon,
           })
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint, currentCustomIcon, defaultCustomIcon]);
+  }, [map, points, selectedPoint, city, currentCustomIcon, defaultCustomIcon]);
 
   return (
     <section

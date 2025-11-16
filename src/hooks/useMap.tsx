@@ -30,6 +30,15 @@ function useMap(mapRef: React.MutableRefObject<null>, city: ICity) {
     }
   }, [mapRef, city]);
 
+  useEffect(() => {
+    if (map) {
+      map.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
   return map;
 }
 
