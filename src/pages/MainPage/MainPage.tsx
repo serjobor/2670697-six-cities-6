@@ -5,6 +5,7 @@ import { IBaseOffer } from '../../mocks/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
 import { CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
+import Map from '../../components/Map';
 
 function MainPage() {
 
@@ -38,6 +39,17 @@ function MainPage() {
   const changeChooseCity = (chooseCity: string) => {
     setChooseCity(chooseCity);
     setSortsortParam(OFFER_SORT_TYPES.POPULAR);
+  };
+
+  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
+
+  const handleIsItemHover = (itemName: string) => {
+    const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>
+      point.id === itemName,
+    );
+    if(currentPoint !== undefined) {
+      setSelectedPoint(currentPoint);
+    }
   };
 
   return (
@@ -101,6 +113,7 @@ function MainPage() {
                     <OffersList
                       offers={OFFERS_SORT_LIST}
                       sortParam={sortParam}
+                      isItemHover={handleIsItemHover}
                     />
                   </div>
                 </section>
@@ -116,7 +129,11 @@ function MainPage() {
               {
                 isOffersInChooseCity
                   ?
-                  <section className='cities__map map'></section>
+                  <Map
+                    city={OFFERS_SORT_LIST[0].city}
+                    points={OFFERS_SORT_LIST}
+                    selectedPoint={selectedPoint}
+                  />
                   :
                   ''
               }

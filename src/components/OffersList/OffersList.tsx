@@ -6,11 +6,16 @@ import OfferCard from '../OfferCard';
 interface OffersListProps {
   offers: IBaseOffer[];
   sortParam: string;
+  isItemHover: (itemName: string) => void;
 }
 
-const OffersList = ({ offers, sortParam }: OffersListProps) => {
+const OffersList = ({ offers, sortParam, isItemHover }: OffersListProps) => {
 
   const [sortOffersByParam, setSortOffersByParam] = useState<IBaseOffer[]>(offers);
+
+  const handleListItemHover = (itemName: string) => {
+    isItemHover(itemName);
+  };
 
   useEffect(() => {
     switch (sortParam) {
@@ -40,6 +45,7 @@ const OffersList = ({ offers, sortParam }: OffersListProps) => {
             key={offer.id}
             offer={offer}
             variant={displayOptionForOfferCard.vertical}
+            isItemHover={handleListItemHover}
           />
         ))
       }

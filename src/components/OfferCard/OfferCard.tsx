@@ -8,9 +8,10 @@ import { PATHS } from '../../constants/paths';
 interface OfferCardProps {
   offer: IBaseOffer;
   variant: IDisplayOption;
+  isItemHover: (itemName: string) => void;
 }
 
-const OfferCard = ({ offer, variant }: OfferCardProps) => {
+const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
 
   const navigate = useNavigate();
   const { isAuth } = useContext(MyContext);
@@ -32,7 +33,7 @@ const OfferCard = ({ offer, variant }: OfferCardProps) => {
   };
 
   const handleMouseEnter = () => {
-    // console.log(`Навел на ${offer.id}`);
+    isItemHover(offer.id);
     // setHover(true);
   };
 
