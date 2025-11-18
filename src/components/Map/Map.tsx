@@ -9,6 +9,7 @@ interface IMapProps {
   city: ICity;
   points: IBaseOffer[];
   selectedPoint: IBaseOffer;
+  namePage: string;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -23,10 +24,12 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-const Map = ({ city, points, selectedPoint }: IMapProps) => {
+const Map = ({ city, points, selectedPoint, namePage }: IMapProps) => {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city.location);
+
+  const mapClassName: string = `${namePage === 'MainPage' ? 'cities__map' : (namePage === 'OfferPage' ? 'offer__map' : '') || ''} map`;
 
   useEffect(() => {
     if (map) {
@@ -60,7 +63,7 @@ const Map = ({ city, points, selectedPoint }: IMapProps) => {
 
   return (
     <section
-      className='cities__map map'
+      className={mapClassName}
       ref={mapRef}
     >
     </section>

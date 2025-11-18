@@ -132,6 +132,7 @@ function MainPage() {
                 isOffersInChooseCity
                   ?
                   <Map
+                    namePage='MainPage'
                     city={chooseCityData}
                     points={OFFERS_SORT_LIST}
                     selectedPoint={selectedPoint}
