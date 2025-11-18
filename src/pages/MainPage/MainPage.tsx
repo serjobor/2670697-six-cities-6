@@ -4,7 +4,7 @@ import CityList from '../../components/CityList';
 import { IBaseOffer, ICity } from '../../mocks/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
-import { CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
+import { cardNameForDisplayStyles, CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
 import Map from '../../components/Map';
 
 function MainPage() {
@@ -115,6 +115,7 @@ function MainPage() {
                     <OffersList
                       offers={OFFERS_SORT_LIST}
                       sortParam={sortParam}
+                      cardNameForDisplayStyles={cardNameForDisplayStyles.CITIES}
                       isItemHover={handleIsItemHover}
                     />
                   </div>

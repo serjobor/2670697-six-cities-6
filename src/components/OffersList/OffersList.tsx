@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { displayOptionForOfferCard, OFFER_SORT_TYPES } from '../../constants/offers';
+import { displayOptionOrientation, OFFER_SORT_TYPES } from '../../constants/offers';
 import { IBaseOffer } from '../../mocks/offers';
 import OfferCard from '../OfferCard';
 
 interface OffersListProps {
   offers: IBaseOffer[];
-  sortParam: string;
+  sortParam?: string;
+  cardNameForDisplayStyles: string;
   isItemHover: (itemName: string) => void;
 }
 
-const OffersList = ({ offers, sortParam, isItemHover }: OffersListProps) => {
+const OffersList = ({ offers, sortParam, cardNameForDisplayStyles, isItemHover }: OffersListProps) => {
 
   const [sortOffersByParam, setSortOffersByParam] = useState<IBaseOffer[]>(offers);
 
@@ -44,7 +45,8 @@ const OffersList = ({ offers, sortParam, isItemHover }: OffersListProps) => {
           <OfferCard
             key={offer.id}
             offer={offer}
-            variant={displayOptionForOfferCard.vertical}
+            cardNameForDisplayStyles={cardNameForDisplayStyles}
+            variant={displayOptionOrientation.vertical}
             isItemHover={handleListItemHover}
           />
         ))

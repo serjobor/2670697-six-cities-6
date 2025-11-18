@@ -4,23 +4,26 @@ export interface IVariant {
 }
 
 export interface IDisplayOption {
-  cardName: string;
   widthForImg: string;
   heightForImg: string;
 }
 
-export const displayOptionForOfferCard: IVariant = {
+export const displayOptionOrientation: IVariant = {
   horizontal: {
-    cardName: 'favorites',
     widthForImg: '150',
     heightForImg: '110',
   },
   vertical: {
-    cardName: 'cities',
     widthForImg: '260',
     heightForImg: '200',
   }
 } as const;
+
+export enum cardNameForDisplayStyles {
+  CITIES = 'cities',
+  FAVORITES = 'favorites',
+  NEAR_PLACES = 'near-places',
+}
 
 export enum CITY_LIST_TYPES {
   PARIS = 'Paris',

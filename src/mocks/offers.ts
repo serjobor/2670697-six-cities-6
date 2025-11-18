@@ -57,7 +57,7 @@ export const mockOffers: IBaseOffer[] = [
       'longitude': 2.342499,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 1.5
   },
@@ -80,7 +80,7 @@ export const mockOffers: IBaseOffer[] = [
       'longitude': 2.330499,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 3
   },
@@ -517,7 +517,7 @@ export const mockOffers: IBaseOffer[] = [
       'longitude': 6.961974,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 2.3
   },

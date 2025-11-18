@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { displayOptionForOfferCard } from '../../constants/offers';
+import { cardNameForDisplayStyles, displayOptionOrientation } from '../../constants/offers';
 import { IBaseOffer } from '../../mocks/offers';
 import OfferCard from '../OfferCard';
 import { PATHS } from '../../constants/paths';
@@ -32,7 +32,8 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
             <OfferCard
               key={offer.id}
               offer={offer}
-              variant={displayOptionForOfferCard.horizontal}
+              cardNameForDisplayStyles={cardNameForDisplayStyles.FAVORITES}
+              variant={displayOptionOrientation.horizontal}
             />
           ))
         }

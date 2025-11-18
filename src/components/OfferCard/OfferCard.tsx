@@ -7,11 +7,12 @@ import { PATHS } from '../../constants/paths';
 
 interface OfferCardProps {
   offer: IBaseOffer;
+  cardNameForDisplayStyles: string;
   variant: IDisplayOption;
   isItemHover?: (itemName: string) => void;
 }
 
-const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
+const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
 
   const navigate = useNavigate();
   const { isAuth } = useContext(MyContext);
@@ -46,7 +47,7 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
 
   return (
     <article
-      className={`${variant.cardName}__card place-card`}
+      className={`${cardNameForDisplayStyles}__card place-card`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -58,7 +59,7 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
         )
       }
 
-      <div className={`${variant.cardName}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${cardNameForDisplayStyles}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${offer.id}`}>
           <img
             className='place-card__image'
@@ -69,7 +70,7 @@ const OfferCard = ({ offer, variant, isItemHover }: OfferCardProps) => {
           />
         </Link>
       </div>
-      <div className={`${(variant.cardName === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
+      <div className={`${(cardNameForDisplayStyles === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{offer.price}</b>
