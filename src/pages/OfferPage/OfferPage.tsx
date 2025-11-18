@@ -3,7 +3,7 @@ import CommentSubmitForm from '../../components/CommentSubmitForm';
 import Header from '../../components/Header';
 import { useContext, useState } from 'react';
 import { MyContext } from '../../App';
-import { IFullOffer, mockOffersById, mockOffersById_nearby } from '../../mocks/offers';
+import { IFullOffer, mockOffersById, mockOffersNearby } from '../../mocks/offers';
 import { IReviews, mockReviews } from '../../mocks/reviews';
 
 import { PATHS } from '../../constants/paths';
@@ -22,7 +22,7 @@ function OfferPage() {
 
   const reviewsCount: number = reviews.length;
 
-  const offerGallery_mock = [
+  const mockOfferGallery = [
     'img/room.jpg',
     'img/apartment-01.jpg',
     'img/apartment-02.jpg',
@@ -31,13 +31,11 @@ function OfferPage() {
     'img/apartment-01.jpg',
   ];
 
-  const offerGallery: string[] = offer.images.slice(0, 6) || offerGallery_mock;
+  const offerGallery: string[] = offer.images.slice(0, 6) || mockOfferGallery;
 
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'offer__bookmark-button--active' : '');
 
-  const raitingCount = (raiting: number): string => {
-    return Math.round(raiting) * 100 / 5 + '%';
-  };
+  const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
 
 
   const handleBookmarkBtnClick = () => {
@@ -62,11 +60,11 @@ function OfferPage() {
           <div className='offer__gallery-container container'>
             <div className='offer__gallery'>
               {
-                offerGallery.map((pathToImg) =>
-                  <div className='offer__image-wrapper'>
+                offerGallery.map((pathToImg) => (
+                  <div className='offer__image-wrapper' key={pathToImg}>
                     <img className='offer__image' src={pathToImg} alt='Photo studio' />
                   </div>
-                )
+                ))
               }
             </div>
           </div>
@@ -124,7 +122,7 @@ function OfferPage() {
                 <ul className='offer__inside-list'>
                   {
                     offer.goods && offer.goods.map((item) => (
-                      <li className='offer__inside-item'>
+                      <li className='offer__inside-item' key={item}>
                         {item}
                       </li>
                     ))
@@ -164,7 +162,7 @@ function OfferPage() {
           <Map
             namePage='OfferPage'
             city={offer.city}
-            points={mockOffersById_nearby}
+            points={mockOffersNearby}
             selectedPoint={offer}
           />
         </section>
