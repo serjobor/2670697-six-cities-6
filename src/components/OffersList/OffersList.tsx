@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { displayOptionOrientation, OFFER_SORT_TYPES } from '../../constants/offers';
-import { IBaseOffer } from '../../mocks/offers';
+import { IBaseOffer } from '../../types/offers';
 import OfferCard from '../OfferCard';
 
 interface OffersListProps {

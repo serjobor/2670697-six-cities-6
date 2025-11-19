@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IBaseOffer } from '../../mocks/offers';
+import { IBaseOffer } from '../../types/offers';
 import { IDisplayOption } from '../../constants/offers';
 import { MyContext } from '../../App';
 import { PATHS } from '../../constants/paths';
@@ -43,7 +43,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
     // setHover(false);
   };
 
-  const ratingStarsValue: string = `${Math.round(offer.rating) * 100 / 5}%`;
+  const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
 
   return (
     <article
@@ -92,7 +92,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
         </div>
         <div className='place-card__rating rating'>
           <div className='place-card__stars rating__stars'>
-            <span style={{ width: ratingStarsValue }}></span>
+            <span style={{ width: raitingCount(offer.rating) }}></span>
             <span className='visually-hidden'>{offer.rating}</span>
           </div>
         </div>

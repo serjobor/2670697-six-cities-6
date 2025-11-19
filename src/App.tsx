@@ -9,7 +9,8 @@ import PrivateRoute from './components/PrivateRoute';
 import { PATHS } from './constants/paths';
 import { CITY_LIST_OPTIONS } from './constants/offers';
 
-import { IBaseOffer, mockOffers } from './mocks/offers';
+import { IBaseOffer } from './types/offers';
+import { mockOffers } from './mocks/offers';
 import { createContext } from 'react';
 
 interface IStore {

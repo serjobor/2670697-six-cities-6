@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer, ICity } from '../../mocks/offers';
+import { IBaseOffer, ICity } from '../../types/offers';
 import Header from '../../components/Header';
 import { MyContext } from '../../App';
 import { cardNameForDisplayStyles, CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { cardNameForDisplayStyles, displayOptionOrientation } from '../../constants/offers';
-import { IBaseOffer } from '../../mocks/offers';
+import { IBaseOffer } from '../../types/offers';
 import OfferCard from '../OfferCard';
 import { PATHS } from '../../constants/paths';
 

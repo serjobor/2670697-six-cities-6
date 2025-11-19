@@ -1,19 +1,7 @@
-export interface IUser {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
-
-export interface IReviews {
-  id: string;
-  date: string;
-  user: IUser;
-  comment: string;
-  rating: number;
-}
-
 //Получить список комментариев
 //GET /six-cities/comments/{offerId}
+
+import { IReviews } from '../types/reviews';
 
 export const mockReviews: IReviews[] = [
   {

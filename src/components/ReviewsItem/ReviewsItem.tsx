@@ -1,4 +1,4 @@
-import { IReviews } from '../../mocks/reviews';
+import { IReviews } from '../../types/reviews';
 
 interface IReviewsItemProp {
   review: IReviews;
