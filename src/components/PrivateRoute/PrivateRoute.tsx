@@ -1,11 +1,9 @@
-import { useContext } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
-import { MyContext } from '../../App';
 import { PATHS } from '../../constants/paths';
+import { useAppSelector } from '../../hooks/redux';
 
 function PrivateRoute() {
-
-  const { isAuth } = useContext(MyContext);
+  const isAuth = useAppSelector(state => state.user.authorizationStatus);
 
   return (
     isAuth ? <Outlet /> : <Navigate to={PATHS.LOGIN_PAGE} />

@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import OffersFavoritesCard from '../OffersFavoritesCard';
-import { MyContext } from '../../App';
+import { CITY_LIST_OPTIONS } from '../../constants/offers';
+import { useAppSelector } from '../../hooks/redux';
 
 
 const OffersFavoritesList = () => {
-
-  const { mockOffers, CITY_LIST_OPTIONS } = useContext(MyContext);
+  const offers = useAppSelector(state => state.offer.offers);
 
   return (
     <ul className='favorites__list'>
@@ -15,7 +14,7 @@ const OffersFavoritesList = () => {
             key={cityName}
             cityName={cityName}
             sortOffersByCityName={
-              mockOffers.filter((offers) => offers.city.name === cityName)
+              offers.filter((offers) => offers.city.name === cityName)
             }
           />
         ))

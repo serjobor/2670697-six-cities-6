@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
-import { useContext } from 'react';
-import { MyContext } from '../../App';
+import { useAppSelector } from '../../hooks/redux';
 
 function Header() {
-
-  const { isAuth, mockOffers } = useContext(MyContext);
+  const isAuth = useAppSelector(state => state.user.authorizationStatus);
+  const offers = useAppSelector(state => state.offer.offers);
 
   const userEmail: string = 'Oliver.conner@gmail.com';
-  const favoriteOffersCount: number = mockOffers.filter((offer) => offer.isFavorite === true).length;
+  const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
 
   const authUserData = (isAuth) ? (
     <>

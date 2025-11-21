@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IUserReview {
   name: string;
   avatarUrl: string;
   isPro: boolean;
@@ -7,7 +7,7 @@ export interface IUser {
 export interface IReviews {
   id: string;
   date: string;
-  user: IUser;
+  user: IUserReview;
   comment: string;
   rating: number;
 }

@@ -1,12 +1,11 @@
-import { useContext } from 'react';
 import Header from '../../components/Header';
 import OffersFavoritesList from '../../components/OffersFavoritesList';
-import { MyContext } from '../../App';
+import { useAppSelector } from '../../hooks/redux';
 
 function FavoritesPage() {
-  const { mockOffers } = useContext(MyContext);
+  const offers = useAppSelector(state => state.offer.offers);
 
-  const favoriteOffersCount = mockOffers.filter((offer) => offer.isFavorite === true).length;
+  const favoriteOffersCount = offers.filter((offer) => offer.isFavorite === true).length;
 
   const isOffers: boolean = favoriteOffersCount > 0;
 

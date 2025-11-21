@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
-import React, { useContext, useEffect, useState } from 'react';
-import { MyContext } from '../../App';
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../../hooks/redux';
 
 function LoginPage() {
-
   const navigate = useNavigate();
-  const { isAuth } = useContext(MyContext);
+  
+  const isAuth = useAppSelector(state => state.user.authorizationStatus);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

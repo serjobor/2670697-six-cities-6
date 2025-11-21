@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import CommentSubmitForm from '../../components/CommentSubmitForm';
 import Header from '../../components/Header';
-import { useContext, useState } from 'react';
-import { MyContext } from '../../App';
+import { useState } from 'react';
 import { mockOffersById, mockOffersNearby } from '../../mocks/offers';
 import { mockReviews } from '../../mocks/reviews';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
@@ -12,11 +11,12 @@ import Map from '../../components/Map';
 import ReviewsList from '../../components/ReviewsList';
 import OffersList from '../../components/OffersList';
 import { cardNameForDisplayStyles } from '../../constants/offers';
+import { useAppSelector } from '../../hooks/redux';
 
 function OfferPage() {
   const navigate = useNavigate();
 
-  const { isAuth } = useContext(MyContext);
+  const isAuth = useAppSelector(state => state.user.authorizationStatus);
 
   // const { id } = useParams();
   // const offer: IFullOffer = mockOffers.find((offers) => offers.id === id);

@@ -1,24 +1,28 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
 import { IBaseOffer, ICity } from '../../types/offers';
 import Header from '../../components/Header';
-import { MyContext } from '../../App';
 import { cardNameForDisplayStyles, CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
 import Map from '../../components/Map';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { mockOffers } from '../../mocks/offers';
+import { offerSlice } from '../../store/reducers/offerSlice';
 
 function MainPage() {
+  const { setOffers } = offerSlice.actions;
+  const dispatch = useAppDispatch();
+
+  dispatch(setOffers(mockOffers));
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
-  const [sortParam, setSortsortParam] = useState<string>(OFFER_SORT_TYPES.POPULAR);
-
-  const [isChooseCity, setChooseCity] = useState<string>(CITY_LIST_TYPES.PARIS);
-
+  const [sortParam, setSortsortParam] = useState<OFFER_SORT_TYPES>(OFFER_SORT_TYPES.POPULAR);
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
 
-  const { mockOffers } = useContext(MyContext);
+  const isChooseCity: CITY_LIST_TYPES  = useAppSelector(state => state.offer.city);
+  const offers: IBaseOffer[] = useAppSelector(state => state.offer.offers);
 
-  const OFFERS_SORT_LIST: IBaseOffer[] = mockOffers.filter((offers) => offers.city.name === isChooseCity);
+  const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
   const chooseCityData: ICity = OFFERS_SORT_LIST[0].city;
   const offerCount: number = OFFERS_SORT_LIST.length;
 
@@ -32,18 +36,12 @@ function MainPage() {
     }
   };
 
-  const handleSortParamClick = (chooseSortParam: string) => {
+  const handleSortParamClick = (chooseSortParam: OFFER_SORT_TYPES) => {
     setSortsortParam(chooseSortParam);
     showSortList();
   };
 
   const sortParamCheck = (chooseSortParam: string) => sortParam === chooseSortParam ? 'places__option--active' : '';
-
-  const changeChooseCity = (chooseCity: string) => {
-    setChooseCity(chooseCity);
-    setSortsortParam(OFFER_SORT_TYPES.POPULAR);
-    setSelectedPoint({} as IBaseOffer);
-  };
 
   const handleIsItemHover = (itemName: string) => {
     const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>
@@ -67,7 +65,7 @@ function MainPage() {
         <div className='tabs'>
           <section className='locations container'>
             <ul className='locations__list tabs__list'>
-              <CityList changeChooseCity={changeChooseCity} />
+              <CityList />
             </ul>
           </section>
         </div>

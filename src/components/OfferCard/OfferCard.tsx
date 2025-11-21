@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IBaseOffer } from '../../types/offers';
 import { IDisplayOption } from '../../constants/offers';
-import { MyContext } from '../../App';
 import { PATHS } from '../../constants/paths';
+import { useAppSelector } from '../../hooks/redux';
 
 interface OfferCardProps {
   offer: IBaseOffer;
@@ -13,9 +13,9 @@ interface OfferCardProps {
 }
 
 const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
-
   const navigate = useNavigate();
-  const { isAuth } = useContext(MyContext);
+  
+  const isAuth = useAppSelector(state => state.user.authorizationStatus);
 
   // const [isHover, setHover] = useState<boolean>(false);
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
@@ -79,7 +79,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
           <button
             className={`
               place-card__bookmark-button 
-              ${isClickOnBookmarkBtn}
+              ${isAuth && isClickOnBookmarkBtn}
               button`}
             type='button'
             onClick={handleBookmarkBtnClick}
