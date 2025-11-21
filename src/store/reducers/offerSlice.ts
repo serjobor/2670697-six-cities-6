@@ -14,7 +14,7 @@ interface IOfferState {
 const initialState: IOfferState = {
   city: CITY_LIST_TYPES.PARIS,
   sortParam: OFFER_SORT_TYPES.POPULAR,
-  offers: {} as IBaseOffer[],
+  offers: [] as IBaseOffer[],
   fullOffer: {} as IFullOffer,
 
   isLoading: false,

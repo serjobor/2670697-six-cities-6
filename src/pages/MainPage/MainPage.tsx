@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
 import { IBaseOffer, ICity } from '../../types/offers';
@@ -13,7 +13,9 @@ function MainPage() {
   const { setOffers } = offerSlice.actions;
   const dispatch = useAppDispatch();
 
-  dispatch(setOffers(mockOffers));
+  useEffect(() => {
+    dispatch(setOffers(mockOffers));
+  }, [dispatch, setOffers]);
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
   const [sortParam, setSortsortParam] = useState<OFFER_SORT_TYPES>(OFFER_SORT_TYPES.POPULAR);
@@ -23,7 +25,8 @@ function MainPage() {
   const offers: IBaseOffer[] = useAppSelector((state) => state.offer.offers);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
-  const chooseCityData: ICity = OFFERS_SORT_LIST[0].city;
+
+  const chooseCityData: ICity = OFFERS_SORT_LIST[0]?.city;
   const offerCount: number = OFFERS_SORT_LIST.length;
 
   const isOffersInChooseCity: boolean = offerCount > 0;
