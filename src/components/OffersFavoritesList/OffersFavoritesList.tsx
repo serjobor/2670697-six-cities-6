@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux';
 
 
 const OffersFavoritesList = () => {
-  const offers = useAppSelector(state => state.offer.offers);
+  const offers = useAppSelector((state) => state.offer.offers);
 
   return (
     <ul className='favorites__list'>
@@ -14,7 +14,7 @@ const OffersFavoritesList = () => {
             key={cityName}
             cityName={cityName}
             sortOffersByCityName={
-              offers.filter((offers) => offers.city.name === cityName)
+              offers.filter((offer) => offer.city.name === cityName)
             }
           />
         ))

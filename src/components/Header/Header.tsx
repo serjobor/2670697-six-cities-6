@@ -3,8 +3,8 @@ import { PATHS } from '../../constants/paths';
 import { useAppSelector } from '../../hooks/redux';
 
 function Header() {
-  const isAuth = useAppSelector(state => state.user.authorizationStatus);
-  const offers = useAppSelector(state => state.offer.offers);
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const offers = useAppSelector((state) => state.offer.offers);
 
   const userEmail: string = 'Oliver.conner@gmail.com';
   const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;

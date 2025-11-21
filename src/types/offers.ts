@@ -1,3 +1,5 @@
+import { CITY_LIST_TYPES } from '../constants/offers';
+
 export interface ILocation {
   latitude: number;
   longitude: number;
@@ -5,7 +7,7 @@ export interface ILocation {
 }
 
 export interface ICity {
-  name: string;
+  name: CITY_LIST_TYPES;
   location: ILocation;
 }
 

@@ -3,7 +3,7 @@ import OffersFavoritesList from '../../components/OffersFavoritesList';
 import { useAppSelector } from '../../hooks/redux';
 
 function FavoritesPage() {
-  const offers = useAppSelector(state => state.offer.offers);
+  const offers = useAppSelector((state) => state.offer.offers);
 
   const favoriteOffersCount = offers.filter((offer) => offer.isFavorite === true).length;
 

@@ -19,8 +19,8 @@ function MainPage() {
   const [sortParam, setSortsortParam] = useState<OFFER_SORT_TYPES>(OFFER_SORT_TYPES.POPULAR);
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
 
-  const isChooseCity: CITY_LIST_TYPES  = useAppSelector(state => state.offer.city);
-  const offers: IBaseOffer[] = useAppSelector(state => state.offer.offers);
+  const isChooseCity: CITY_LIST_TYPES = useAppSelector((state) => state.offer.city);
+  const offers: IBaseOffer[] = useAppSelector((state) => state.offer.offers);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
   const chooseCityData: ICity = OFFERS_SORT_LIST[0].city;
@@ -41,7 +41,7 @@ function MainPage() {
     showSortList();
   };
 
-  const sortParamCheck = (chooseSortParam: string) => sortParam === chooseSortParam ? 'places__option--active' : '';
+  const sortParamCheck = (chooseSortParam: OFFER_SORT_TYPES) => sortParam === chooseSortParam ? 'places__option--active' : '';
 
   const handleIsItemHover = (itemName: string) => {
     const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>

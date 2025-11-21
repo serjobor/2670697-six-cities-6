@@ -4,16 +4,16 @@ import { useAppSelector } from '../../hooks/redux';
 import { offerSlice } from '../../store/reducers/offerSlice';
 
 const CityList = () => {
-  const isChooseCity = useAppSelector(state => state.offer.city);
+  const isChooseCity = useAppSelector((state) => state.offer.city);
 
   const { setCity } = offerSlice.actions;
   const dispatch = useDispatch();
 
   const handleChooseCity = (city: CITY_LIST_TYPES) => {
-    dispatch(setCity(city))
+    dispatch(setCity(city));
   };
 
-  const chooseCityCheck = (city: string) => isChooseCity === city ? 'tabs__item--active' : '';
+  const chooseCityCheck = (city: CITY_LIST_TYPES) => isChooseCity === city ? 'tabs__item--active' : '';
 
   return (
     <>

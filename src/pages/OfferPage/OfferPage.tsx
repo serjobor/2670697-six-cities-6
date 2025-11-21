@@ -16,7 +16,7 @@ import { useAppSelector } from '../../hooks/redux';
 function OfferPage() {
   const navigate = useNavigate();
 
-  const isAuth = useAppSelector(state => state.user.authorizationStatus);
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
 
   // const { id } = useParams();
   // const offer: IFullOffer = mockOffers.find((offers) => offers.id === id);

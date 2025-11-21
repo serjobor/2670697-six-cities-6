@@ -14,8 +14,8 @@ interface OfferCardProps {
 
 const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
-  
-  const isAuth = useAppSelector(state => state.user.authorizationStatus);
+
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
 
   // const [isHover, setHover] = useState<boolean>(false);
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');

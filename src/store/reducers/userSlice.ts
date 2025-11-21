@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../types/users";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IUser } from '../../types/users';
 
 interface IUserState {
-  users: IUser,
-  authorizationStatus: boolean,
+  users: IUser;
+  authorizationStatus: boolean;
 
   isLoading: boolean;
   error: string;
@@ -15,7 +15,7 @@ const initialState: IUserState = {
 
   isLoading: false,
   error: '',
-}
+};
 
 export const userSlice = createSlice({
   name: 'user',

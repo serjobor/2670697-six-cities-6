@@ -5,8 +5,8 @@ import { useAppSelector } from '../../hooks/redux';
 
 function LoginPage() {
   const navigate = useNavigate();
-  
-  const isAuth = useAppSelector(state => state.user.authorizationStatus);
+
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
