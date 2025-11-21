@@ -3,8 +3,8 @@ import { CITY_LIST_TYPES, OFFER_SORT_TYPES } from '../../constants/offers';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
 
 interface IOfferState {
-  city: CITY_LIST_TYPES;
-  sortParam: OFFER_SORT_TYPES;
+  city: string;
+  sortParam: string;
   offers: IBaseOffer[];
   fullOffer: IFullOffer;
   isLoading: boolean;
@@ -25,10 +25,10 @@ export const offerSlice = createSlice({
   name: 'offer',
   initialState,
   reducers: {
-    setCity: (state, action: PayloadAction<CITY_LIST_TYPES>) => {
+    setCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
     },
-    setsortParam: (state, action: PayloadAction<OFFER_SORT_TYPES>) => {
+    setsortParam: (state, action: PayloadAction<string>) => {
       state.sortParam = action.payload;
     },
 

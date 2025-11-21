@@ -3,7 +3,7 @@ import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
 import { IBaseOffer, ICity } from '../../types/offers';
 import Header from '../../components/Header';
-import { cardNameForDisplayStyles, CITY_LIST_TYPES, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
+import { cardNameForDisplayStyles, OFFER_SORT_OPTIONS, OFFER_SORT_TYPES } from '../../constants/offers';
 import Map from '../../components/Map';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { mockOffers } from '../../mocks/offers';
@@ -18,10 +18,10 @@ function MainPage() {
   }, [dispatch, setOffers]);
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
-  const [sortParam, setSortsortParam] = useState<OFFER_SORT_TYPES>(OFFER_SORT_TYPES.POPULAR);
+  const [sortParam, setSortsortParam] = useState<string>(OFFER_SORT_TYPES.POPULAR);
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
 
-  const isChooseCity: CITY_LIST_TYPES = useAppSelector((state) => state.offer.city);
+  const isChooseCity: string = useAppSelector((state) => state.offer.city);
   const offers: IBaseOffer[] = useAppSelector((state) => state.offer.offers);
 
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
@@ -39,12 +39,12 @@ function MainPage() {
     }
   };
 
-  const handleSortParamClick = (chooseSortParam: OFFER_SORT_TYPES) => {
+  const handleSortParamClick = (chooseSortParam: string) => {
     setSortsortParam(chooseSortParam);
     showSortList();
   };
 
-  const sortParamCheck = (chooseSortParam: OFFER_SORT_TYPES) => sortParam === chooseSortParam ? 'places__option--active' : '';
+  const sortParamCheck = (chooseSortParam: string) => sortParam === chooseSortParam ? 'places__option--active' : '';
 
   const handleIsItemHover = (itemName: string) => {
     const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>

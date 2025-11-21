@@ -1,4 +1,4 @@
-import { CITY_LIST_OPTIONS, CITY_LIST_TYPES } from '../../constants/offers';
+import { CITY_LIST_OPTIONS } from '../../constants/offers';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/redux';
 import { offerSlice } from '../../store/reducers/offerSlice';
@@ -9,11 +9,11 @@ const CityList = () => {
   const { setCity } = offerSlice.actions;
   const dispatch = useDispatch();
 
-  const handleChooseCity = (city: CITY_LIST_TYPES) => {
+  const handleChooseCity = (city: string) => {
     dispatch(setCity(city));
   };
 
-  const chooseCityCheck = (city: CITY_LIST_TYPES) => isChooseCity === city ? 'tabs__item--active' : '';
+  const chooseCityCheck = (city: string) => isChooseCity === city ? 'tabs__item--active' : '';
 
   return (
     <>
