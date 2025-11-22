@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { userSlice } from '../../store/reducers/userSlice';
 
 function Header() {
   const isAuth = useAppSelector((state) => state.user.authorizationStatus);
   const offers = useAppSelector((state) => state.offer.offers);
+
+  const { setAuthorizationStatus} = userSlice.actions;
+  const dispatch = useAppDispatch();
 
   const userEmail: string = 'Oliver.conner@gmail.com';
   const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
@@ -41,7 +45,11 @@ function Header() {
               {
                 isAuth && (
                   <li className='header__nav-item'>
-                    <Link className='header__nav-link' to={PATHS.LOGIN_PAGE}>
+                    <Link
+                      className='header__nav-link'
+                      to={PATHS.LOGIN_PAGE}
+                      onClick={() => dispatch(setAuthorizationStatus(false))}
+                    >
                       <span className='header__signout'>Sign out</span>
                     </Link>
                   </li>

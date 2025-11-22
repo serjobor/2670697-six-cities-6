@@ -8,8 +8,19 @@ import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 
 import { PATHS } from './constants/paths';
+import { offerSlice } from './store/reducers/offerSlice';
+import { useAppDispatch } from './hooks/redux';
+import { useEffect } from 'react';
+import { mockOffers } from './mocks/offers';
 
 function App() {
+  const { setOffers } = offerSlice.actions;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setOffers(mockOffers));
+  }, [dispatch, setOffers]);
+
   return (
     <BrowserRouter>
       <Routes>
