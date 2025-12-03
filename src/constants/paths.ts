@@ -5,3 +5,11 @@ export enum PATHS {
   OFFER_PAGE = '/offer/:id',
   NOTFOUND_PAGE = '*'
 }
+
+export enum APIRoute {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}
