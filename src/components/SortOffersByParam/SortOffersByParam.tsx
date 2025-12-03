@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 const SortOffersByParam = () => {
   const sortParam: string = useAppSelector((state) => state.offer.sortParam);
 
-  const { setsortParam } = offerSlice.actions;
+  const { setSortParam } = offerSlice.actions;
   const dispatch = useAppDispatch();
 
   const [isOpenSortList, setOpenSortList] = useState<string>('');
@@ -23,7 +23,7 @@ const SortOffersByParam = () => {
   const sortParamCheck = (chooseSortParam: string) => sortParam === chooseSortParam ? 'places__option--active' : '';
 
   const handleSortParamClick = (chooseSortParam: string) => {
-    dispatch(setsortParam(chooseSortParam));
+    dispatch(setSortParam(chooseSortParam));
     showSortList();
   };
 

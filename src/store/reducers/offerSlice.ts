@@ -28,7 +28,7 @@ export const offerSlice = createSlice({
     setCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
     },
-    setsortParam: (state, action: PayloadAction<string>) => {
+    setSortParam: (state, action: PayloadAction<string>) => {
       state.sortParam = action.payload;
     },
 
@@ -53,7 +53,7 @@ export const offerSlice = createSlice({
 
 export const {
   setCity,
-  setsortParam,
+  setSortParam,
   setOffers,
   setInitialData,
 } = offerSlice.actions;
