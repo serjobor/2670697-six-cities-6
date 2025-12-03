@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser } from '../../types/users';
+import { IUser } from '../../types/user';
 
 interface IUserState {
-  users: IUser;
+  user: IUser;
   authorizationStatus: boolean;
 
   isLoading: boolean;
@@ -10,7 +10,7 @@ interface IUserState {
 }
 
 const initialState: IUserState = {
-  users: {} as IUser,
+  user: {} as IUser,
   authorizationStatus: true,
 
   isLoading: false,
@@ -22,14 +22,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<IUser>) => {
-      state.users = action.payload;
+      state.user = action.payload;
     },
     setAuthorizationStatus: (state, action: PayloadAction<boolean>) => {
       state.authorizationStatus = action.payload;
     },
 
     setInitialData: (state) => {
-      state.users = {} as IUser;
+      state.user = {} as IUser;
       state.authorizationStatus = false;
 
       state.isLoading = false;

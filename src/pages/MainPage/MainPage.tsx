@@ -12,17 +12,11 @@ import Spinner from '../../components/Spinner';
 function MainPage() {
 
   const { offers, isLoading, error } = useAppSelector((state) => state.offer);
-
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
-
   const isChooseCity: string = useAppSelector((state) => state.offer.city);
-  // const offers: IBaseOffer[] = useAppSelector((state) => state.offer.offers);
-
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
-
   const chooseCityData: ICity = OFFERS_SORT_LIST[0]?.city;
   const offerCount: number = OFFERS_SORT_LIST.length;
-
   const isOffersInChooseCity: boolean = offerCount > 0;
 
   const handleIsItemHover = (itemName: string) => {
