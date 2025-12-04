@@ -1,12 +1,15 @@
 import { Outlet, Navigate } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
 import { useAppSelector } from '../../hooks/redux';
+import { AuthorizationStatus } from '../../constants/user';
 
 function PrivateRoute() {
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const { authorizationStatus } = useAppSelector((state) => state.user);
 
   return (
-    isAuth ? <Outlet /> : <Navigate to={PATHS.LOGIN_PAGE} />
+    authorizationStatus === AuthorizationStatus.Auth
+      ? <Outlet />
+      : <Navigate to={PATHS.LOGIN_PAGE} />
   );
 }
 

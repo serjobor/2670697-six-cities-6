@@ -7,11 +7,10 @@ import { cardNameForDisplayStyles } from '../../constants/offers';
 import Map from '../../components/Map';
 import { useAppSelector } from '../../hooks/redux';
 import SortOffersByParam from '../../components/SortOffersByParam';
-import Spinner from '../../components/Spinner';
 
 function MainPage() {
 
-  const { offers, isLoading, error } = useAppSelector((state) => state.offer);
+  const { offers, error } = useAppSelector((state) => state.offer);
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
   const isChooseCity: string = useAppSelector((state) => state.offer.city);
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
@@ -53,55 +52,49 @@ function MainPage() {
           </section>
         </div>
         <div className='cities'>
-          {
-            isLoading
-              ?
-              <Spinner />
-              :
-              <div className={`
+          <div className={`
               cities__places-container 
               container
               ${isOffersInChooseCity ? '' : 'cities__places-container--empty'} 
-            `}>
-                {
-                  isOffersInChooseCity
-                    ?
-                    <section className='cities__places places'>
-                      <h2 className='visually-hidden'>Places</h2>
-                      <b className='places__found'>{offerCount} places to stay in {isChooseCity}</b>
-                      <SortOffersByParam />
-                      <div className='cities__places-list places__list tabs__content'>
-                        <OffersList
-                          offers={OFFERS_SORT_LIST}
-                          cardNameForDisplayStyles={cardNameForDisplayStyles.CITIES}
-                          isItemHover={handleIsItemHover}
-                        />
-                      </div>
-                    </section>
-                    :
-                    <section className='cities__no-places'>
-                      <div className='cities__status-wrapper tabs__content'>
-                        <b className='cities__status'>No places to stay available</b>
-                        <p className='cities__status-description'>We could not find any property available at the moment in {isChooseCity}</p>
-                      </div>
-                    </section>
-                }
-                <div className='cities__right-section'>
-                  {
-                    isOffersInChooseCity
-                      ?
-                      <Map
-                        namePage='MainPage'
-                        city={chooseCityData}
-                        points={OFFERS_SORT_LIST}
-                        selectedPoint={selectedPoint}
-                      />
-                      :
-                      ''
-                  }
-                </div>
-              </div>
-          }
+        `}>
+            {
+              isOffersInChooseCity
+                ?
+                <section className='cities__places places'>
+                  <h2 className='visually-hidden'>Places</h2>
+                  <b className='places__found'>{offerCount} places to stay in {isChooseCity}</b>
+                  <SortOffersByParam />
+                  <div className='cities__places-list places__list tabs__content'>
+                    <OffersList
+                      offers={OFFERS_SORT_LIST}
+                      cardNameForDisplayStyles={cardNameForDisplayStyles.CITIES}
+                      isItemHover={handleIsItemHover}
+                    />
+                  </div>
+                </section>
+                :
+                <section className='cities__no-places'>
+                  <div className='cities__status-wrapper tabs__content'>
+                    <b className='cities__status'>No places to stay available</b>
+                    <p className='cities__status-description'>We could not find any property available at the moment in {isChooseCity}</p>
+                  </div>
+                </section>
+            }
+            <div className='cities__right-section'>
+              {
+                isOffersInChooseCity
+                  ?
+                  <Map
+                    namePage='MainPage'
+                    city={chooseCityData}
+                    points={OFFERS_SORT_LIST}
+                    selectedPoint={selectedPoint}
+                  />
+                  :
+                  ''
+              }
+            </div>
+          </div>
         </div>
       </main>
     </div>

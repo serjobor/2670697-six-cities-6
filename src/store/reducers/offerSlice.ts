@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CITY_LIST_TYPES, OFFER_SORT_TYPES } from '../../constants/offers';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
-import { fetchOffers } from '../api-actions';
+// import { fetchOffers } from '../api-actions';
 
 interface IOfferState {
   city: string;
@@ -16,7 +16,7 @@ interface IOfferState {
 const initialState: IOfferState = {
   city: CITY_LIST_TYPES.PARIS,
   sortParam: OFFER_SORT_TYPES.POPULAR,
-  offers: [] as IBaseOffer[],
+  offers: [],
   fullOffer: {} as IFullOffer,
 
   isLoading: false,
@@ -42,7 +42,14 @@ export const offerSlice = createSlice({
       state.fullOffer = action.payload;
     },
 
-    setInitialData: (state) => {
+    setLoadingParam: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setErrorParam: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+
+    setInitialOfferData: (state) => {
       state.city = CITY_LIST_TYPES.PARIS;
       state.sortParam = OFFER_SORT_TYPES.POPULAR;
       state.offers = [] as IBaseOffer[];
@@ -52,28 +59,31 @@ export const offerSlice = createSlice({
       state.error = '';
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchOffers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<IBaseOffer[]>) => {
-        state.isLoading = false;
-        state.error = '';
-        state.offers = action.payload;
-      })
-      .addCase(fetchOffers.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      });
-  }
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(fetchOffers.pending, (state) => {
+  //       state.isLoading = true;
+  //     })
+  //     .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<IBaseOffer[]>) => {
+  //       state.isLoading = false;
+  //       state.error = '';
+  //       state.offers = action.payload;
+  //     })
+  //     .addCase(fetchOffers.rejected, (state, action) => {
+  //       state.isLoading = false;
+  //       state.error = action.payload as string;
+  //     });
+  // }
 });
 
 export const {
   setCity,
   setSortParam,
   setOffers,
-  setInitialData,
+  setFullOffer,
+  setLoadingParam,
+  setErrorParam,
+  setInitialOfferData,
 } = offerSlice.actions;
 
 export default offerSlice.reducer;

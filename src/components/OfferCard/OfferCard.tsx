@@ -4,6 +4,7 @@ import { IBaseOffer } from '../../types/offers';
 import { IDisplayOption } from '../../constants/offers';
 import { PATHS } from '../../constants/paths';
 import { useAppSelector } from '../../hooks/redux';
+import { AuthorizationStatus } from '../../constants/user';
 
 interface OfferCardProps {
   offer: IBaseOffer;
@@ -15,13 +16,13 @@ interface OfferCardProps {
 const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
 
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const { authorizationStatus } = useAppSelector((state) => state.user);
 
   // const [isHover, setHover] = useState<boolean>(false);
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 
   const handleBookmarkBtnClick = () => {
-    if(!isAuth) {
+    if(authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(PATHS.LOGIN_PAGE);
       return;
     }
@@ -79,7 +80,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
           <button
             className={`
               place-card__bookmark-button 
-              ${isAuth && isClickOnBookmarkBtn}
+              ${isClickOnBookmarkBtn}
               button`}
             type='button'
             onClick={handleBookmarkBtnClick}

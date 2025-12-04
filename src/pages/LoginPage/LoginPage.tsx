@@ -2,11 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
+import { AuthorizationStatus } from '../../constants/user';
 
 function LoginPage() {
   const navigate = useNavigate();
 
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const { authorizationStatus } = useAppSelector((state) => state.user);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -23,12 +24,11 @@ function LoginPage() {
     // проверка авторизации
   };
 
-
   useEffect(() => {
-    if(isAuth) {
+    if(authorizationStatus === AuthorizationStatus.Auth) {
       navigate(PATHS.MAIN_PAGE);
     }
-  }, [isAuth, navigate]);
+  }, [authorizationStatus, navigate]);
 
   return (
     <div className='page page--gray page--login'>

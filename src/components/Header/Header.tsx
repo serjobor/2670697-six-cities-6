@@ -2,25 +2,19 @@ import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userSlice } from '../../store/reducers/userSlice';
+import { AuthorizationStatus } from '../../constants/user';
 
 function Header() {
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
-  const offers = useAppSelector((state) => state.offer.offers);
+  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const { offers } = useAppSelector((state) => state.offer);
 
-  const { setAuthorizationStatus} = userSlice.actions;
+  const { removeUserData } = userSlice.actions;
   const dispatch = useAppDispatch();
 
   const userEmail: string = 'Oliver.conner@gmail.com';
   const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
 
-  const authUserData = (isAuth) ? (
-    <>
-      <span className='header__user-name user__name'>{userEmail}</span>
-      <span className='header__favorite-count'>{favoriteOffersCount}</span>
-    </>
-  )
-    :
-    <span className='header__login'>Sign in</span>;
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <header className='header'>
@@ -38,7 +32,14 @@ function Header() {
                   <div className='header__avatar-wrapper user__avatar-wrapper'>
                   </div>
                   {
-                    authUserData
+                    isAuth
+                      ?
+                      <>
+                        <span className='header__user-name user__name'>{userEmail}</span>
+                        <span className='header__favorite-count'>{favoriteOffersCount}</span>
+                      </>
+                      :
+                      <span className='header__login'>Sign in</span>
                   }
                 </Link>
               </li>
@@ -48,7 +49,7 @@ function Header() {
                     <Link
                       className='header__nav-link'
                       to={PATHS.LOGIN_PAGE}
-                      onClick={() => dispatch(setAuthorizationStatus(false))}
+                      onClick={() => dispatch(removeUserData())}
                     >
                       <span className='header__signout'>Sign out</span>
                     </Link>
