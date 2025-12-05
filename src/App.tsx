@@ -8,26 +8,13 @@ import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 
 import { PATHS } from './constants';
-import { useAppDispatch, useAppSelector } from './hooks/redux';
-import { useEffect } from 'react';
-import { checkAuthStatus, fetchOffers } from './store/api-actions';
+import { useAppSelector } from './hooks/redux';
 import { AuthorizationStatus } from './constants';
 import Spinner from './components/Spinner';
 
 function App() {
-  const dispatch = useAppDispatch();
-
   const { authorizationStatus } = useAppSelector((state) => state.user);
   const { isLoading } = useAppSelector((state) => state.app);
-
-  useEffect(() => {
-    dispatch(checkAuthStatus());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchOffers());
-  }, [dispatch]);
-
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isLoading) {
     return (
