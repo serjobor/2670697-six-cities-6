@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { PATHS } from '../../constants/paths';
+import { PATHS } from '../../constants';
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 
 function LoginPage() {
   const navigate = useNavigate();

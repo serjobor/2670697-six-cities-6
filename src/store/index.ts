@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { createAPI } from '../services/api';
+import appReducer from './reducers/appSlice';
 import offerReducer from './reducers/offerSlice';
 import userReducer from './reducers/userSlice';
-import { createAPI } from '../services/api';
 
 export const api = createAPI();
 
 export const store = configureStore({
   reducer: {
+    app: appReducer,
     offer: offerReducer,
     user: userReducer,
   },

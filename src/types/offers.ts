@@ -36,3 +36,13 @@ export interface IFullOffer extends IBaseOffer {
   images: string[];
   maxAdults: number;
 }
+
+export interface IVariant {
+  horizontal: IDisplayOption;
+  vertical: IDisplayOption;
+}
+
+export interface IDisplayOption {
+  widthForImg: string;
+  heightForImg: string;
+}

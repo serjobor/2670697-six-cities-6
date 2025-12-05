@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../constants/map';
+import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../constants';
 import { IBaseOffer, ICity } from '../../types/offers';
 
 interface IMapProps {

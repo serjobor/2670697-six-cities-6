@@ -1,21 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../types/user';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 
 interface IUserState {
   user: IUser;
   authorizationStatus: AuthorizationStatus;
-
-  isLoading: boolean;
-  error: string;
 }
 
 const initialState: IUserState = {
   user: {} as IUser,
   authorizationStatus: AuthorizationStatus.Unknown,
-
-  isLoading: false,
-  error: '',
 };
 
 export const userSlice = createSlice({
@@ -32,9 +26,6 @@ export const userSlice = createSlice({
     removeUserData: (state) => {
       state.user = {} as IUser;
       state.authorizationStatus = AuthorizationStatus.NoAuth;
-
-      state.isLoading = false;
-      state.error = '';
     },
   },
 });

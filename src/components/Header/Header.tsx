@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { PATHS } from '../../constants/paths';
+import { PATHS } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userSlice } from '../../store/reducers/userSlice';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 
 function Header() {
   const { authorizationStatus } = useAppSelector((state) => state.user);

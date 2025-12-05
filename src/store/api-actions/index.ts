@@ -1,13 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute } from '../../constants/paths';
+import { APIRoute } from '../../constants';
 import { IBaseOffer } from '../../types/offers';
 import { AuthData, UserData } from '../../types/user';
 import { AppDispatch, RootState } from '..';
 import { AxiosInstance } from 'axios';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 import { setAuthorizationStatus } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setErrorParam, setLoadingParam, setOffers } from '../reducers/offerSlice';
+import { setOffers } from '../reducers/offerSlice';
+import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 
 interface ThunkConfig {
   dispatch: AppDispatch;

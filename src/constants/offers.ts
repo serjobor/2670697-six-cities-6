@@ -1,12 +1,4 @@
-export interface IVariant {
-  horizontal: IDisplayOption;
-  vertical: IDisplayOption;
-}
-
-export interface IDisplayOption {
-  widthForImg: string;
-  heightForImg: string;
-}
+import { IVariant } from "../types/offers";
 
 export const displayOptionOrientation: IVariant = {
   horizontal: {

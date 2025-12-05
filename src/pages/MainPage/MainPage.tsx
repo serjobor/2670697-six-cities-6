@@ -10,7 +10,9 @@ import SortOffersByParam from '../../components/SortOffersByParam';
 
 function MainPage() {
 
-  const { offers, error } = useAppSelector((state) => state.offer);
+  const { offers } = useAppSelector((state) => state.offer);
+  const { error } = useAppSelector((state) => state.app);
+
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
   const isChooseCity: string = useAppSelector((state) => state.offer.city);
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);

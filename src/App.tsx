@@ -7,18 +7,18 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 
-import { PATHS } from './constants/paths';
+import { PATHS } from './constants';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { useEffect } from 'react';
 import { checkAuthStatus, fetchOffers } from './store/api-actions';
-import { AuthorizationStatus } from './constants/user';
+import { AuthorizationStatus } from './constants';
 import Spinner from './components/Spinner';
 
 function App() {
   const dispatch = useAppDispatch();
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { isLoading } = useAppSelector((state) => state.offer);
+  const { isLoading } = useAppSelector((state) => state.app);
 
   useEffect(() => {
     dispatch(checkAuthStatus());

@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import { PATHS } from '../../constants/paths';
+import { PATHS } from '../../constants';
 import { useAppSelector } from '../../hooks/redux';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 
 function PrivateRoute() {
   const { authorizationStatus } = useAppSelector((state) => state.user);

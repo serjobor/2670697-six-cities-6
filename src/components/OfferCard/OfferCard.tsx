@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IBaseOffer } from '../../types/offers';
-import { IDisplayOption } from '../../constants/offers';
-import { PATHS } from '../../constants/paths';
+import { IBaseOffer, IDisplayOption } from '../../types/offers';
+import { PATHS } from '../../constants';
 import { useAppSelector } from '../../hooks/redux';
-import { AuthorizationStatus } from '../../constants/user';
+import { AuthorizationStatus } from '../../constants';
 
 interface OfferCardProps {
   offer: IBaseOffer;
