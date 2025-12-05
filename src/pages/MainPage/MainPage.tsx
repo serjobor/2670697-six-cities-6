@@ -11,7 +11,6 @@ import SortOffersByParam from '../../components/SortOffersByParam';
 function MainPage() {
 
   const { offers } = useAppSelector((state) => state.offer);
-  const { error } = useAppSelector((state) => state.app);
 
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
   const isChooseCity: string = useAppSelector((state) => state.offer.city);
@@ -28,14 +27,6 @@ function MainPage() {
       setSelectedPoint(currentPoint);
     }
   };
-
-  if (error) {
-    return (
-      <div>
-        {error}
-      </div>
-    );
-  }
 
   return (
     <div className='page page--gray page--main'>

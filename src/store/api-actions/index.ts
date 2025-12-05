@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute } from '../../constants';
+import { APIRoute, TIMEOUT_SHOW_ERROR } from '../../constants';
 import { IBaseOffer } from '../../types/offers';
 import { AuthData, UserData } from '../../types/user';
-import { AppDispatch, RootState } from '..';
+import { AppDispatch, RootState, store } from '..';
 import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { setAuthorizationStatus } from '../reducers/userSlice';
@@ -58,6 +58,16 @@ export const logoutAction = createAsyncThunk<void, undefined, ThunkConfig>(
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const clearErrorAction = createAsyncThunk(
+  'app/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setErrorParam(null)),
+      TIMEOUT_SHOW_ERROR,
+    );
   },
 );
 

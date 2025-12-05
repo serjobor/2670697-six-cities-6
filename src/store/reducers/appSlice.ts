@@ -17,7 +17,7 @@ export const offerSlice = createSlice({
     setLoadingParam: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setErrorParam: (state, action: PayloadAction<string>) => {
+    setErrorParam: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
   },
