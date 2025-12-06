@@ -3,6 +3,7 @@ import { PATHS } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
+import { setErrorParam } from '../../store/reducers/appSlice';
 
 function Header() {
   const { authorizationStatus } = useAppSelector((state) => state.user);
@@ -18,8 +19,12 @@ function Header() {
 
   const handleLogout = () => {
     (async () => {
-      await dispatch(logoutAction());
-      navigate(PATHS.LOGIN_PAGE);
+      try {
+        await dispatch(logoutAction());
+        navigate(PATHS.LOGIN_PAGE);
+      } catch (error) {
+        dispatch(setErrorParam(error as string)); // !!!!!
+      }
     })();
   };
 
