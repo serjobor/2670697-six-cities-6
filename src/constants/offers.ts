@@ -1,4 +1,4 @@
-import { IVariant } from "../types/offers";
+import { IVariant } from '../types/offers';
 
 export const displayOptionOrientation: IVariant = {
   horizontal: {

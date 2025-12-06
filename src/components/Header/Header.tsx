@@ -16,9 +16,11 @@ function Header() {
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
-  const handleLogout = async () => {
-    await dispatch(logoutAction());
-    navigate(PATHS.LOGIN_PAGE);
+  const handleLogout = () => {
+    (async () => {
+      await dispatch(logoutAction());
+      navigate(PATHS.LOGIN_PAGE);
+    })();
   };
 
   return (
