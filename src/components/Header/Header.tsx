@@ -1,20 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { userSlice } from '../../store/reducers/userSlice';
 import { AuthorizationStatus } from '../../constants';
+import { logoutAction } from '../../store/api-actions';
 
 function Header() {
   const { authorizationStatus } = useAppSelector((state) => state.user);
   const { offers } = useAppSelector((state) => state.offer);
 
-  const { removeUserData } = userSlice.actions;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const userEmail: string = 'Oliver.conner@gmail.com';
   const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+
+  const handleLogout = async () => {
+    await dispatch(logoutAction());
+    navigate(PATHS.LOGIN_PAGE);
+  };
 
   return (
     <header className='header'>
@@ -46,13 +51,12 @@ function Header() {
               {
                 isAuth && (
                   <li className='header__nav-item'>
-                    <Link
+                    <a
                       className='header__nav-link'
-                      to={PATHS.LOGIN_PAGE}
-                      onClick={() => dispatch(removeUserData())}
+                      onClick={handleLogout}
                     >
                       <span className='header__signout'>Sign out</span>
-                    </Link>
+                    </a>
                   </li>
                 )
               }

@@ -5,7 +5,7 @@ import { AuthData, UserData } from '../../types/user';
 import { AppDispatch, RootState, store } from '..';
 import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
-import { setAuthorizationStatus } from '../reducers/userSlice';
+import { removeUserData, setAuthorizationStatus } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
 import { setOffers } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
@@ -58,6 +58,7 @@ export const logoutAction = createAsyncThunk<void, undefined, ThunkConfig>(
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+    dispatch(removeUserData());
   },
 );
 
