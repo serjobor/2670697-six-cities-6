@@ -6,14 +6,14 @@ interface IOfferState {
   city: string;
   sortParam: string;
   offers: IBaseOffer[];
-  fullOffer: IFullOffer;
+  fullOffer: IFullOffer | null;
 }
 
 const initialState: IOfferState = {
   city: CITY_LIST_TYPES.PARIS,
   sortParam: OFFER_SORT_TYPES.POPULAR,
   offers: [],
-  fullOffer: {} as IFullOffer,
+  fullOffer: null,
 };
 
 export const offerSlice = createSlice({
@@ -39,7 +39,7 @@ export const offerSlice = createSlice({
       state.city = CITY_LIST_TYPES.PARIS;
       state.sortParam = OFFER_SORT_TYPES.POPULAR;
       state.offers = [];
-      state.fullOffer = {} as IFullOffer;
+      state.fullOffer = null;
     },
   },
 

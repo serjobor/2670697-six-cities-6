@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, TIMEOUT_SHOW_ERROR } from '../../constants';
-import { IBaseOffer } from '../../types/offers';
+import { IBaseOffer, IFullOffer } from '../../types/offers';
 import { AuthData, IUser } from '../../types/user';
 import { AppDispatch, RootState, store } from '..';
 import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setOffers } from '../reducers/offerSlice';
+import { setFullOffer, setOffers } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 
 interface ThunkConfig {
@@ -27,6 +27,21 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
       dispatch(setErrorParam(error as string)); // !!!!!
     } finally {
       dispatch(setLoadingParam(false));
+    }
+  }
+);
+
+export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
+  'offer/fetchOfferById',
+  async (offerId, { dispatch, extra: api }) => {
+    // dispatch(setLoadingParam(true));
+    try {
+      const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
+      dispatch(setFullOffer(data));
+    } catch (error) {
+      dispatch(setErrorParam(error as string)); // !!!!!
+    } finally {
+      // dispatch(setLoadingParam(false));
     }
   }
 );

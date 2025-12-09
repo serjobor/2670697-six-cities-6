@@ -8,7 +8,7 @@ import { IBaseOffer, ICity } from '../../types/offers';
 interface IMapProps {
   city: ICity;
   points: IBaseOffer[];
-  selectedPoint: IBaseOffer;
+  selectedPoint: IBaseOffer | null;
   namePage: string;
 }
 

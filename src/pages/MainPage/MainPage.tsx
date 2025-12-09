@@ -12,7 +12,7 @@ function MainPage() {
 
   const { offers } = useAppSelector((state) => state.offer);
 
-  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
+  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
   const isChooseCity: string = useAppSelector((state) => state.offer.city);
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
   const chooseCityData: ICity = OFFERS_SORT_LIST[0]?.city;

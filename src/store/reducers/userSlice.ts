@@ -3,12 +3,12 @@ import { IUser } from '../../types/user';
 import { AuthorizationStatus } from '../../constants';
 
 interface IUserState {
-  user: IUser;
+  user: IUser | null;
   authorizationStatus: AuthorizationStatus;
 }
 
 const initialState: IUserState = {
-  user: {} as IUser,
+  user: null,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
     },
 
     removeUserData: (state) => {
-      state.user = {} as IUser;
+      state.user = null;
     },
   },
 });
