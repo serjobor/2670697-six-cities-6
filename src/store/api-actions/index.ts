@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, TIMEOUT_SHOW_ERROR } from '../../constants';
 import { IBaseOffer } from '../../types/offers';
-import { AuthData, UserData } from '../../types/user';
+import { AuthData, IUser } from '../../types/user';
 import { AppDispatch, RootState, store } from '..';
 import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
-import { removeUserData, setAuthorizationStatus } from '../reducers/userSlice';
+import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
 import { setOffers } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
@@ -35,8 +35,13 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
   'user/checkAuthStatus',
   async (_arg, { dispatch, extra: api }) => {
     try {
+      //проверка авторизации
       await api.get(APIRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+
+      // запрос данных пользователя
+      const { data } = await api.get<IUser>(APIRoute.Login);
+      dispatch(setUser(data));
     } catch (error) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
@@ -46,7 +51,8 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
 export const loginAction = createAsyncThunk<void, AuthData, ThunkConfig>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
+    const { data, data: { token } } = await api.post<IUser>(APIRoute.Login, { email, password });
+    dispatch(setUser(data));
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
   },

@@ -4,15 +4,17 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
 import { setErrorParam } from '../../store/reducers/appSlice';
+import { IUser } from '../../types/user';
 
 function Header() {
   const { authorizationStatus } = useAppSelector((state) => state.user);
+  const userData: IUser = useAppSelector((state) => state.user.user);
+
   const { offers } = useAppSelector((state) => state.offer);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const userEmail: string = 'Oliver.conner@gmail.com';
   const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
@@ -41,13 +43,12 @@ function Header() {
             <ul className='header__nav-list'>
               <li className='header__nav-item user'>
                 <Link className='header__nav-link header__nav-link--profile' to={PATHS.FAVORITES_PAGE}>
-                  <div className='header__avatar-wrapper user__avatar-wrapper'>
-                  </div>
+                  <div className='header__avatar-wrapper user__avatar-wrapper'></div>
                   {
                     isAuth
                       ?
                       <>
-                        <span className='header__user-name user__name'>{userEmail}</span>
+                        <span className='header__user-name user__name'>{userData.email}</span>
                         <span className='header__favorite-count'>{favoriteOffersCount}</span>
                       </>
                       :

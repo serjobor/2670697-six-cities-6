@@ -25,7 +25,6 @@ export const userSlice = createSlice({
 
     removeUserData: (state) => {
       state.user = {} as IUser;
-      state.authorizationStatus = AuthorizationStatus.NoAuth;
     },
   },
 });
