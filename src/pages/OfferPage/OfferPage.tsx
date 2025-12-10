@@ -24,7 +24,7 @@ function OfferPage() {
   const { id } = useParams();
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { offersNearby, fullOffer } = useAppSelector((state) => state.offer);
+  const { offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
 
   useEffect(() => {
     if (!id) {
@@ -45,9 +45,9 @@ function OfferPage() {
   }, [dispatch, navigate, id]);
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const chooseOffer: IBaseOffer[] = offers.filter((choose) => choose.id === id);
 
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((fullOffer?.isFavorite) ? 'offer__bookmark-button--active' : '');
-  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
 
   if (!fullOffer || offersNearby.length === 0) {
     return (
@@ -56,6 +56,7 @@ function OfferPage() {
   }
 
   const offersNearbyArr: IBaseOffer[] = offersNearby.slice(0, 3);
+  const pointsNearbyArr: IBaseOffer[] = [chooseOffer[0], ...offersNearbyArr];
 
   const reviews: IReviews[] = mockReviews;
   const reviewsCount: number = reviews.length;
@@ -63,15 +64,6 @@ function OfferPage() {
   const offerGallery: string[] = fullOffer.images.slice(0, 6) || [];
 
   const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
-
-  const handleIsItemHover = (itemName: string) => {
-    const currentPoint: IBaseOffer | undefined = offersNearby.find((point) =>
-      point.id === itemName,
-    );
-    if (currentPoint !== undefined) {
-      setSelectedPoint(currentPoint);
-    }
-  };
 
   const handleBookmarkBtnClick = () => {
     if (!isAuth) {
@@ -199,8 +191,8 @@ function OfferPage() {
           <Map
             namePage='OfferPage'
             city={fullOffer.city}
-            points={offersNearbyArr}
-            selectedPoint={selectedPoint}
+            points={pointsNearbyArr}
+            selectedPoint={chooseOffer[0]}
           />
         </section>
         <div className='container'>
@@ -210,7 +202,6 @@ function OfferPage() {
               <OffersList
                 offers={offersNearbyArr}
                 cardNameForDisplayStyles={cardNameForDisplayStyles.NEAR_PLACES}
-                isItemHover={handleIsItemHover}
               />
             </div>
           </section>

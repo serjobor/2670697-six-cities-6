@@ -7,7 +7,7 @@ import { useAppSelector } from '../../hooks/redux';
 interface OffersListProps {
   offers: IBaseOffer[];
   cardNameForDisplayStyles: string;
-  isItemHover: (itemName: string) => void;
+  isItemHover?: (itemName: string) => void;
 }
 
 const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersListProps) => {
@@ -16,7 +16,7 @@ const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersLis
   const [sortOffersByParam, setSortOffersByParam] = useState<IBaseOffer[]>(offers);
 
   const handleListItemHover = (itemName: string) => {
-    isItemHover(itemName);
+    isItemHover?.(itemName);
   };
 
   useEffect(() => {
