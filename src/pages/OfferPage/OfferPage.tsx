@@ -23,15 +23,26 @@ function OfferPage() {
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchOfferById(id));
-      dispatch(fetchOfferByIdNearby(id));
-    }
-  }, [dispatch, id]);
-
   const { authorizationStatus } = useAppSelector((state) => state.user);
   const { offersNearby, fullOffer } = useAppSelector((state) => state.offer);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    dispatch(fetchOfferById(id))
+      .unwrap()
+      .catch(() => {
+        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+      });
+
+    dispatch(fetchOfferByIdNearby(id))
+      .unwrap()
+      .catch(() => {
+        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+      });
+  }, [dispatch, navigate, id]);
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -44,7 +55,7 @@ function OfferPage() {
     );
   }
 
-  const offersNearbyArr: IBaseOffer[] = offersNearby.slice(0, 3) ;
+  const offersNearbyArr: IBaseOffer[] = offersNearby.slice(0, 3);
 
   const reviews: IReviews[] = mockReviews;
   const reviewsCount: number = reviews.length;

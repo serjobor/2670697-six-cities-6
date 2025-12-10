@@ -24,7 +24,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
       const { data } = await api.get<IBaseOffer[]>(APIRoute.Offers);
       dispatch(setOffers(data));
     } catch (error) {
-      dispatch(setErrorParam(error as string)); // !!!!!
+      dispatch(setErrorParam('Не удалось загрузить предложения об аренде'));
     } finally {
       dispatch(setLoadingParam(false));
     }
@@ -38,7 +38,8 @@ export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
       const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
       dispatch(setFullOffer(data));
     } catch (error) {
-      dispatch(setErrorParam(error as string)); // !!!!!
+      dispatch(setErrorParam('Не удалось загрузить выбранное предложение об аренде'));
+      throw error;
     }
   }
 );
@@ -50,7 +51,8 @@ export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
       const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
       dispatch(setOffersNearby(data));
     } catch (error) {
-      dispatch(setErrorParam(error as string)); // !!!!!
+      dispatch(setErrorParam('Не удалось загрузить предложения об аренде по близости'));
+      throw error;
     }
   }
 );
@@ -101,26 +103,3 @@ export const clearErrorAction = createAsyncThunk(
     );
   },
 );
-
-// export const fetchOffers = createAsyncThunk(
-//   'offer/fetchAllOffers',
-//   async (_, thunkAPI) => {
-//     try {
-//       const { data } = await createAPI().get<IBaseOffer[]>(APIRoute.Offers);
-//       return data;
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue('Не удалось загрузить предложения об аренде!');
-//     }
-//   }
-// );
-
-// export const checkAuthStatus = createAsyncThunk(
-//   'user/checkAuthStatus',
-//   async (_, thunkAPI) => {
-//     try {
-//       const { data } = await createAPI().get<IUser>(APIRoute.Login);
-//       return data;
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue('Не удалось проверить статус авторизации пользователя!');
-//     }
-//   });

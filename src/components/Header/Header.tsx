@@ -25,7 +25,7 @@ function Header() {
         await dispatch(logoutAction());
         navigate(PATHS.LOGIN_PAGE);
       } catch (error) {
-        dispatch(setErrorParam(error as string)); // !!!!!
+        dispatch(setErrorParam('Выйти из аккаунта не удалось'));
       }
     })();
   };
