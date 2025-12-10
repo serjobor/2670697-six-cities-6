@@ -33,6 +33,8 @@ function OfferPage() {
   const { authorizationStatus } = useAppSelector((state) => state.user);
   const { offersNearby, fullOffer } = useAppSelector((state) => state.offer);
 
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((fullOffer?.isFavorite) ? 'offer__bookmark-button--active' : '');
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
 
@@ -61,7 +63,7 @@ function OfferPage() {
   };
 
   const handleBookmarkBtnClick = () => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
+    if (!isAuth) {
       navigate(PATHS.LOGIN_PAGE);
       return;
     }
@@ -177,7 +179,9 @@ function OfferPage() {
                   <span className='reviews__amount'>{reviewsCount}</span>
                 </h2>
                 <ReviewsList reviews={reviews} />
-                <CommentSubmitForm />
+                {
+                  isAuth && <CommentSubmitForm />
+                }
               </section>
             </div>
           </div>
