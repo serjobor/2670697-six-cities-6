@@ -6,6 +6,7 @@ interface IOfferState {
   city: string;
   sortParam: string;
   offers: IBaseOffer[];
+  offersNearby: IBaseOffer[];
   fullOffer: IFullOffer | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: IOfferState = {
   city: CITY_LIST_TYPES.PARIS,
   sortParam: OFFER_SORT_TYPES.POPULAR,
   offers: [],
+  offersNearby: [],
   fullOffer: null,
 };
 
@@ -31,6 +33,9 @@ export const offerSlice = createSlice({
     setOffers: (state, action: PayloadAction<IBaseOffer[]>) => {
       state.offers = action.payload;
     },
+    setOffersNearby: (state, action: PayloadAction<IBaseOffer[]>) => {
+      state.offersNearby = action.payload;
+    },
     setFullOffer: (state, action: PayloadAction<IFullOffer>) => {
       state.fullOffer = action.payload;
     },
@@ -42,30 +47,13 @@ export const offerSlice = createSlice({
       state.fullOffer = null;
     },
   },
-
-  /*
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchOffers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<IBaseOffer[]>) => {
-        state.isLoading = false;
-        state.error = '';
-        state.offers = action.payload;
-      })
-      .addCase(fetchOffers.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
-      });
-  }
-  */
 });
 
 export const {
   setCity,
   setSortParam,
   setOffers,
+  setOffersNearby,
   setFullOffer,
   setInitialOfferData,
 } = offerSlice.actions;

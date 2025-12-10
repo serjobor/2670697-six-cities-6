@@ -7,7 +7,7 @@ import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setFullOffer, setOffers } from '../reducers/offerSlice';
+import { setFullOffer, setOffers, setOffersNearby } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 
 interface ThunkConfig {
@@ -34,14 +34,23 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
 export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchOfferById',
   async (offerId, { dispatch, extra: api }) => {
-    // dispatch(setLoadingParam(true));
     try {
       const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
       dispatch(setFullOffer(data));
     } catch (error) {
       dispatch(setErrorParam(error as string)); // !!!!!
-    } finally {
-      // dispatch(setLoadingParam(false));
+    }
+  }
+);
+
+export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
+  'offer/fetchOfferByIdNearby',
+  async (offerId, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
+      dispatch(setOffersNearby(data));
+    } catch (error) {
+      dispatch(setErrorParam(error as string)); // !!!!!
     }
   }
 );

@@ -1,20 +1,22 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 import CommentSubmitForm from '../../components/CommentSubmitForm';
 import Header from '../../components/Header';
-import { useEffect, useState } from 'react';
-import { mockOffersNearby } from '../../mocks/offers';
-import { mockReviews } from '../../mocks/reviews';
-import { IBaseOffer } from '../../types/offers';
-import { IReviews } from '../../types/reviews';
-import { PATHS } from '../../constants';
 import Map from '../../components/Map';
 import ReviewsList from '../../components/ReviewsList';
 import OffersList from '../../components/OffersList';
+import Spinner from '../../components/Spinner';
+
+import { IBaseOffer } from '../../types/offers';
+import { IReviews } from '../../types/reviews';
+import { PATHS } from '../../constants';
 import { cardNameForDisplayStyles } from '../../constants/offers';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
-import { fetchOfferById } from '../../store/api-actions';
-import Spinner from '../../components/Spinner';
+import { fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
+
+import { mockReviews } from '../../mocks/reviews';
 
 function OfferPage() {
   const navigate = useNavigate();
@@ -24,22 +26,24 @@ function OfferPage() {
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferById(id));
+      dispatch(fetchOfferByIdNearby(id));
     }
   }, [dispatch, id]);
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { fullOffer } = useAppSelector((state) => state.offer);
+  const { offersNearby, fullOffer } = useAppSelector((state) => state.offer);
 
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((fullOffer?.isFavorite) ? 'offer__bookmark-button--active' : '');
-  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer>({} as IBaseOffer);
+  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
 
-  if (!fullOffer) {
+  if (!fullOffer || offersNearby.length === 0) {
     return (
       <Spinner />
     );
   }
 
-  // const offer: IFullOffer = mockOffersById;
+  const offersNearbyArr: IBaseOffer[] = offersNearby.slice(0, 3) ;
+
   const reviews: IReviews[] = mockReviews;
   const reviewsCount: number = reviews.length;
 
@@ -48,7 +52,7 @@ function OfferPage() {
   const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
 
   const handleIsItemHover = (itemName: string) => {
-    const currentPoint: IBaseOffer | undefined = mockOffersNearby.find((point) =>
+    const currentPoint: IBaseOffer | undefined = offersNearby.find((point) =>
       point.id === itemName,
     );
     if (currentPoint !== undefined) {
@@ -180,7 +184,7 @@ function OfferPage() {
           <Map
             namePage='OfferPage'
             city={fullOffer.city}
-            points={mockOffersNearby}
+            points={offersNearbyArr}
             selectedPoint={selectedPoint}
           />
         </section>
@@ -188,13 +192,11 @@ function OfferPage() {
           <section className='near-places places'>
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
-              {
-                <OffersList
-                  offers={mockOffersNearby}
-                  cardNameForDisplayStyles={cardNameForDisplayStyles.NEAR_PLACES}
-                  isItemHover={handleIsItemHover}
-                />
-              }
+              <OffersList
+                offers={offersNearbyArr}
+                cardNameForDisplayStyles={cardNameForDisplayStyles.NEAR_PLACES}
+                isItemHover={handleIsItemHover}
+              />
             </div>
           </section>
         </div>
