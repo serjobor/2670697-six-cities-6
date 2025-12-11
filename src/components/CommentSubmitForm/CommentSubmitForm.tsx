@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNewReviewOnSite } from '../../store/api-actions';
 import { IReviewData } from '../../types/reviews';
 
@@ -14,6 +14,8 @@ interface CommentSubmitFormProps {
 const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
   const dispatch = useAppDispatch();
 
+  const { isReviewSending } = useAppSelector((state) => state.offer);
+
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 
@@ -26,9 +28,15 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const id = offerId;
-    const reviewData: IReviewData = { id, comment, rating };
-    dispatch(addNewReviewOnSite(reviewData));
+    if (!isFormValid || isReviewSending) {
+      return;
+    }
+
+    const reviewData: IReviewData = { id: offerId, comment, rating };
+
+    dispatch(addNewReviewOnSite(reviewData)).unwrap();
+    setRating(0);
+    setComment('');
   };
 
   return (
@@ -51,6 +59,7 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
                 type='radio'
                 checked={rating === value}
                 onChange={() => handleRatingChange(value)}
+                disabled={isReviewSending}
               />
               <label
                 htmlFor={`${value}-stars`}
@@ -75,6 +84,7 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
         onChange={handleInputChange}
         minLength={MIN_LENGTH}
         maxLength={MAX_LENGTH}
+        disabled={isReviewSending}
       >
       </textarea>
       <div className='reviews__button-wrapper'>
@@ -84,7 +94,7 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
         <button
           className='reviews__submit form__submit button'
           type='submit'
-          disabled={!isFormValid}
+          disabled={!isFormValid || isReviewSending}
         >Submit
         </button>
       </div>

@@ -12,6 +12,7 @@ interface IOfferState {
   fullOffer: IFullOffer | null;
 
   review: IReview | null;
+  isReviewSending: boolean;
   comments: IReview[];
 }
 
@@ -24,6 +25,7 @@ const initialState: IOfferState = {
   fullOffer: null,
 
   review: null,
+  isReviewSending: false,
   comments: [],
 };
 
@@ -52,6 +54,9 @@ export const offerSlice = createSlice({
     setReview: (state, action: PayloadAction<IReview>) => {
       state.review = action.payload;
     },
+    setIsReviewSending: (state, action: PayloadAction<boolean>) => {
+      state.isReviewSending = action.payload;
+    },
     setComments: (state, action: PayloadAction<IReview[]>) => {
       state.comments = action.payload;
     },
@@ -61,6 +66,7 @@ export const offerSlice = createSlice({
       state.sortParam = OFFER_SORT_TYPES.POPULAR;
       state.offers = [];
       state.review = null;
+      state.isReviewSending = false;
       state.comments = [];
       state.offersNearby = [];
       state.fullOffer = null;
@@ -77,6 +83,7 @@ export const {
   setFullOffer,
 
   setReview,
+  setIsReviewSending,
   setComments,
   setInitialOfferData,
 } = offerSlice.actions;

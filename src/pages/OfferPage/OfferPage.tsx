@@ -187,6 +187,7 @@ function OfferPage() {
                   isAuth
                   &&
                   <CommentSubmitForm
+                    key={fullOffer.id}
                     offerId={(id) ? id : ''}
                   />
                 }

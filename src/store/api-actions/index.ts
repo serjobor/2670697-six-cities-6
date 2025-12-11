@@ -7,14 +7,20 @@ import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setComments, setFullOffer, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
+import { setComments, setFullOffer, setIsReviewSending, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 import { IReview, IReviewData } from '../../types/reviews';
+import { processErrorHandle } from '../../services/process-error-handle';
 
 interface ThunkConfig {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
+}
+
+interface ApiError {
+  errorType: string;
+  message: string;
 }
 
 export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
@@ -24,26 +30,12 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
 
     await api.get<IBaseOffer[]>(APIRoute.Offers)
       .then(({ data }) => {
-        console.log('fetchOffers', data);
+        // console.log('fetchOffers', data);
         dispatch(setOffers(data));
       })
       .finally(() => {
         dispatch(setLoadingParam(false));
       });
-    // try {
-    //   const { data } = await api.get<IBaseOffer[]>(APIRoute.Offers);
-    //   dispatch(setOffers(data));
-    // } catch (error) {
-    //   if (error && typeof error === 'object' && 'message' in error) {
-    //     const typedError = error as ApiError | Error;
-    //     dispatch(setErrorParam(typedError.message));
-    //   } else {
-    //     // Если error не объект с полем message
-    //     dispatch(setErrorParam('Не удалось загрузить предложения об аренде'));
-    //   }
-    // } finally {
-    //   dispatch(setLoadingParam(false));
-    // }
   }
 );
 
@@ -51,7 +43,7 @@ export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchOfferById',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
-    console.log('fetchOfferById', data);
+    // console.log('fetchOfferById', data);
     dispatch(setFullOffer(data));
   }
 );
@@ -60,9 +52,9 @@ export const fetchComments = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchComments',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IReview[]>(`${APIRoute.Comments}/${offerId}`);
-    console.log('fetchComments', data
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10));
+    // console.log('fetchComments', data
+    //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    //   .slice(0, 10));
     dispatch(
       setComments(
         data
@@ -76,11 +68,21 @@ export const fetchComments = createAsyncThunk<void, string, ThunkConfig>(
 export const addNewReviewOnSite = createAsyncThunk<void, IReviewData, ThunkConfig>(
   'offer/addNewCommentsOnSite',
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
-    const { data } = await api.post<IReview>(`${APIRoute.Comments}/${id}`, {comment, rating});
-    console.log('addNewCommentsOnSite', data);
-    dispatch(setReview(data));
+    dispatch(setIsReviewSending(true));
+    try {
+      const { data } = await api.post<IReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
+      // console.log('addNewCommentsOnSite', data);
+      dispatch(setReview(data));
 
-    fetchComments(id);
+      await dispatch(fetchComments(id));
+    } catch (error) {
+      if (error && typeof error === 'object' && 'message' in error) {
+        const typedError = error as ApiError | Error;
+        processErrorHandle(typedError.message);
+      }
+    } finally {
+      dispatch(setIsReviewSending(false));
+    }
   }
 );
 
@@ -88,7 +90,7 @@ export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchOfferByIdNearby',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
-    console.log('fetchOfferByIdNearby', data.slice(0, 3));
+    // console.log('fetchOfferByIdNearby', data.slice(0, 3));
     dispatch(setOffersNearby(data.slice(0, 3)));
   }
 );
@@ -103,7 +105,7 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
 
       // запрос данных пользователя
       const { data } = await api.get<IUser>(APIRoute.Login);
-      console.log('checkAuthStatus', data);
+      // console.log('checkAuthStatus', data);
       dispatch(setUser(data));
     } catch (error) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
@@ -115,7 +117,7 @@ export const loginAction = createAsyncThunk<void, AuthData, ThunkConfig>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const { data, data: { token } } = await api.post<IUser>(APIRoute.Login, { email, password });
-    console.log('login', data);
+    // console.log('login', data);
     dispatch(setUser(data));
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
