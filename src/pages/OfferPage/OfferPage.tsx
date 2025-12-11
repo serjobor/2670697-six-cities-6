@@ -9,14 +9,11 @@ import OffersList from '../../components/OffersList';
 import Spinner from '../../components/Spinner';
 
 import { IBaseOffer } from '../../types/offers';
-import { IReviews } from '../../types/reviews';
 import { PATHS } from '../../constants';
 import { cardNameForDisplayStyles } from '../../constants/offers';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
-import { fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
-
-import { mockReviews } from '../../mocks/reviews';
+import { fetchComments, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
 
 function OfferPage() {
   const navigate = useNavigate();
@@ -24,7 +21,7 @@ function OfferPage() {
   const { id } = useParams();
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
+  const { comments, offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
 
   useEffect(() => {
     if (!id) {
@@ -32,6 +29,12 @@ function OfferPage() {
     }
 
     dispatch(fetchOfferById(id))
+      .unwrap()
+      .catch(() => {
+        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+      });
+
+    dispatch(fetchComments(id))
       .unwrap()
       .catch(() => {
         navigate(PATHS.NOTFOUND_PAGE, { replace: true });
@@ -55,11 +58,9 @@ function OfferPage() {
     );
   }
 
-  const offersNearbyArr: IBaseOffer[] = offersNearby.slice(0, 3);
-  const pointsNearbyArr: IBaseOffer[] = [chooseOffer[0], ...offersNearbyArr];
+  const pointsNearbyArr: IBaseOffer[] = [chooseOffer[0], ...offersNearby];
 
-  const reviews: IReviews[] = mockReviews;
-  const reviewsCount: number = reviews.length;
+  const commentsCount: number = comments.length;
 
   const offerGallery: string[] = fullOffer.images.slice(0, 6) || [];
 
@@ -179,11 +180,15 @@ function OfferPage() {
               </div>
               <section className='offer__reviews reviews'>
                 <h2 className='reviews__title'>Reviews &middot;
-                  <span className='reviews__amount'>{reviewsCount}</span>
+                  <span className='reviews__amount'>{commentsCount}</span>
                 </h2>
-                <ReviewsList reviews={reviews} />
+                <ReviewsList comments={comments} />
                 {
-                  isAuth && <CommentSubmitForm />
+                  isAuth
+                  &&
+                  <CommentSubmitForm
+                    offerId={(id) ? id : ''}
+                  />
                 }
               </section>
             </div>
@@ -200,7 +205,7 @@ function OfferPage() {
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
               <OffersList
-                offers={offersNearbyArr}
+                offers={offersNearby}
                 cardNameForDisplayStyles={cardNameForDisplayStyles.NEAR_PLACES}
               />
             </div>

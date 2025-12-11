@@ -1,21 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CITY_LIST_TYPES, OFFER_SORT_TYPES } from '../../constants/offers';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
+import { IReview } from '../../types/reviews';
 
 interface IOfferState {
   city: string;
   sortParam: string;
+
   offers: IBaseOffer[];
   offersNearby: IBaseOffer[];
   fullOffer: IFullOffer | null;
+
+  review: IReview | null;
+  comments: IReview[];
 }
 
 const initialState: IOfferState = {
   city: CITY_LIST_TYPES.PARIS,
   sortParam: OFFER_SORT_TYPES.POPULAR,
+
   offers: [],
   offersNearby: [],
   fullOffer: null,
+
+  review: null,
+  comments: [],
 };
 
 export const offerSlice = createSlice({
@@ -40,10 +49,20 @@ export const offerSlice = createSlice({
       state.fullOffer = action.payload;
     },
 
+    setReview: (state, action: PayloadAction<IReview>) => {
+      state.review = action.payload;
+    },
+    setComments: (state, action: PayloadAction<IReview[]>) => {
+      state.comments = action.payload;
+    },
+
     setInitialOfferData: (state) => {
       state.city = CITY_LIST_TYPES.PARIS;
       state.sortParam = OFFER_SORT_TYPES.POPULAR;
       state.offers = [];
+      state.review = null;
+      state.comments = [];
+      state.offersNearby = [];
       state.fullOffer = null;
     },
   },
@@ -52,9 +71,13 @@ export const offerSlice = createSlice({
 export const {
   setCity,
   setSortParam,
+
   setOffers,
   setOffersNearby,
   setFullOffer,
+
+  setReview,
+  setComments,
   setInitialOfferData,
 } = offerSlice.actions;
 

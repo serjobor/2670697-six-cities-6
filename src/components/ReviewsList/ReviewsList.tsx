@@ -1,17 +1,17 @@
-import { IReviews } from '../../types/reviews';
+import { IReview } from '../../types/reviews';
 import ReviewsItem from '../ReviewsItem';
 
 interface IReviewsListProp {
-  reviews: IReviews[];
+  comments: IReview[];
 }
 
-const ReviewsList = ({ reviews }: IReviewsListProp) => (
+const ReviewsList = ({ comments }: IReviewsListProp) => (
   <ul className='reviews__list'>
     {
-      reviews.map((review) => (
+      comments.map((comment) => (
         <ReviewsItem
-          key={review.id}
-          review={review}
+          key={comment.id}
+          comment={comment}
         />
       ))
     }

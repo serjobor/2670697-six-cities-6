@@ -4,10 +4,13 @@ export interface IUserReview {
   isPro: boolean;
 }
 
-export interface IReviews {
+export interface IReviewData {
   id: string;
-  date: string;
-  user: IUserReview;
   comment: string;
   rating: number;
+}
+
+export interface IReview extends IReviewData {
+  date: string;
+  user: IUserReview;
 }
