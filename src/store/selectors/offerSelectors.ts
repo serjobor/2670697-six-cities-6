@@ -3,15 +3,15 @@ import { RootState } from '..';
 import { NameSpace } from '../../constants';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
 import { IReview } from '../../types/reviews';
-import { OFFER_SORT_TYPES } from '../../constants/offers';
+import { OfferSortType } from '../../constants/offers';
 
 export const getCity = (state: RootState): string => state[NameSpace.Offer].city;
 export const getSortParam = (state: RootState): string => state[NameSpace.Offer].sortParam;
 export const getOffers = (state: RootState): IBaseOffer[] => state[NameSpace.Offer].offers;
-export const getOffersNearby = (state: RootState): IBaseOffer[] => state[NameSpace.Offer].offersNearby;
+export const getOffersNearby = (state: RootState): IBaseOffer[] => state[NameSpace.Offer].nearbyOffers;
 export const getFullOffer = (state: RootState): IFullOffer | null => state[NameSpace.Offer].fullOffer;
-export const getFavoriteoffers = (state: RootState): IBaseOffer[] => state[NameSpace.Offer].favoriteoffers;
-export const getIsFavoriteoffersLoad = (state: RootState): boolean => state[NameSpace.Offer].isFavoriteoffersLoad;
+export const getFavoriteoffers = (state: RootState): IBaseOffer[] => state[NameSpace.Offer].favoriteOffers;
+export const getIsFavoriteoffersLoad = (state: RootState): boolean => state[NameSpace.Offer].isFavoriteOffersLoad;
 export const getReview = (state: RootState): IReview | null => state[NameSpace.Offer].review;
 export const getIsReviewSending = (state: RootState): boolean => state[NameSpace.Offer].isReviewSending;
 export const getComments = (state: RootState): IReview[] => state[NameSpace.Offer].comments;
@@ -25,11 +25,11 @@ export const getSortedOffersByCity = createSelector(
   [getOffersByCity, getSortParam],
   (offers, sortParam) => {
     switch (sortParam) {
-      case OFFER_SORT_TYPES.LOW_TO_HIGH:
+      case OfferSortType.LowToHigh:
         return [...offers].sort((a, b) => a.price - b.price);
-      case OFFER_SORT_TYPES.HIGH_TO_LOW:
+      case OfferSortType.HighToLow:
         return [...offers].sort((a, b) => b.price - a.price);
-      case OFFER_SORT_TYPES.TOP_RAITING:
+      case OfferSortType.TopRating:
         return [...offers].sort((a, b) => b.rating - a.rating);
       default:
         return offers;

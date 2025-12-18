@@ -11,28 +11,28 @@ export const displayOptionOrientation: IVariant = {
   }
 } as const;
 
-export enum cardNameForDisplayStyles {
-  CITIES = 'cities',
-  FAVORITES = 'favorites',
-  NEAR_PLACES = 'near-places',
+export enum CardDisplayStyle {
+  Cities = 'cities',
+  Favorites = 'favorites',
+  NearPlaces = 'near-places',
 }
 
-export enum CITY_LIST_TYPES {
-  PARIS = 'Paris',
-  COLOGNE = 'Cologne',
-  BRUSSELS = 'Brussels',
-  AMSTERDAM = 'Amsterdam',
-  HAMBURG = 'Hamburg',
-  DUSSELDORF = 'Dusseldorf'
+export enum City {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
 }
 
-export const CITY_LIST_OPTIONS: string[] = Object.values(CITY_LIST_TYPES);
+export const CITY_LIST_OPTIONS: string[] = Object.values(City);
 
-export enum OFFER_SORT_TYPES {
-  POPULAR = 'Popular',
-  LOW_TO_HIGH = 'Price: low to high',
-  HIGH_TO_LOW = 'Price: high to low',
-  TOP_RAITING = 'Top rated first',
+export enum OfferSortType {
+  Popular = 'Popular',
+  LowToHigh = 'Price: low to high',
+  HighToLow = 'Price: high to low',
+  TopRating = 'Top rated first',
 }
 
-export const OFFER_SORT_OPTIONS: string[] = Object.values(OFFER_SORT_TYPES);
+export const OFFER_SORT_OPTIONS: string[] = Object.values(OfferSortType);

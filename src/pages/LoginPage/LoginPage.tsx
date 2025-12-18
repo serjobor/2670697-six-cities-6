@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { loginAction } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
-import { CITY_LIST_OPTIONS, CITY_LIST_TYPES } from '../../constants/offers';
+import { CITY_LIST_OPTIONS, City } from '../../constants/offers';
 import { offerSlice } from '../../store/reducers/offerSlice';
 import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
@@ -23,7 +23,7 @@ function LoginPage(): JSX.Element {
 
   const handleCityClick = () => {
     dispatch(setCity(randomCity));
-    navigate(PATHS.MAIN_PAGE);
+    navigate(Paths.Main);
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -39,7 +39,7 @@ function LoginPage(): JSX.Element {
         return;
       }
 
-      dispatch(setCity(CITY_LIST_TYPES.PARIS));
+      dispatch(setCity(City.Paris));
 
       dispatch(loginAction({
         login: loginRef.current.value,
@@ -50,7 +50,7 @@ function LoginPage(): JSX.Element {
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
-      navigate(PATHS.MAIN_PAGE);
+      navigate(Paths.Main);
     }
   }, [authorizationStatus, navigate]);
 
@@ -60,7 +60,7 @@ function LoginPage(): JSX.Element {
         <div className='container'>
           <div className='header__wrapper'>
             <div className='header__left'>
-              <Link className='header__logo-link' to={PATHS.MAIN_PAGE}>
+              <Link className='header__logo-link' to={Paths.Main}>
                 <img className='header__logo' src='img/logo.svg' alt='6 cities logo' width='81' height='41' />
               </Link>
             </div>

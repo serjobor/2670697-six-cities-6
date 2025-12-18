@@ -4,11 +4,11 @@ import OfferCard from '../OfferCard';
 
 interface OffersListProps {
   offers: IBaseOffer[];
-  cardNameForDisplayStyles: string;
+  cardDisplayStyle : string;
   isItemHover?: (itemName: string) => void;
 }
 
-const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersListProps) => {
+const OffersList = ({ offers, cardDisplayStyle , isItemHover }: OffersListProps) => {
   const handleListItemHover = (itemName: string) => {
     isItemHover?.(itemName);
   };
@@ -20,7 +20,7 @@ const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersLis
           <OfferCard
             key={offer.id}
             offer={offer}
-            cardNameForDisplayStyles={cardNameForDisplayStyles}
+            cardDisplayStyle ={cardDisplayStyle }
             variant={displayOptionOrientation.vertical}
             isItemHover={handleListItemHover}
           />

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 
 const NotFoundPage = () => (
   <div className='page page--gray page--main'>
@@ -22,7 +22,7 @@ const NotFoundPage = () => (
           <b className='cities__status'>Страница не найдена</b>
           <p className='cities__status-description'>Ошибка 404. Такой страницы не существует.</p>
           <Link
-            to={PATHS.MAIN_PAGE}
+            to={Paths.Main}
             style={{
               marginTop: '32px',
               display: 'inline-block',

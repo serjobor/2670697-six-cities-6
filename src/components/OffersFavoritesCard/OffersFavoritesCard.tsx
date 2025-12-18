@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { cardNameForDisplayStyles, displayOptionOrientation } from '../../constants/offers';
+import { CardDisplayStyle, displayOptionOrientation } from '../../constants/offers';
 import { IBaseOffer } from '../../types/offers';
 import OfferCard from '../OfferCard';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 
 interface OffersFavoritesCardProps {
   cityName: string;
@@ -21,7 +21,7 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
     <li className='favorites__locations-items'>
       <div className='favorites__locations locations locations--current'>
         <div className='locations__item'>
-          <Link className='locations__item-link' to={PATHS.MAIN_PAGE}>
+          <Link className='locations__item-link' to={Paths.Main}>
             <span>{cityName}</span>
           </Link>
         </div>
@@ -32,7 +32,7 @@ const OffersFavoritesCard = ({ cityName, sortOffersByCityName }: OffersFavorites
             <OfferCard
               key={offer.id}
               offer={offer}
-              cardNameForDisplayStyles={cardNameForDisplayStyles.FAVORITES}
+              cardDisplayStyle ={CardDisplayStyle.Favorites}
               variant={displayOptionOrientation.horizontal}
             />
           ))

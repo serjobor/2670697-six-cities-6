@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CITY_LIST_TYPES, OFFER_SORT_TYPES } from '../../constants/offers';
+import { City, OfferSortType } from '../../constants/offers';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
 import { IReview } from '../../types/reviews';
 import { NameSpace } from '../../constants';
@@ -9,11 +9,11 @@ interface IOfferState {
   sortParam: string;
 
   offers: IBaseOffer[];
-  offersNearby: IBaseOffer[];
+  nearbyOffers: IBaseOffer[];
   fullOffer: IFullOffer | null;
 
-  favoriteoffers: IBaseOffer[];
-  isFavoriteoffersLoad: boolean;
+  favoriteOffers: IBaseOffer[];
+  isFavoriteOffersLoad: boolean;
 
   review: IReview | null;
   isReviewSending: boolean;
@@ -21,15 +21,15 @@ interface IOfferState {
 }
 
 const initialState: IOfferState = {
-  city: CITY_LIST_TYPES.PARIS,
-  sortParam: OFFER_SORT_TYPES.POPULAR,
+  city: City.Paris,
+  sortParam: OfferSortType.Popular,
 
   offers: [],
   fullOffer: null,
-  offersNearby: [],
+  nearbyOffers: [],
 
-  favoriteoffers: [],
-  isFavoriteoffersLoad: false,
+  favoriteOffers: [],
+  isFavoriteOffersLoad: false,
 
   review: null,
   isReviewSending: false,
@@ -51,17 +51,17 @@ export const offerSlice = createSlice({
       state.offers = action.payload;
     },
     setOffersNearby: (state, action: PayloadAction<IBaseOffer[]>) => {
-      state.offersNearby = action.payload;
+      state.nearbyOffers = action.payload;
     },
     setFullOffer: (state, action: PayloadAction<IFullOffer>) => {
       state.fullOffer = action.payload;
     },
 
-    setFavoriteoffers: (state, action: PayloadAction<IBaseOffer[]>) => {
-      state.favoriteoffers = action.payload;
+    setFavoriteOffers: (state, action: PayloadAction<IBaseOffer[]>) => {
+      state.favoriteOffers = action.payload;
     },
-    setIsFavoriteoffersLoad: (state, action: PayloadAction<boolean>) => {
-      state.isFavoriteoffersLoad = action.payload;
+    setIsFavoriteOffersLoad: (state, action: PayloadAction<boolean>) => {
+      state.isFavoriteOffersLoad = action.payload;
     },
 
     setReview: (state, action: PayloadAction<IReview>) => {
@@ -84,8 +84,8 @@ export const {
   setOffersNearby,
   setFullOffer,
 
-  setFavoriteoffers,
-  setIsFavoriteoffersLoad,
+  setFavoriteOffers,
+  setIsFavoriteOffersLoad,
 
   setReview,
   setIsReviewSending,

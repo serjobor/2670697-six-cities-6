@@ -4,17 +4,17 @@ export enum AuthorizationStatus {
     Unknown = 'UNKNOWN',
 }
 
-export enum PATHS {
-    MAIN_PAGE = '/',
-    FAVORITES_PAGE = '/favorites',
-    LOGIN_PAGE = '/login',
-    OFFER_PAGE = '/offer/:id',
-    NOTFOUND_PAGE = '*'
+export enum Paths {
+    Main = '/',
+    Favorites = '/favorites',
+    Login = '/login',
+    Offer = '/offer/:id',
+    NotFound = '*'
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
-export enum APIRoute {
+export enum ApiRoute {
     Offers = '/offers',
     Nearby = '/nearby',
     Favorite = '/favorite',

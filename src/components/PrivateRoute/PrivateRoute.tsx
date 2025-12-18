@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 import { useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
@@ -10,7 +10,7 @@ function PrivateRoute() {
   return (
     authorizationStatus === AuthorizationStatus.Auth
       ? <Outlet />
-      : <Navigate to={PATHS.LOGIN_PAGE} />
+      : <Navigate to={Paths.Login} />
   );
 }
 

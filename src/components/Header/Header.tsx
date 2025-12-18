@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
@@ -12,8 +12,8 @@ const Header = memo(() => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userData = useAppSelector(getUser);
 
-  const favoriteoffers = useAppSelector(getFavoriteoffers);
-  const favoriteOffersCount = authorizationStatus === AuthorizationStatus.Auth ? favoriteoffers.length : 0;
+  const favoriteOffers = useAppSelector(getFavoriteoffers);
+  const favoriteOffersCount = authorizationStatus === AuthorizationStatus.Auth ? favoriteOffers.length : 0;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Header = memo(() => {
     (async () => {
       try {
         await dispatch(logoutAction());
-        navigate(PATHS.LOGIN_PAGE);
+        navigate(Paths.Login);
       } catch (error) {
         processErrorHandle('Выйти из аккаунта не удалось');
       }
@@ -36,14 +36,14 @@ const Header = memo(() => {
       <div className='container'>
         <div className='header__wrapper'>
           <div className='header__left'>
-            <Link to={PATHS.MAIN_PAGE} className='header__logo-link'>
+            <Link to={Paths.Main} className='header__logo-link'>
               <img className='header__logo' src='img/logo.svg' alt='6 cities logo' width='81' height='41' />
             </Link>
           </div>
           <nav className='header__nav'>
             <ul className='header__nav-list'>
               <li className='header__nav-item user'>
-                <Link className='header__nav-link header__nav-link--profile' to={PATHS.FAVORITES_PAGE}>
+                <Link className='header__nav-link header__nav-link--profile' to={Paths.Favorites}>
                   <div className='header__avatar-wrapper user__avatar-wrapper'></div>
                   {
                     isAuth

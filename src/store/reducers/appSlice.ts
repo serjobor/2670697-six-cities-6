@@ -11,7 +11,7 @@ const initialState: IAppSliceState = {
   error: null,
 };
 
-export const offerSlice = createSlice({
+export const appSlice = createSlice({
   name: NameSpace.App,
   initialState,
   reducers: {
@@ -28,6 +28,6 @@ export const offerSlice = createSlice({
 export const {
   setLoadingParam,
   setErrorParam,
-} = offerSlice.actions;
+} = appSlice.actions;
 
-export default offerSlice.reducer;
+export default appSlice.reducer;

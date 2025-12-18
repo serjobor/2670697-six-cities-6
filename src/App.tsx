@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import OfferPage from './pages/OfferPage';
 import PrivateRoute from './components/PrivateRoute';
 
-import { PATHS } from './constants';
+import { Paths } from './constants';
 import { useAppSelector } from './hooks/redux';
 import { AuthorizationStatus } from './constants';
 import Spinner from './components/Spinner';
@@ -27,14 +27,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path={PATHS.FAVORITES_PAGE} element={<FavoritesPage />} />
+          <Route path={Paths.Favorites} element={<FavoritesPage />} />
         </Route>
 
-        <Route path={PATHS.LOGIN_PAGE} element={<LoginPage />} />
-        <Route path={PATHS.MAIN_PAGE} element={<MainPage />} />
-        <Route path={PATHS.OFFER_PAGE} element={<OfferPage />} />
+        <Route path={Paths.Login} element={<LoginPage />} />
+        <Route path={Paths.Main} element={<MainPage />} />
+        <Route path={Paths.Offer} element={<OfferPage />} />
 
-        <Route path={PATHS.NOTFOUND_PAGE} element={<NotFoundPage />} />
+        <Route path={Paths.NotFound} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

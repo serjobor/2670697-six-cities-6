@@ -3,7 +3,7 @@ import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
 import { IBaseOffer } from '../../types/offers';
 import Header from '../../components/Header';
-import { cardNameForDisplayStyles } from '../../constants/offers';
+import { CardDisplayStyle } from '../../constants/offers';
 import Map from '../../components/Map';
 import { useAppSelector } from '../../hooks/redux';
 import SortOffersByParam from '../../components/SortOffersByParam';
@@ -59,7 +59,7 @@ function MainPage() {
                   <div className='cities__places-list places__list tabs__content'>
                     <OffersList
                       offers={sortedOffers}
-                      cardNameForDisplayStyles={cardNameForDisplayStyles.CITIES}
+                      cardDisplayStyle ={CardDisplayStyle.Cities}
                       isItemHover={handleIsItemHover}
                     />
                   </div>

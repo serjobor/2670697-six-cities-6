@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, TIMEOUT_SHOW_ERROR } from '../../constants';
+import { ApiRoute, TIMEOUT_SHOW_ERROR } from '../../constants';
 import { IBaseOffer, IFavoriteData, IFullOffer } from '../../types/offers';
 import { AuthData, IUser } from '../../types/user';
 import { AppDispatch, RootState, store } from '..';
@@ -7,7 +7,7 @@ import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setComments, setFavoriteoffers, setFullOffer, setIsFavoriteoffersLoad, setIsReviewSending, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
+import { setComments, setFavoriteOffers, setFullOffer, setIsFavoriteOffersLoad, setIsReviewSending, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 import { IReview, IReviewData } from '../../types/reviews';
 import { processErrorHandle } from '../../services/process-error-handle';
@@ -28,7 +28,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, IThunkConfig>(
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setLoadingParam(true));
 
-    await api.get<IBaseOffer[]>(APIRoute.Offers)
+    await api.get<IBaseOffer[]>(ApiRoute.Offers)
       .then(({ data }) => {
         dispatch(setOffers(data));
       })
@@ -41,7 +41,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, IThunkConfig>(
 export const fetchOfferById = createAsyncThunk<void, string, IThunkConfig>(
   'offer/fetchOfferById',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
+    const { data } = await api.get<IFullOffer>(`${ApiRoute.Offers}/${offerId}`);
     dispatch(setFullOffer(data));
   }
 );
@@ -49,7 +49,7 @@ export const fetchOfferById = createAsyncThunk<void, string, IThunkConfig>(
 export const fetchOfferByIdNearby = createAsyncThunk<void, string, IThunkConfig>(
   'offer/fetchOfferByIdNearby',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
+    const { data } = await api.get<IBaseOffer[]>(`${ApiRoute.Offers}/${offerId}${ApiRoute.Nearby}`);
     dispatch(setOffersNearby(data.slice(0, 3)));
   }
 );
@@ -57,14 +57,14 @@ export const fetchOfferByIdNearby = createAsyncThunk<void, string, IThunkConfig>
 export const fetchFavoriteOffers = createAsyncThunk<void, undefined, IThunkConfig>(
   'offer/fetchFavoriteOffers',
   async (_arg, { dispatch, extra: api }) => {
-    dispatch(setIsFavoriteoffersLoad(true));
+    dispatch(setIsFavoriteOffersLoad(true));
 
-    await api.get<IBaseOffer[]>(APIRoute.Favorite)
+    await api.get<IBaseOffer[]>(ApiRoute.Favorite)
       .then(({ data }) => {
-        dispatch(setFavoriteoffers(data));
+        dispatch(setFavoriteOffers(data));
       })
       .finally(() => {
-        dispatch(setIsFavoriteoffersLoad(false));
+        dispatch(setIsFavoriteOffersLoad(false));
       });
   }
 );
@@ -72,7 +72,7 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, IThunkConfi
 export const changeFavoriteStatusOffer = createAsyncThunk<IBaseOffer, IFavoriteData, IThunkConfig>(
   'offer/changeFavoriteStatusOffer',
   async ({ id, status}, { dispatch, extra: api }) => {
-    const { data } = await api.post<IBaseOffer>(`${APIRoute.Favorite}/${id}/${status}`, { id, status });
+    const { data } = await api.post<IBaseOffer>(`${ApiRoute.Favorite}/${id}/${status}`, { id, status });
     await dispatch(fetchFavoriteOffers());
     await dispatch(fetchOffers());
     return data;
@@ -82,7 +82,7 @@ export const changeFavoriteStatusOffer = createAsyncThunk<IBaseOffer, IFavoriteD
 export const fetchComments = createAsyncThunk<void, string, IThunkConfig>(
   'offer/fetchComments',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<IReview[]>(`${APIRoute.Comments}/${offerId}`);
+    const { data } = await api.get<IReview[]>(`${ApiRoute.Comments}/${offerId}`);
     dispatch(
       setComments(
         data
@@ -98,7 +98,7 @@ export const addNewReviewOnSite = createAsyncThunk<void, IReviewData, IThunkConf
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
     dispatch(setIsReviewSending(true));
     try {
-      const { data } = await api.post<IReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
+      const { data } = await api.post<IReview>(`${ApiRoute.Comments}/${id}`, { comment, rating });
       dispatch(setReview(data));
 
       await dispatch(fetchComments(id));
@@ -118,10 +118,10 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, IThunkConfig>(
   'user/checkAuthStatus',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      await api.get(APIRoute.Login);
+      await api.get(ApiRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
 
-      const { data } = await api.get<IUser>(APIRoute.Login);
+      const { data } = await api.get<IUser>(ApiRoute.Login);
       dispatch(setUser(data));
 
       await dispatch(fetchFavoriteOffers());
@@ -134,7 +134,7 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, IThunkConfig>(
 export const loginAction = createAsyncThunk<void, AuthData, IThunkConfig>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data, data: { token } } = await api.post<IUser>(APIRoute.Login, { email, password });
+    const { data, data: { token } } = await api.post<IUser>(ApiRoute.Login, { email, password });
     dispatch(setUser(data));
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
@@ -146,11 +146,11 @@ export const loginAction = createAsyncThunk<void, AuthData, IThunkConfig>(
 export const logoutAction = createAsyncThunk<void, undefined, IThunkConfig>(
   'user/logout',
   async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
+    await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     dispatch(removeUserData());
-    dispatch(setFavoriteoffers([]));
+    dispatch(setFavoriteOffers([]));
   },
 );
 

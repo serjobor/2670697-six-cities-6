@@ -9,8 +9,8 @@ import OffersList from '../../components/OffersList';
 import Spinner from '../../components/Spinner';
 
 import { IBaseOffer } from '../../types/offers';
-import { PATHS } from '../../constants';
-import { cardNameForDisplayStyles } from '../../constants/offers';
+import { Paths } from '../../constants';
+import { CardDisplayStyle } from '../../constants/offers';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { changeFavoriteStatusOffer, fetchComments, fetchFavoriteOffers, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
@@ -31,38 +31,38 @@ function OfferPage() {
     dispatch(fetchOfferById(id))
       .unwrap()
       .catch(() => {
-        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+        navigate(Paths.NotFound, { replace: true });
       });
 
     dispatch(fetchComments(id))
       .unwrap()
       .catch(() => {
-        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+        navigate(Paths.NotFound, { replace: true });
       });
 
     dispatch(fetchOfferByIdNearby(id))
       .unwrap()
       .catch(() => {
-        navigate(PATHS.NOTFOUND_PAGE, { replace: true });
+        navigate(Paths.NotFound, { replace: true });
       });
   }, [dispatch, navigate, id]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const comments = useAppSelector(getComments);
   const offers = useAppSelector(getOffers);
-  const offersNearby = useAppSelector(getOffersNearby);
+  const nearbyOffers = useAppSelector(getOffersNearby);
   const fullOffer = useAppSelector(getFullOffer);
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const chooseOffer: IBaseOffer | undefined = offers.find((choose) => choose.id === id);
 
-  if (!fullOffer || !offersNearby || !chooseOffer) {
+  if (!fullOffer || !nearbyOffers || !chooseOffer) {
     return (
       <Spinner />
     );
   }
 
-  const pointsNearbyArr: IBaseOffer[] | undefined = [chooseOffer, ...offersNearby];
+  const pointsNearbyArr: IBaseOffer[] | undefined = [chooseOffer, ...nearbyOffers];
 
   const commentsCount: number = comments.length;
 
@@ -72,7 +72,7 @@ function OfferPage() {
 
   const handleBookmarkBtnClick = () => {
     if (!isAuth) {
-      navigate(PATHS.LOGIN_PAGE);
+      navigate(Paths.Login);
       return;
     }
 
@@ -216,8 +216,8 @@ function OfferPage() {
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
               <OffersList
-                offers={offersNearby}
-                cardNameForDisplayStyles={cardNameForDisplayStyles.NEAR_PLACES}
+                offers={nearbyOffers}
+                cardDisplayStyle ={CardDisplayStyle.NearPlaces}
               />
             </div>
           </section>

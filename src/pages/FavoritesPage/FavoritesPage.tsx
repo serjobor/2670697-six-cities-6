@@ -5,23 +5,23 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchFavoriteOffers } from '../../store/api-actions';
 import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 import { getFavoriteoffers, getIsFavoriteoffersLoad } from '../../store/selectors/offerSelectors';
 
 function FavoritesPage() {
   const dispatch = useAppDispatch();
 
-  const favoriteoffers = useAppSelector(getFavoriteoffers);
-  const isFavoriteoffersLoad = useAppSelector(getIsFavoriteoffersLoad);
+  const favoriteOffers = useAppSelector(getFavoriteoffers);
+  const isFavoriteOffersLoad = useAppSelector(getIsFavoriteoffersLoad);
 
   useEffect(() => {
     dispatch(fetchFavoriteOffers());
   }, [dispatch]);
 
-  const favoriteOffersCount = favoriteoffers.length;
+  const favoriteOffersCount = favoriteOffers.length;
   const isOffers: boolean = favoriteOffersCount > 0;
 
-  if(isFavoriteoffersLoad) {
+  if(isFavoriteOffersLoad) {
     return (
       <Spinner />
     );
@@ -51,7 +51,7 @@ function FavoritesPage() {
         </div>
       </main>
       <footer className='footer container'>
-        <Link to={PATHS.MAIN_PAGE} className='footer__logo-link'>
+        <Link to={Paths.Main} className='footer__logo-link'>
           <img className='footer__logo' src='img/logo.svg' alt='6 cities logo' width='64' height='33' />
         </Link>
       </footer>

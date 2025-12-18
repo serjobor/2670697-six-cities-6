@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { IBaseOffer, IDisplayOption } from '../../types/offers';
-import { PATHS } from '../../constants';
+import { Paths } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { changeFavoriteStatusOffer, fetchFavoriteOffers } from '../../store/api-actions';
@@ -10,12 +10,12 @@ import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
 interface OfferCardProps {
   offer: IBaseOffer;
-  cardNameForDisplayStyles: string;
+  cardDisplayStyle : string;
   variant: IDisplayOption;
   isItemHover?: (itemName: string) => void;
 }
 
-const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
+const OfferCard = memo(({ offer, cardDisplayStyle , variant, isItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -25,7 +25,7 @@ const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover 
 
   const handleBookmarkBtnClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(PATHS.LOGIN_PAGE);
+      navigate(Paths.Login);
       return;
     }
 
@@ -54,7 +54,7 @@ const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover 
 
   return (
     <article
-      className={`${cardNameForDisplayStyles}__card place-card`}
+      className={`${cardDisplayStyle }__card place-card`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -66,7 +66,7 @@ const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover 
         )
       }
 
-      <div className={`${cardNameForDisplayStyles}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${cardDisplayStyle }__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${offer.id}`}>
           <img
             className='place-card__image'
@@ -77,7 +77,7 @@ const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover 
           />
         </Link>
       </div>
-      <div className={`${(cardNameForDisplayStyles === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
+      <div className={`${(cardDisplayStyle  === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{offer.price}</b>
