@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import CommentSubmitForm from '../../components/CommentSubmitForm';
 import Header from '../../components/Header';
@@ -13,15 +13,13 @@ import { PATHS } from '../../constants';
 import { cardNameForDisplayStyles } from '../../constants/offers';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
-import { fetchComments, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
+import { changeFavoriteStatusOffer, fetchComments, fetchFavoriteOffers, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
+import { processErrorHandle } from '../../services/process-error-handle';
 
 function OfferPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
-
-  const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { comments, offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
 
   useEffect(() => {
     if (!id) {
@@ -47,18 +45,19 @@ function OfferPage() {
       });
   }, [dispatch, navigate, id]);
 
+  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const { comments, offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
+
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const chooseOffer: IBaseOffer[] = offers.filter((choose) => choose.id === id);
+  const chooseOffer: IBaseOffer | undefined = offers.find((choose) => choose.id === id);
 
-  const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((fullOffer?.isFavorite) ? 'offer__bookmark-button--active' : '');
-
-  if (!fullOffer || offersNearby.length === 0) {
+  if (!fullOffer || !offersNearby || !chooseOffer) {
     return (
       <Spinner />
     );
   }
 
-  const pointsNearbyArr: IBaseOffer[] = [chooseOffer[0], ...offersNearby];
+  const pointsNearbyArr: IBaseOffer[] | undefined = [chooseOffer, ...offersNearby];
 
   const commentsCount: number = comments.length;
 
@@ -72,11 +71,17 @@ function OfferPage() {
       return;
     }
 
-    if (isClickOnBookmarkBtn === '') {
-      setIsClickOnBookmarkBtn('offer__bookmark-button--active');
-    } else {
-      setIsClickOnBookmarkBtn('');
-    }
+    const nextStatus = fullOffer.isFavorite ? 0 : 1;
+
+    dispatch(changeFavoriteStatusOffer({ id: fullOffer.id, status: nextStatus }))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchOfferById(fullOffer.id));
+        dispatch(fetchFavoriteOffers());
+      })
+      .catch(() => {
+        processErrorHandle(nextStatus === 1 ? 'Не удалось добавить в избранное' : 'Не удалось удалить из избранного');
+      });
   };
 
   return (
@@ -112,7 +117,7 @@ function OfferPage() {
                 <button
                   className={`
                     offer__bookmark-button
-                    ${isClickOnBookmarkBtn}
+                    ${fullOffer.isFavorite ? 'offer__bookmark-button--active' : ''}
                     button`}
                   type='button'
                   onClick={handleBookmarkBtnClick}
@@ -198,7 +203,7 @@ function OfferPage() {
             namePage='OfferPage'
             city={fullOffer.city}
             points={pointsNearbyArr}
-            selectedPoint={chooseOffer[0]}
+            selectedPoint={chooseOffer}
           />
         </section>
         <div className='container'>

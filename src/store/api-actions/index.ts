@@ -127,6 +127,8 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
 
       const { data } = await api.get<IUser>(APIRoute.Login);
       dispatch(setUser(data));
+
+      fetchFavoriteOffers();
     } catch (error) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
@@ -140,6 +142,8 @@ export const loginAction = createAsyncThunk<void, AuthData, ThunkConfig>(
     dispatch(setUser(data));
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+
+    fetchFavoriteOffers();
   },
 );
 

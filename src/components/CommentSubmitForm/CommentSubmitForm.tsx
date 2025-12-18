@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNewReviewOnSite } from '../../store/api-actions';
 import { IReviewData } from '../../types/reviews';
@@ -50,7 +50,7 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
       <div className='reviews__rating-form form__rating'>
         {
           RATING_VALUES.map((value) => (
-            <>
+            <React.Fragment key={value}>
               <input
                 className='form__rating-input visually-hidden'
                 name='rating'
@@ -70,7 +70,7 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
                   <use href='#icon-star'></use>
                 </svg>
               </label>
-            </>
+            </React.Fragment>
           )
           )
         }
