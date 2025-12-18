@@ -18,7 +18,6 @@ function FavoritesPage() {
   }, [dispatch]);
 
   const favoriteOffersCount = favoriteoffers.length;
-  // const favoriteOffersCount = offers.filter((offer) => offer.isFavorite === true).length;
 
   const isOffers: boolean = favoriteOffersCount > 0;
 

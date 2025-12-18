@@ -30,7 +30,6 @@ export const fetchOffers = createAsyncThunk<void, undefined, ThunkConfig>(
 
     await api.get<IBaseOffer[]>(APIRoute.Offers)
       .then(({ data }) => {
-        // console.log('fetchOffers', data);
         dispatch(setOffers(data));
       })
       .finally(() => {
@@ -43,7 +42,6 @@ export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchOfferById',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IFullOffer>(`${APIRoute.Offers}/${offerId}`);
-    // console.log('fetchOfferById', data);
     dispatch(setFullOffer(data));
   }
 );
@@ -52,7 +50,6 @@ export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchOfferByIdNearby',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
-    // console.log('fetchOfferByIdNearby', data.slice(0, 3));
     dispatch(setOffersNearby(data.slice(0, 3)));
   }
 );
@@ -64,7 +61,6 @@ export const fetchFavoriteOffers = createAsyncThunk<void, undefined, ThunkConfig
 
     await api.get<IBaseOffer[]>(APIRoute.Favorite)
       .then(({ data }) => {
-        console.log('fetchFavoriteOffers', data);
         dispatch(setFavoriteoffers(data));
       })
       .finally(() => {
@@ -82,7 +78,6 @@ export const changeFavoriteStatusOffer = createAsyncThunk<IBaseOffer, favoriteDa
   'offer/changeFavoriteStatusOffer',
   async ({ id, status}, { dispatch, extra: api }) => {
     const { data } = await api.post<IBaseOffer>(`${APIRoute.Favorite}/${id}/${status}`, { id, status });
-    console.log('changeFavoriteStatusOffer', data);
     await dispatch(fetchFavoriteOffers());
     await dispatch(fetchOffers());
     return data;
@@ -93,9 +88,6 @@ export const fetchComments = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchComments',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IReview[]>(`${APIRoute.Comments}/${offerId}`);
-    // console.log('fetchComments', data
-    //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    //   .slice(0, 10));
     dispatch(
       setComments(
         data
@@ -112,7 +104,6 @@ export const addNewReviewOnSite = createAsyncThunk<void, IReviewData, ThunkConfi
     dispatch(setIsReviewSending(true));
     try {
       const { data } = await api.post<IReview>(`${APIRoute.Comments}/${id}`, { comment, rating });
-      // console.log('addNewCommentsOnSite', data);
       dispatch(setReview(data));
 
       await dispatch(fetchComments(id));
@@ -131,13 +122,10 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
   'user/checkAuthStatus',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      //проверка авторизации
       await api.get(APIRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
 
-      // запрос данных пользователя
       const { data } = await api.get<IUser>(APIRoute.Login);
-      // console.log('checkAuthStatus', data);
       dispatch(setUser(data));
     } catch (error) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
@@ -149,7 +137,6 @@ export const loginAction = createAsyncThunk<void, AuthData, ThunkConfig>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const { data, data: { token } } = await api.post<IUser>(APIRoute.Login, { email, password });
-    // console.log('login', data);
     dispatch(setUser(data));
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));

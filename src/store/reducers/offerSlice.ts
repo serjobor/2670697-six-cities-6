@@ -39,7 +39,6 @@ export const offerSlice = createSlice({
   name: 'offer',
   initialState,
   reducers: {
-    // установка значений
     setCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
     },

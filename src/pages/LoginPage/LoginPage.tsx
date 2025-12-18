@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { loginAction } from '../../store/api-actions';
+import { processErrorHandle } from '../../services/process-error-handle';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -18,6 +19,15 @@ function LoginPage(): JSX.Element {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
+      const password = passwordRef.current.value;
+      const hasLetter = /[a-zA-Z]/.test(password);
+      const hasDigit = /\d/.test(password);
+
+      if (!hasLetter || !hasDigit) {
+        processErrorHandle('Пароль должен содержать минимум одну букву и одну цифру');
+        return;
+      }
+
       dispatch(loginAction({
         login: loginRef.current.value,
         password: passwordRef.current.value

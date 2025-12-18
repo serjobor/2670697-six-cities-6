@@ -20,7 +20,6 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
 
-  // const [isHover, setHover] = useState<boolean>(false);
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 
   const handleBookmarkBtnClick = () => {
@@ -35,7 +34,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
       .unwrap()
       .then(() => {
         setIsClickOnBookmarkBtn(nextStatus === 1 ? 'place-card__bookmark-button--active' : '');
-        dispatch(fetchFavoriteOffers()); // подтягиваем актуальный список/счётчик
+        dispatch(fetchFavoriteOffers());
       })
       .catch(() => {
         processErrorHandle(nextStatus === 1 ? 'не удалось добавить в избранное' : 'не удалось удалить из избранного');
@@ -44,12 +43,10 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
 
   const handleMouseEnter = () => {
     isItemHover?.(offer.id);
-    // setHover(true);
   };
 
   const handleMouseLeave = () => {
     // console.log(`Покинул ${offer.id}`);
-    // setHover(false);
   };
 
   const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;

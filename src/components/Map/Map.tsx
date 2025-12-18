@@ -33,14 +33,12 @@ const Map = ({ city, points, selectedPoint, namePage }: IMapProps) => {
 
   useEffect(() => {
     if (map) {
-      // Очистить все существующие маркеры
       map.eachLayer((layer) => {
         if (layer instanceof leaflet.Marker) {
           map.removeLayer(layer);
         }
       });
 
-      // Обновить центр и зум карты при смене города
       map.setView(
         [city.location.latitude, city.location.longitude],
         city.location.zoom
