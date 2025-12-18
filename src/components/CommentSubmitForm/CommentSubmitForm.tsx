@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNewReviewOnSite } from '../../store/api-actions';
 import { IReviewData } from '../../types/reviews';
+import { getIsReviewSending } from '../../store/selectors/offerSelectors';
 
 const RATING_VALUES: number[] = [5, 4, 3, 2, 1];
 const MIN_LENGTH: number = 50;
@@ -14,7 +15,7 @@ interface CommentSubmitFormProps {
 const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
   const dispatch = useAppDispatch();
 
-  const { isReviewSending } = useAppSelector((state) => state.offer);
+  const isReviewSending = useAppSelector(getIsReviewSending);
 
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');

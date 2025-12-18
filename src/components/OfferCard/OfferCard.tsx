@@ -6,6 +6,7 @@ import { AuthorizationStatus } from '../../constants';
 import { changeFavoriteStatusOffer, fetchFavoriteOffers } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
 import { useState } from 'react';
+import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
 interface OfferCardProps {
   offer: IBaseOffer;
@@ -18,7 +19,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 

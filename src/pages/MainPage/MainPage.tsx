@@ -7,13 +7,14 @@ import { cardNameForDisplayStyles } from '../../constants/offers';
 import Map from '../../components/Map';
 import { useAppSelector } from '../../hooks/redux';
 import SortOffersByParam from '../../components/SortOffersByParam';
+import { getCity, getOffers } from '../../store/selectors/offerSelectors';
 
 function MainPage() {
 
-  const { offers } = useAppSelector((state) => state.offer);
+  const offers = useAppSelector(getOffers);
 
   const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
-  const isChooseCity: string = useAppSelector((state) => state.offer.city);
+  const isChooseCity = useAppSelector(getCity);
   const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
   const chooseCityData: ICity = OFFERS_SORT_LIST[0]?.city;
   const offerCount: number = OFFERS_SORT_LIST.length;

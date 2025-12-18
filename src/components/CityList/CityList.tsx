@@ -2,9 +2,10 @@ import { CITY_LIST_OPTIONS } from '../../constants/offers';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/redux';
 import { offerSlice } from '../../store/reducers/offerSlice';
+import { getCity } from '../../store/selectors/offerSelectors';
 
 const CityList = () => {
-  const isChooseCity = useAppSelector((state) => state.offer.city);
+  const isChooseCity = useAppSelector(getCity);
 
   const { setCity } = offerSlice.actions;
   const dispatch = useDispatch();

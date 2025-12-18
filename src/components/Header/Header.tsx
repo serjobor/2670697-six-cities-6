@@ -3,14 +3,15 @@ import { PATHS } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
-import { IUser } from '../../types/user';
 import { processErrorHandle } from '../../services/process-error-handle';
+import { getFavoriteoffers } from '../../store/selectors/offerSelectors';
+import { getAuthorizationStatus, getUser } from '../../store/selectors/userSelectors';
 
 function Header() {
-  const { authorizationStatus } = useAppSelector((state) => state.user);
-  const userData: IUser | null = useAppSelector((state) => state.user.user);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUser);
 
-  const { favoriteoffers } = useAppSelector((state) => state.offer);
+  const favoriteoffers = useAppSelector(getFavoriteoffers);
   const favoriteOffersCount = authorizationStatus === AuthorizationStatus.Auth ? favoriteoffers.length : 0;
 
   const dispatch = useAppDispatch();

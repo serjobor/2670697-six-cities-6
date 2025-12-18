@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { OFFER_SORT_OPTIONS } from '../../constants/offers';
 import { offerSlice } from '../../store/reducers/offerSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { getSortParam } from '../../store/selectors/offerSelectors';
 
 
 const SortOffersByParam = () => {
-  const sortParam: string = useAppSelector((state) => state.offer.sortParam);
+  const sortParam = useAppSelector(getSortParam);
 
   const { setSortParam } = offerSlice.actions;
   const dispatch = useAppDispatch();

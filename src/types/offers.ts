@@ -46,3 +46,8 @@ export interface IDisplayOption {
   widthForImg: string;
   heightForImg: string;
 }
+
+export interface IFavoriteData {
+  id: string;
+  status: number;
+}

@@ -15,6 +15,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { changeFavoriteStatusOffer, fetchComments, fetchFavoriteOffers, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
+import { getComments, getFullOffer, getOffers, getOffersNearby } from '../../store/selectors/offerSelectors';
+import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
 function OfferPage() {
   const navigate = useNavigate();
@@ -45,8 +47,11 @@ function OfferPage() {
       });
   }, [dispatch, navigate, id]);
 
-  const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { comments, offers, offersNearby, fullOffer } = useAppSelector((state) => state.offer);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const comments = useAppSelector(getComments);
+  const offers = useAppSelector(getOffers);
+  const offersNearby = useAppSelector(getOffersNearby);
+  const fullOffer = useAppSelector(getFullOffer);
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   const chooseOffer: IBaseOffer | undefined = offers.find((choose) => choose.id === id);

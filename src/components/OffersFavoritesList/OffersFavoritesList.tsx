@@ -1,10 +1,11 @@
 import OffersFavoritesCard from '../OffersFavoritesCard';
 import { CITY_LIST_OPTIONS } from '../../constants/offers';
 import { useAppSelector } from '../../hooks/redux';
+import { getOffers } from '../../store/selectors/offerSelectors';
 
 
 const OffersFavoritesList = () => {
-  const { offers } = useAppSelector((state) => state.offer);
+  const offers = useAppSelector(getOffers);
 
   return (
     <ul className='favorites__list'>

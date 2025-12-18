@@ -11,10 +11,12 @@ import { PATHS } from './constants';
 import { useAppSelector } from './hooks/redux';
 import { AuthorizationStatus } from './constants';
 import Spinner from './components/Spinner';
+import { getAppLoadingStatus } from './store/selectors/appSelectors';
+import { getAuthorizationStatus } from './store/selectors/userSelectors';
 
 function App() {
-  const { authorizationStatus } = useAppSelector((state) => state.user);
-  const { isLoading } = useAppSelector((state) => state.app);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getAppLoadingStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isLoading) {
     return (

@@ -6,12 +6,14 @@ import { fetchFavoriteOffers } from '../../store/api-actions';
 import Spinner from '../../components/Spinner';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../constants';
+import { getFavoriteoffers, getIsFavoriteoffersLoad } from '../../store/selectors/offerSelectors';
 
 function FavoritesPage() {
 
   const dispatch = useAppDispatch();
 
-  const { favoriteoffers, isFavoriteoffersLoad } = useAppSelector((state) => state.offer);
+  const favoriteoffers = useAppSelector(getFavoriteoffers);
+  const isFavoriteoffersLoad = useAppSelector(getIsFavoriteoffersLoad);
 
   useEffect(() => {
     dispatch(fetchFavoriteOffers());

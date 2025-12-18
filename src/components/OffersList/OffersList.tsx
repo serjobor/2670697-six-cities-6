@@ -3,6 +3,7 @@ import { displayOptionOrientation, OFFER_SORT_TYPES } from '../../constants/offe
 import { IBaseOffer } from '../../types/offers';
 import OfferCard from '../OfferCard';
 import { useAppSelector } from '../../hooks/redux';
+import { getSortParam } from '../../store/selectors/offerSelectors';
 
 interface OffersListProps {
   offers: IBaseOffer[];
@@ -11,7 +12,7 @@ interface OffersListProps {
 }
 
 const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersListProps) => {
-  const sortParam: string = useAppSelector((state) => state.offer.sortParam);
+  const sortParam = useAppSelector(getSortParam);
 
   const [sortOffersByParam, setSortOffersByParam] = useState<IBaseOffer[]>(offers);
 

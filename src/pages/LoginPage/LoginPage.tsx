@@ -7,12 +7,13 @@ import { loginAction } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
 import { CITY_LIST_OPTIONS, CITY_LIST_TYPES } from '../../constants/offers';
 import { offerSlice } from '../../store/reducers/offerSlice';
+import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
