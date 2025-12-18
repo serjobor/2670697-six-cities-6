@@ -137,7 +137,7 @@ function OfferPage() {
               </div>
               <ul className='offer__features'>
                 <li className='offer__feature offer__feature--entire'>
-                  {fullOffer.type}
+                  {fullOffer.type.charAt(0).toUpperCase() + fullOffer.type.slice(1)}
                 </li>
                 <li className='offer__feature offer__feature--bedrooms'>
                   {fullOffer.bedrooms} {fullOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
