@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { NameSpace } from '../../constants';
 
 interface IAppSliceState {
   isLoading: boolean;
@@ -11,7 +12,7 @@ const initialState: IAppSliceState = {
 };
 
 export const offerSlice = createSlice({
-  name: 'app',
+  name: NameSpace.App,
   initialState,
   reducers: {
     setLoadingParam: (state, action: PayloadAction<boolean>) => {

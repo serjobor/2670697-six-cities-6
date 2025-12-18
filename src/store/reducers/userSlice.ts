@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../types/user';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, NameSpace } from '../../constants';
 
 interface IUserState {
   user: IUser | null;
@@ -13,7 +13,7 @@ const initialState: IUserState = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: NameSpace.User,
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<IUser>) => {

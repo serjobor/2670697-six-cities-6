@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CITY_LIST_TYPES, OFFER_SORT_TYPES } from '../../constants/offers';
 import { IBaseOffer, IFullOffer } from '../../types/offers';
 import { IReview } from '../../types/reviews';
+import { NameSpace } from '../../constants';
 
 interface IOfferState {
   city: string;
@@ -36,7 +37,7 @@ const initialState: IOfferState = {
 };
 
 export const offerSlice = createSlice({
-  name: 'offer',
+  name: NameSpace.Offer,
   initialState,
   reducers: {
     setCity: (state, action: PayloadAction<string>) => {
