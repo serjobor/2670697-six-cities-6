@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-import { displayOptionOrientation, OFFER_SORT_TYPES } from '../../constants/offers';
+import { displayOptionOrientation } from '../../constants/offers';
 import { IBaseOffer } from '../../types/offers';
 import OfferCard from '../OfferCard';
-import { useAppSelector } from '../../hooks/redux';
-import { getSortParam } from '../../store/selectors/offerSelectors';
 
 interface OffersListProps {
   offers: IBaseOffer[];
@@ -12,38 +9,14 @@ interface OffersListProps {
 }
 
 const OffersList = ({ offers, cardNameForDisplayStyles, isItemHover }: OffersListProps) => {
-  const sortParam = useAppSelector(getSortParam);
-
-  const [sortOffersByParam, setSortOffersByParam] = useState<IBaseOffer[]>(offers);
-
   const handleListItemHover = (itemName: string) => {
     isItemHover?.(itemName);
   };
 
-  useEffect(() => {
-    switch (sortParam) {
-      case OFFER_SORT_TYPES.LOW_TO_HIGH:
-        setSortOffersByParam([...offers].sort((a, b) => a.price - b.price));
-        break;
-
-      case OFFER_SORT_TYPES.HIGH_TO_LOW:
-        setSortOffersByParam([...offers].sort((a, b) => b.price - a.price));
-        break;
-
-      case OFFER_SORT_TYPES.TOP_RAITING:
-        setSortOffersByParam([...offers].sort((a, b) => b.rating - a.rating));
-        break;
-
-      default:
-        setSortOffersByParam([...offers]);
-        break;
-    }
-  }, [offers, sortParam]);
-
   return (
     <>
       {
-        sortOffersByParam.map((offer) => (
+        offers.map((offer) => (
           <OfferCard
             key={offer.id}
             offer={offer}

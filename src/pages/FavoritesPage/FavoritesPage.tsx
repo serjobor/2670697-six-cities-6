@@ -9,7 +9,6 @@ import { PATHS } from '../../constants';
 import { getFavoriteoffers, getIsFavoriteoffersLoad } from '../../store/selectors/offerSelectors';
 
 function FavoritesPage() {
-
   const dispatch = useAppDispatch();
 
   const favoriteoffers = useAppSelector(getFavoriteoffers);
@@ -20,7 +19,6 @@ function FavoritesPage() {
   }, [dispatch]);
 
   const favoriteOffersCount = favoriteoffers.length;
-
   const isOffers: boolean = favoriteOffersCount > 0;
 
   if(isFavoriteoffersLoad) {

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { changeFavoriteStatusOffer, fetchFavoriteOffers } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
 
 interface OfferCardProps {
@@ -15,7 +15,7 @@ interface OfferCardProps {
   isItemHover?: (itemName: string) => void;
 }
 
-const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
+const OfferCard = memo(({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -24,7 +24,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
   const [isClickOnBookmarkBtn, setIsClickOnBookmarkBtn] = useState<string>((offer.isFavorite) ? 'place-card__bookmark-button--active' : '');
 
   const handleBookmarkBtnClick = () => {
-    if(authorizationStatus !== AuthorizationStatus.Auth) {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(PATHS.LOGIN_PAGE);
       return;
     }
@@ -110,6 +110,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
       </div>
     </article>
   );
-};
+});
 
+OfferCard.displayName = 'OfferCard';
 export default OfferCard;

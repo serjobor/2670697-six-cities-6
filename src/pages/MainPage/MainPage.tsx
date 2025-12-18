@@ -1,38 +1,30 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import OffersList from '../../components/OffersList';
 import CityList from '../../components/CityList';
-import { IBaseOffer, ICity } from '../../types/offers';
+import { IBaseOffer } from '../../types/offers';
 import Header from '../../components/Header';
 import { cardNameForDisplayStyles } from '../../constants/offers';
 import Map from '../../components/Map';
 import { useAppSelector } from '../../hooks/redux';
 import SortOffersByParam from '../../components/SortOffersByParam';
-import { getCity, getOffers } from '../../store/selectors/offerSelectors';
+import { getCity, getSortedOffersByCity } from '../../store/selectors/offerSelectors';
 
 function MainPage() {
-
-  const offers = useAppSelector(getOffers);
-
-  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
-  const isChooseCity = useAppSelector(getCity);
-  const OFFERS_SORT_LIST: IBaseOffer[] = offers.filter((offer) => offer.city.name === isChooseCity);
-  const chooseCityData: ICity = OFFERS_SORT_LIST[0]?.city;
-  const offerCount: number = OFFERS_SORT_LIST.length;
+  const city = useAppSelector(getCity);
+  const sortedOffers = useAppSelector(getSortedOffersByCity);
+  const cityData = sortedOffers[0]?.city;
+  const offerCount: number = sortedOffers.length;
   const isOffersInChooseCity: boolean = offerCount > 0;
 
-  const handleIsItemHover = (itemName: string) => {
+  const [selectedPoint, setSelectedPoint] = useState<IBaseOffer | null>(null);
+
+  const handleIsItemHover = useCallback((itemName: string) => {
     if (itemName === '') {
       setSelectedPoint(null);
-      return;
+    } else {
+      setSelectedPoint(sortedOffers.find((point) => point.id === itemName) ?? null);
     }
-
-    const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>
-      point.id === itemName,
-    );
-    if (currentPoint !== undefined) {
-      setSelectedPoint(currentPoint);
-    }
-  };
+  }, [sortedOffers]);
 
   return (
     <div className='page page--gray page--main'>
@@ -61,11 +53,11 @@ function MainPage() {
                 ?
                 <section className='cities__places places'>
                   <h2 className='visually-hidden'>Places</h2>
-                  <b className='places__found'>{offerCount} places to stay in {isChooseCity}</b>
+                  <b className='places__found'>{offerCount} places to stay in {city}</b>
                   <SortOffersByParam />
                   <div className='cities__places-list places__list tabs__content'>
                     <OffersList
-                      offers={OFFERS_SORT_LIST}
+                      offers={sortedOffers}
                       cardNameForDisplayStyles={cardNameForDisplayStyles.CITIES}
                       isItemHover={handleIsItemHover}
                     />
@@ -75,7 +67,7 @@ function MainPage() {
                 <section className='cities__no-places'>
                   <div className='cities__status-wrapper tabs__content'>
                     <b className='cities__status'>No places to stay available</b>
-                    <p className='cities__status-description'>We could not find any property available at the moment in {isChooseCity}</p>
+                    <p className='cities__status-description'>We could not find any property available at the moment in {city}</p>
                   </div>
                 </section>
             }
@@ -85,8 +77,8 @@ function MainPage() {
                   ?
                   <Map
                     namePage='MainPage'
-                    city={chooseCityData}
-                    points={OFFERS_SORT_LIST}
+                    city={cityData}
+                    points={sortedOffers}
                     selectedPoint={selectedPoint}
                   />
                   :

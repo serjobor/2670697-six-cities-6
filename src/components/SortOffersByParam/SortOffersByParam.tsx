@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { OFFER_SORT_OPTIONS } from '../../constants/offers';
 import { offerSlice } from '../../store/reducers/offerSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getSortParam } from '../../store/selectors/offerSelectors';
 
 
-const SortOffersByParam = () => {
+const SortOffersByParam = memo(() => {
   const sortParam = useAppSelector(getSortParam);
 
   const { setSortParam } = offerSlice.actions;
@@ -58,7 +58,7 @@ const SortOffersByParam = () => {
       </ul>
     </form>
   );
-};
+});
 
-
+SortOffersByParam.displayName = 'SortOffersByParam';
 export default SortOffersByParam;

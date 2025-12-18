@@ -6,8 +6,9 @@ import { logoutAction } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
 import { getFavoriteoffers } from '../../store/selectors/offerSelectors';
 import { getAuthorizationStatus, getUser } from '../../store/selectors/userSelectors';
+import { memo } from 'react';
 
-function Header() {
+const Header = memo(() => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userData = useAppSelector(getUser);
 
@@ -74,6 +75,7 @@ function Header() {
       </div>
     </header>
   );
-}
+});
 
+Header.displayName = 'Header';
 export default Header;
