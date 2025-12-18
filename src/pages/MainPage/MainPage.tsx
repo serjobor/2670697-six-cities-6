@@ -8,6 +8,7 @@ import Map from '../../components/Map';
 import { useAppSelector } from '../../hooks/redux';
 import SortOffersByParam from '../../components/SortOffersByParam';
 import { getCity, getSortedOffersByCity } from '../../store/selectors/offerSelectors';
+import OffersEmpty from '../../components/OffersEmpty';
 
 function MainPage() {
   const city = useAppSelector(getCity);
@@ -64,12 +65,7 @@ function MainPage() {
                   </div>
                 </section>
                 :
-                <section className='cities__no-places'>
-                  <div className='cities__status-wrapper tabs__content'>
-                    <b className='cities__status'>No places to stay available</b>
-                    <p className='cities__status-description'>We could not find any property available at the moment in {city}</p>
-                  </div>
-                </section>
+                <OffersEmpty city={city}/>
             }
             <div className='cities__right-section'>
               {
