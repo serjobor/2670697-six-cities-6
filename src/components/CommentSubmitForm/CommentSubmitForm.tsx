@@ -34,9 +34,12 @@ const CommentSubmitForm = ({ offerId }: CommentSubmitFormProps) => {
 
     const reviewData: IReviewData = { id: offerId, comment, rating };
 
-    dispatch(addNewReviewOnSite(reviewData)).unwrap();
-    setRating(0);
-    setComment('');
+    dispatch(addNewReviewOnSite(reviewData))
+      .unwrap()
+      .then(() => {
+        setRating(0);
+        setComment('');
+      });
   };
 
   return (

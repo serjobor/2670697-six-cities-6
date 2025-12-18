@@ -46,7 +46,7 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
   };
 
   const handleMouseLeave = () => {
-    // console.log(`Покинул ${offer.id}`);
+    isItemHover?.('');
   };
 
   const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;

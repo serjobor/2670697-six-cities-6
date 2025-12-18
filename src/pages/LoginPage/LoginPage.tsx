@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { loginAction } from '../../store/api-actions';
 import { processErrorHandle } from '../../services/process-error-handle';
+import { CITY_LIST_OPTIONS, CITY_LIST_TYPES } from '../../constants/offers';
+import { offerSlice } from '../../store/reducers/offerSlice';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -14,6 +16,14 @@ function LoginPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const randomCity = CITY_LIST_OPTIONS[Math.floor(Math.random() * CITY_LIST_OPTIONS.length)];
+  const { setCity } = offerSlice.actions;
+
+  const handleCityClick = () => {
+    dispatch(setCity(randomCity));
+    navigate(PATHS.MAIN_PAGE);
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -27,6 +37,8 @@ function LoginPage(): JSX.Element {
         processErrorHandle('Пароль должен содержать минимум одну букву и одну цифру');
         return;
       }
+
+      dispatch(setCity(CITY_LIST_TYPES.PARIS));
 
       dispatch(loginAction({
         login: loginRef.current.value,
@@ -91,9 +103,12 @@ function LoginPage(): JSX.Element {
           </section>
           <section className='locations locations--login locations--current'>
             <div className='locations__item'>
-              <Link className='locations__item-link' to={PATHS.MAIN_PAGE}>
-                <span>Amsterdam</span>
-              </Link>
+              <a
+                className='locations__item-link'
+                onClick={handleCityClick}
+              >
+                <span>{randomCity}</span>
+              </a>
             </div>
           </section>
         </div>

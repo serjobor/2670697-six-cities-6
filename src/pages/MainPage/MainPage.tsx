@@ -20,6 +20,11 @@ function MainPage() {
   const isOffersInChooseCity: boolean = offerCount > 0;
 
   const handleIsItemHover = (itemName: string) => {
+    if (itemName === '') {
+      setSelectedPoint(null);
+      return;
+    }
+
     const currentPoint: IBaseOffer | undefined = OFFERS_SORT_LIST.find((point) =>
       point.id === itemName,
     );

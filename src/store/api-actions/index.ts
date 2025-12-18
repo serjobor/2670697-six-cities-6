@@ -112,6 +112,7 @@ export const addNewReviewOnSite = createAsyncThunk<void, IReviewData, ThunkConfi
         const typedError = error as ApiError | Error;
         processErrorHandle(typedError.message);
       }
+      throw error;
     } finally {
       dispatch(setIsReviewSending(false));
     }
@@ -128,7 +129,7 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, ThunkConfig>(
       const { data } = await api.get<IUser>(APIRoute.Login);
       dispatch(setUser(data));
 
-      fetchFavoriteOffers();
+      await dispatch(fetchFavoriteOffers());
     } catch (error) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
@@ -143,7 +144,7 @@ export const loginAction = createAsyncThunk<void, AuthData, ThunkConfig>(
     saveToken(token);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
 
-    fetchFavoriteOffers();
+    await dispatch(fetchFavoriteOffers());
   },
 );
 
@@ -154,6 +155,7 @@ export const logoutAction = createAsyncThunk<void, undefined, ThunkConfig>(
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     dispatch(removeUserData());
+    dispatch(setFavoriteoffers([]));
   },
 );
 
