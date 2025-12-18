@@ -135,10 +135,10 @@ function OfferPage() {
                   {fullOffer.type}
                 </li>
                 <li className='offer__feature offer__feature--bedrooms'>
-                  {fullOffer.bedrooms} Bedrooms
+                  {fullOffer.bedrooms} {fullOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                 </li>
                 <li className='offer__feature offer__feature--adults'>
-                  Max {fullOffer.maxAdults} adults
+                  Max {fullOffer.maxAdults} {fullOffer.maxAdults === 1 ? 'adult' : 'adults'}
                 </li>
               </ul>
               <div className='offer__price'>
