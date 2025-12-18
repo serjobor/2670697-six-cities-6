@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux';
 
 
 const OffersFavoritesList = () => {
-  const offers = useAppSelector((state) => state.offer.offers);
+  const { offers } = useAppSelector((state) => state.offer);
 
   return (
     <ul className='favorites__list'>

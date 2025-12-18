@@ -7,7 +7,7 @@ import { AxiosInstance } from 'axios';
 import { AuthorizationStatus } from '../../constants';
 import { removeUserData, setAuthorizationStatus, setUser } from '../reducers/userSlice';
 import { dropToken, saveToken } from '../../services/token';
-import { setComments, setFullOffer, setIsReviewSending, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
+import { setComments, setFavoriteoffers, setFullOffer, setIsFavoriteoffersLoad, setIsReviewSending, setOffers, setOffersNearby, setReview } from '../reducers/offerSlice';
 import { setErrorParam, setLoadingParam } from '../reducers/appSlice';
 import { IReview, IReviewData } from '../../types/reviews';
 import { processErrorHandle } from '../../services/process-error-handle';
@@ -48,6 +48,47 @@ export const fetchOfferById = createAsyncThunk<void, string, ThunkConfig>(
   }
 );
 
+export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
+  'offer/fetchOfferByIdNearby',
+  async (offerId, { dispatch, extra: api }) => {
+    const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
+    // console.log('fetchOfferByIdNearby', data.slice(0, 3));
+    dispatch(setOffersNearby(data.slice(0, 3)));
+  }
+);
+
+export const fetchFavoriteOffers = createAsyncThunk<void, undefined, ThunkConfig>(
+  'offer/fetchFavoriteOffers',
+  async (_arg, { dispatch, extra: api }) => {
+    dispatch(setIsFavoriteoffersLoad(true));
+
+    await api.get<IBaseOffer[]>(APIRoute.Favorite)
+      .then(({ data }) => {
+        console.log('fetchFavoriteOffers', data);
+        dispatch(setFavoriteoffers(data));
+      })
+      .finally(() => {
+        dispatch(setIsFavoriteoffersLoad(false));
+      });
+  }
+);
+
+interface favoriteData {
+  id: string;
+  status: number;
+}
+
+export const changeFavoriteStatusOffer = createAsyncThunk<IBaseOffer, favoriteData, ThunkConfig>(
+  'offer/changeFavoriteStatusOffer',
+  async ({ id, status}, { dispatch, extra: api }) => {
+    const { data } = await api.post<IBaseOffer>(`${APIRoute.Favorite}/${id}/${status}`, { id, status });
+    console.log('changeFavoriteStatusOffer', data);
+    await dispatch(fetchFavoriteOffers());
+    await dispatch(fetchOffers());
+    return data;
+  }
+);
+
 export const fetchComments = createAsyncThunk<void, string, ThunkConfig>(
   'offer/fetchComments',
   async (offerId, { dispatch, extra: api }) => {
@@ -83,15 +124,6 @@ export const addNewReviewOnSite = createAsyncThunk<void, IReviewData, ThunkConfi
     } finally {
       dispatch(setIsReviewSending(false));
     }
-  }
-);
-
-export const fetchOfferByIdNearby = createAsyncThunk<void, string, ThunkConfig>(
-  'offer/fetchOfferByIdNearby',
-  async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<IBaseOffer[]>(`${APIRoute.Offers}/${offerId}${APIRoute.Nearby}`);
-    // console.log('fetchOfferByIdNearby', data.slice(0, 3));
-    dispatch(setOffersNearby(data.slice(0, 3)));
   }
 );
 

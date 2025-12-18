@@ -1,9 +1,11 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IBaseOffer, IDisplayOption } from '../../types/offers';
 import { PATHS } from '../../constants';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
+import { changeFavoriteStatusOffer, fetchFavoriteOffers } from '../../store/api-actions';
+import { processErrorHandle } from '../../services/process-error-handle';
+import { useState } from 'react';
 
 interface OfferCardProps {
   offer: IBaseOffer;
@@ -14,6 +16,7 @@ interface OfferCardProps {
 
 const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { authorizationStatus } = useAppSelector((state) => state.user);
 
@@ -26,11 +29,17 @@ const OfferCard = ({ offer, cardNameForDisplayStyles, variant, isItemHover }: Of
       return;
     }
 
-    if(isClickOnBookmarkBtn === '') {
-      setIsClickOnBookmarkBtn('place-card__bookmark-button--active');
-    }else {
-      setIsClickOnBookmarkBtn('');
-    }
+    const nextStatus = isClickOnBookmarkBtn === '' ? 1 : 0;
+
+    dispatch(changeFavoriteStatusOffer({ id: offer.id, status: nextStatus }))
+      .unwrap()
+      .then(() => {
+        setIsClickOnBookmarkBtn(nextStatus === 1 ? 'place-card__bookmark-button--active' : '');
+        dispatch(fetchFavoriteOffers()); // подтягиваем актуальный список/счётчик
+      })
+      .catch(() => {
+        processErrorHandle(nextStatus === 1 ? 'не удалось добавить в избранное' : 'не удалось удалить из избранного');
+      });
   };
 
   const handleMouseEnter = () => {

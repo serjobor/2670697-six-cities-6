@@ -11,6 +11,9 @@ interface IOfferState {
   offersNearby: IBaseOffer[];
   fullOffer: IFullOffer | null;
 
+  favoriteoffers: IBaseOffer[];
+  isFavoriteoffersLoad: boolean;
+
   review: IReview | null;
   isReviewSending: boolean;
   comments: IReview[];
@@ -21,8 +24,11 @@ const initialState: IOfferState = {
   sortParam: OFFER_SORT_TYPES.POPULAR,
 
   offers: [],
-  offersNearby: [],
   fullOffer: null,
+  offersNearby: [],
+
+  favoriteoffers: [],
+  isFavoriteoffersLoad: false,
 
   review: null,
   isReviewSending: false,
@@ -51,6 +57,13 @@ export const offerSlice = createSlice({
       state.fullOffer = action.payload;
     },
 
+    setFavoriteoffers: (state, action: PayloadAction<IBaseOffer[]>) => {
+      state.favoriteoffers = action.payload;
+    },
+    setIsFavoriteoffersLoad: (state, action: PayloadAction<boolean>) => {
+      state.isFavoriteoffersLoad = action.payload;
+    },
+
     setReview: (state, action: PayloadAction<IReview>) => {
       state.review = action.payload;
     },
@@ -59,17 +72,6 @@ export const offerSlice = createSlice({
     },
     setComments: (state, action: PayloadAction<IReview[]>) => {
       state.comments = action.payload;
-    },
-
-    setInitialOfferData: (state) => {
-      state.city = CITY_LIST_TYPES.PARIS;
-      state.sortParam = OFFER_SORT_TYPES.POPULAR;
-      state.offers = [];
-      state.review = null;
-      state.isReviewSending = false;
-      state.comments = [];
-      state.offersNearby = [];
-      state.fullOffer = null;
     },
   },
 });
@@ -82,10 +84,12 @@ export const {
   setOffersNearby,
   setFullOffer,
 
+  setFavoriteoffers,
+  setIsFavoriteoffersLoad,
+
   setReview,
   setIsReviewSending,
   setComments,
-  setInitialOfferData,
 } = offerSlice.actions;
 
 export default offerSlice.reducer;

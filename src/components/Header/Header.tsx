@@ -3,19 +3,18 @@ import { PATHS } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { AuthorizationStatus } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
-import { setErrorParam } from '../../store/reducers/appSlice';
 import { IUser } from '../../types/user';
+import { processErrorHandle } from '../../services/process-error-handle';
 
 function Header() {
   const { authorizationStatus } = useAppSelector((state) => state.user);
   const userData: IUser | null = useAppSelector((state) => state.user.user);
 
-  const { offers } = useAppSelector((state) => state.offer);
+  const { favoriteoffers } = useAppSelector((state) => state.offer);
+  const favoriteOffersCount = authorizationStatus === AuthorizationStatus.Auth ? favoriteoffers.length : 0;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const favoriteOffersCount: number = offers.filter((offer) => offer.isFavorite === true).length;
 
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
@@ -25,7 +24,7 @@ function Header() {
         await dispatch(logoutAction());
         navigate(PATHS.LOGIN_PAGE);
       } catch (error) {
-        dispatch(setErrorParam('Выйти из аккаунта не удалось'));
+        processErrorHandle('Выйти из аккаунта не удалось');
       }
     })();
   };
