@@ -12,10 +12,10 @@ interface OfferCardProps {
   offer: IBaseOffer;
   cardDisplayStyle : string;
   variant: IDisplayOption;
-  isItemHover?: (itemName: string) => void;
+  onItemHover?: (itemName: string) => void;
 }
 
-const OfferCard = memo(({ offer, cardDisplayStyle , variant, isItemHover }: OfferCardProps) => {
+const OfferCard = memo(({ offer, cardDisplayStyle , variant, onItemHover }: OfferCardProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -43,11 +43,11 @@ const OfferCard = memo(({ offer, cardDisplayStyle , variant, isItemHover }: Offe
   };
 
   const handleMouseEnter = () => {
-    isItemHover?.(offer.id);
+    onItemHover?.(offer.id);
   };
 
   const handleMouseLeave = () => {
-    isItemHover?.('');
+    onItemHover?.('');
   };
 
   const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
@@ -77,7 +77,7 @@ const OfferCard = memo(({ offer, cardDisplayStyle , variant, isItemHover }: Offe
           />
         </Link>
       </div>
-      <div className={`${(cardDisplayStyle  === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
+      <div className={`${(cardDisplayStyle === 'favorites') ? 'favorites__card-info' : ''} place-card__info`}>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{offer.price}</b>

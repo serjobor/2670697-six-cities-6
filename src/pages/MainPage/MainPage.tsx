@@ -60,7 +60,7 @@ function MainPage() {
                     <OffersList
                       offers={sortedOffers}
                       cardDisplayStyle ={CardDisplayStyle.Cities}
-                      isItemHover={handleIsItemHover}
+                      onItemHover={handleIsItemHover}
                     />
                   </div>
                 </section>
