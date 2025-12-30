@@ -75,6 +75,7 @@ export const changeFavoriteStatusOffer = createAsyncThunk<IBaseOffer, IFavoriteD
     const { data } = await api.post<IBaseOffer>(`${ApiRoute.Favorite}/${id}/${status}`, { id, status });
     await dispatch(fetchFavoriteOffers());
     await dispatch(fetchOffers());
+    await dispatch(fetchOfferByIdNearby(id));
     return data;
   }
 );

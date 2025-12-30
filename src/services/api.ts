@@ -41,9 +41,8 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
-      if (error.response && shouldDisplayError(error.response)) {
+      if (error.response && shouldDisplayError(error.response) && error.response.data.message !== 'Header Token is not correct') {
         const detailMessage = (error.response.data);
-
         processErrorHandle(detailMessage.message);
       }
 
