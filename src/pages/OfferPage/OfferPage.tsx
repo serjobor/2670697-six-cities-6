@@ -1,0 +1,230 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
+import CommentSubmitForm from '../../components/CommentSubmitForm';
+import Header from '../../components/Header';
+import Map from '../../components/Map';
+import ReviewsList from '../../components/ReviewsList';
+import OffersList from '../../components/OffersList';
+import Spinner from '../../components/Spinner';
+
+import { IBaseOffer } from '../../types/offers';
+import { Paths } from '../../constants';
+import { CardDisplayStyle } from '../../constants/offers';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { AuthorizationStatus } from '../../constants';
+import { changeFavoriteStatusOffer, fetchComments, fetchFavoriteOffers, fetchOfferById, fetchOfferByIdNearby } from '../../store/api-actions';
+import { processErrorHandle } from '../../services/process-error-handle';
+import { getComments, getFullOffer, getOffers, getOffersNearby } from '../../store/selectors/offerSelectors';
+import { getAuthorizationStatus } from '../../store/selectors/userSelectors';
+
+function OfferPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    dispatch(fetchOfferById(id))
+      .unwrap()
+      .catch(() => {
+        navigate(Paths.NotFound, { replace: true });
+      });
+
+    dispatch(fetchComments(id))
+      .unwrap()
+      .catch(() => {
+        navigate(Paths.NotFound, { replace: true });
+      });
+
+    dispatch(fetchOfferByIdNearby(id))
+      .unwrap()
+      .catch(() => {
+        navigate(Paths.NotFound, { replace: true });
+      });
+  }, [dispatch, navigate, id]);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const comments = useAppSelector(getComments);
+  const offers = useAppSelector(getOffers);
+  const nearbyOffers = useAppSelector(getOffersNearby);
+  const fullOffer = useAppSelector(getFullOffer);
+
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const chooseOffer: IBaseOffer | undefined = offers.find((choose) => choose.id === id);
+
+  if (!fullOffer || !nearbyOffers || !chooseOffer) {
+    return (
+      <Spinner />
+    );
+  }
+
+  const pointsNearbyArr: IBaseOffer[] | undefined = [chooseOffer, ...nearbyOffers];
+
+  const commentsCount: number = comments.length;
+
+  const offerGallery: string[] = fullOffer.images.slice(0, 6) || [];
+
+  const raitingCount = (raiting: number): string => `${Math.round(raiting) * 100 / 5}%`;
+
+  const handleBookmarkBtnClick = () => {
+    if (!isAuth) {
+      navigate(Paths.Login);
+      return;
+    }
+
+    const nextStatus = fullOffer.isFavorite ? 0 : 1;
+
+    dispatch(changeFavoriteStatusOffer({ id: fullOffer.id, status: nextStatus }))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchOfferById(fullOffer.id));
+        dispatch(fetchFavoriteOffers());
+      })
+      .catch(() => {
+        processErrorHandle(nextStatus === 1 ? 'Не удалось добавить в избранное' : 'Не удалось удалить из избранного');
+      });
+  };
+
+  return (
+    <div className='page'>
+      <Header />
+
+      <main className='page__main page__main--offer'>
+        <section className='offer'>
+          <div className='offer__gallery-container container'>
+            <div className='offer__gallery'>
+              {
+                offerGallery.map((pathToImg) => (
+                  <div className='offer__image-wrapper' key={pathToImg}>
+                    <img className='offer__image' src={pathToImg} alt='Photo studio' />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div className='offer__container container'>
+            <div className='offer__wrapper'>
+              {
+                fullOffer.isPremium && (
+                  <div className='offer__mark'>
+                    <span>Premium</span>
+                  </div>
+                )
+              }
+              <div className='offer__name-wrapper'>
+                <h1 className='offer__name'>
+                  {fullOffer.title}
+                </h1>
+                <button
+                  className={`
+                    offer__bookmark-button
+                    ${fullOffer.isFavorite ? 'offer__bookmark-button--active' : ''}
+                    button`}
+                  type='button'
+                  onClick={handleBookmarkBtnClick}
+                >
+                  <svg className='offer__bookmark-icon' width='31' height='33'>
+                    <use href='#icon-bookmark'></use>
+                  </svg>
+                  <span className='visually-hidden'>To bookmarks</span>
+                </button>
+              </div>
+              <div className='offer__rating rating'>
+                <div className='offer__stars rating__stars'>
+                  <span style={{ width: raitingCount(fullOffer.rating) }}></span>
+                  <span className='visually-hidden'>Rating</span>
+                </div>
+                <span className='offer__rating-value rating__value'>{fullOffer.rating}</span>
+              </div>
+              <ul className='offer__features'>
+                <li className='offer__feature offer__feature--entire'>
+                  {fullOffer.type.charAt(0).toUpperCase() + fullOffer.type.slice(1)}
+                </li>
+                <li className='offer__feature offer__feature--bedrooms'>
+                  {fullOffer.bedrooms} {fullOffer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
+                </li>
+                <li className='offer__feature offer__feature--adults'>
+                  Max {fullOffer.maxAdults} {fullOffer.maxAdults === 1 ? 'adult' : 'adults'}
+                </li>
+              </ul>
+              <div className='offer__price'>
+                <b className='offer__price-value'>&euro;{fullOffer.price}</b>
+                <span className='offer__price-text'>&nbsp;night</span>
+              </div>
+              <div className='offer__inside'>
+                <h2 className='offer__inside-title'>What&apos;s inside</h2>
+                <ul className='offer__inside-list'>
+                  {
+                    fullOffer.goods && fullOffer.goods.map((item) => (
+                      <li className='offer__inside-item' key={item}>
+                        {item}
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+              <div className='offer__host'>
+                <h2 className='offer__host-title'>Meet the host</h2>
+                <div className='offer__host-user user'>
+                  <div className={`offer__avatar-wrapper ${fullOffer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className='offer__avatar user__avatar' src={fullOffer.host.avatarUrl} width='74' height='74' alt='Host avatar' />
+                  </div>
+                  <span className='offer__user-name'>
+                    {fullOffer.host.name}
+                  </span>
+                  <span className='offer__user-status'>
+                    {
+                      fullOffer.host.isPro && ('Pro')
+                    }
+                  </span>
+                </div>
+                <div className='offer__description'>
+                  <p className='offer__text'>
+                    {fullOffer.description}
+                  </p>
+                </div>
+              </div>
+              <section className='offer__reviews reviews'>
+                <h2 className='reviews__title'>Reviews &middot;
+                  <span className='reviews__amount'>{commentsCount}</span>
+                </h2>
+                <ReviewsList comments={comments} />
+                {
+                  isAuth
+                  &&
+                  <CommentSubmitForm
+                    key={fullOffer.id}
+                    offerId={(id) ? id : ''}
+                  />
+                }
+              </section>
+            </div>
+          </div>
+          <Map
+            namePage='OfferPage'
+            city={fullOffer.city}
+            points={pointsNearbyArr}
+            selectedPoint={chooseOffer}
+          />
+        </section>
+        <div className='container'>
+          <section className='near-places places'>
+            <h2 className='near-places__title'>Other places in the neighbourhood</h2>
+            <div className='near-places__list places__list'>
+              <OffersList
+                offers={nearbyOffers}
+                cardDisplayStyle ={CardDisplayStyle.NearPlaces}
+              />
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default OfferPage;
